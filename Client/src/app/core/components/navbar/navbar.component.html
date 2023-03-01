@@ -1,0 +1,15 @@
+<div class="flex items-center w-full h-20 bg-primary px-52 justify-between">
+  <div class="flex space-x-12 items-center">
+    <h1 class="text-3xl text-white font-bold">BARKER</h1>
+    <a
+      *ngFor="let link of links"
+      href="#"
+      class="text-xl text-white font-semibold"
+      >{{ link }}</a
+    >
+  </div>
+  <div class="flex flex-row space-x-10">
+    <app-button class="w-40" message="Login" type="success"></app-button>
+    <app-button class="w-40" routerLink="signup" message="Signup" type="info"></app-button>
+  </div>
+</div>
