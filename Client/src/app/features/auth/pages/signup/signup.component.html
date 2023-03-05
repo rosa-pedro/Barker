@@ -1,17 +1,31 @@
 <div class="flex flex-col w-96 space-y-5">
-  <div class="flex justify-center items-end w-full">
-    <h2 class="text-2xl font-bold text-primary">
-      Sign Up
-    </h2>
-    <h2 class="text-xl font-semibold text-primary">
-      &nbsp; and become a BARKER
-    </h2>
+  <div class="flex flex-col justify-center items-center w-full space-y-5">
+    <h1 class="flex text-2xl cursor-pointer" routerLink="">BARKER</h1>
+    <div class="flex items-end">
+      <h2 class="text-2xl font-bold text-primary">
+        Sign Up
+      </h2>
+      <h2 class="text-xl font-semibold text-primary">
+        &nbsp; and become a BARKER
+      </h2>
+    </div>
   </div>
-  <app-input placeholder="Email"></app-input>
-  <app-input placeholder="Username"></app-input>
-  <app-input placeholder="Password"> </app-input>
+  <div class="flex flex-col border-2 p-5 rounded-md space-y-5">
+    <app-input [inputFC]="signupForm.controls.email" placeholder="Email"></app-input>
+    <app-input [inputFC]="signupForm.controls.username" placeholder="Username"></app-input>
+    <app-input [inputFC]="signupForm.controls.password" placeholder="Password"></app-input>
 
-  <app-button size="lg" message="Sign-up" type="info"></app-button>
+    <app-button
+      (click)="signup()"
+      size="lg"
+      message="Sign-up"
+      type="info"
+      [disabled]="!signupForm.valid"
+    >
+    </app-button>
+
+
+  </div>
 
   <div class="flex justify-center w-full items-center space-x-5">
     <p>Already have an account?</p>
@@ -20,6 +34,7 @@
       [outlined]="true"
       type="success"
       message="Login"
+      routerLink="../login"
     ></app-button>
   </div>
 </div>

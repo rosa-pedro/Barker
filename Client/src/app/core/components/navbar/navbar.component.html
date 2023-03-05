@@ -3,13 +3,13 @@
     <h1 class="text-3xl text-white font-bold">BARKER</h1>
     <a
       *ngFor="let link of links"
-      href="#"
+      [href]="link.toLowerCase()"
       class="text-xl text-white font-semibold"
       >{{ link }}</a
     >
   </div>
   <div class="flex flex-row space-x-10">
-    <app-button class="w-40" message="Login" type="success"></app-button>
+    <app-button class="w-40" routerLink="login" message="Login" type="success"></app-button>
     <app-button class="w-40" routerLink="signup" message="Signup" type="info"></app-button>
   </div>
 </div>

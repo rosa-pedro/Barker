@@ -1,1 +1,40 @@
-<p>login works!</p>
+<div class="flex flex-col w-96 space-y-5">
+  <div class="flex flex-col justify-center items-center w-full space-y-5">
+    <h1 class="text-2xl cursor-pointer" routerLink="">BARKER</h1>
+    <div class="flex items-end">
+      <h2 class="text-2xl font-bold text-primary">
+        Login
+      </h2>
+      <h2 class="text-xl font-semibold text-primary">
+        &nbsp; to BARKER
+      </h2>
+    </div>
+  </div>
+
+  <form [formGroup]="loginForm" class="flex flex-col border-2 p-5 rounded-md space-y-5">
+    <app-input [inputFC]="loginForm.controls.email" placeholder="Email"></app-input>
+    <app-input [inputFC]="loginForm.controls.password" placeholder="Password"></app-input>
+
+    <app-button
+      (click)="login()"
+      size="lg"
+      message="Login"
+      type="success"
+      [disabled]="!loginForm.valid"
+    >
+    </app-button>
+
+  </form>
+
+  <div class="flex justify-center w-full items-center space-x-5">
+    <p>Still dont have an account?</p>
+    <app-button
+      class="w-20"
+      [outlined]="true"
+      type="info"
+      message="Signup"
+      routerLink="../signup"
+
+    ></app-button>
+  </div>
+</div>

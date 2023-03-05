@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -9,15 +9,16 @@ export class ButtonComponent {
   @Input() message: string = '';
   @Input() type: string = '';
   @Input() size: string = '';
+  @Input() disabled: boolean = false;
   @Input() outlined: boolean = false;
 
 
   colors = {
     error: {color: 'bg-error', borderColor: 'border-2 border-error', text: 'text-error'},
-    success: {color:'bg-success', borderColor: 'border-2 border-success', text: 'text-success'},
-    primary: {color:'bg-primary', borderColor: 'border-primary', text: 'text-primary'},
-    warning: {color:'bg-warning', borderColor: 'border-warning', text: 'text-warning'},
-    info: {color:'bg-info', borderColor: 'border-info', text: 'text-info'},
+    success: {color: 'bg-success', borderColor: 'border-2 border-success', text: 'text-success'},
+    primary: {color: 'bg-primary', borderColor: 'border-2 border-primary', text: 'text-primary'},
+    warning: {color: 'bg-warning', borderColor: 'border-2 border-warning', text: 'text-warning'},
+    info: {color: 'bg-info', borderColor: 'border-2 border-info', text: 'text-info'},
   };
 
   get color(): string {
