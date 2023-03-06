@@ -5,6 +5,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthLayoutComponent } from './components/auth-layout/auth-layout.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SignupComponent } from './pages/signup/signup.component';
     AuthRoutingModule,
     ComponentsModule,
     CommonModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [],
