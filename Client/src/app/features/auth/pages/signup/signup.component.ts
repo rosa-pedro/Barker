@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth.service";
+// import {AuthService} from "../../services/auth.service";
 import {SignupForm} from "../../models/forms.model";
 
 @Component({
@@ -18,10 +18,10 @@ export class SignupComponent {
   })
 
 
-  constructor(private authService: AuthService) {
+  constructor(/* private authService: AuthService */) {
   }
 
   signup() {
-    this.authService.signup(this.signupForm.value as SignupForm)
+    // this.authService.signup(this.signupForm.value as SignupForm)
   }
 }

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
+// import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-auth-layout',
@@ -9,14 +9,14 @@ import {AuthService} from "../../services/auth.service";
 export class AuthLayoutComponent {
   errorMessage = ''
 
-  constructor(private authService: AuthService) {
-    authService.error$.subscribe((message) => {
+  constructor(/* private authService: AuthService */) {
+   /*  authService.error$.subscribe((message) => {
       if (!!message) {
         this.errorMessage = message;
         setTimeout(() => {
           this.errorMessage = ''
         }, 10000)
       }
-    })
+    }) */
   }
 }

@@ -14,8 +14,9 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'posts',
-        component: PostsComponent,
+        path: '',
+        loadChildren: () =>
+          import('../../../features/posts/posts.module').then((m) => m.PostsModule),
       },
     ]
   },
