@@ -1,18 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CardComponent } from './components/card/card.component';
+import { PostComponent } from './pages/post/post.component';
+import { PostsComponent } from './pages/posts/posts.component';
 import { PostsRoutingModule } from './posts-routing.module';
-import { PostComponent } from './pages/posts/post/post.component';
 
 @NgModule({
-  declarations: [
-  
-    PostComponent
-  ],
-  imports: [
-    PostsRoutingModule,
-    CommonModule,
-  ],
+  declarations: [PostsComponent, PostComponent, CardComponent],
+  imports: [PostsRoutingModule, CommonModule, ],
   providers: [],
-  bootstrap: []
+  bootstrap: [],
 })
-export class PostsModule { }
+export class PostsModule {}

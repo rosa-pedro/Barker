@@ -12,7 +12,7 @@ const UIComponents = [
   ButtonComponent,
   // ToasterComponent,
   // ToastComponent,
-  CardComponent
+  // CardComponent
 ];
 
 @NgModule({
