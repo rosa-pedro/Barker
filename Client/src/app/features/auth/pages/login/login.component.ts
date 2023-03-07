@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-// import {AuthService} from "../../services/auth.service";
+import {AuthService} from "../../services/auth.service";
 import {LoginForm} from "../../models/forms.model";
 
 @Component({
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   })
 
 
-  constructor(/* private authService: AuthService */) {
+  constructor(private authService: AuthService) {
 
   }
 
@@ -29,6 +29,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // this.authService.login(this.loginForm.value as LoginForm)
+    this.authService.login(this.loginForm.value as LoginForm)
   }
 }

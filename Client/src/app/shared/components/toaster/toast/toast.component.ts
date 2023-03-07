@@ -1,23 +1,34 @@
 import {Component, Input} from '@angular/core';
 import {EventTypes} from "../toaster.service";
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import {animate, group, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
   animations: [
-    trigger('flyInOut', [
-      state('in', style({opacity: 1, transform: 'translateY(0)'})),
-      transition('void => *', [
-        style({opacity: 0, transform: 'translateY(100%)'}),
-        animate(200),
+    trigger('slideInOut', [
+      state('in', style({height: '*', opacity: 0})),
+      transition(':leave', [
+        style({height: '*', opacity: 0}),
+
+        group([
+          animate(300, style({height: 0})),
+          animate('200ms ease-in-out', style({'opacity': '0'}))
+        ])
+
       ]),
-      transition('* => void', [
-        animate(200, style({opacity: 0, transform: 'translateY(100%)'})),
-      ]),
-    ]),
-  ],
+      transition(':enter', [
+        style({height: '0', opacity: 0}),
+
+        group([
+          animate(300, style({height: '*'})),
+          animate('200ms ease-in-out', style({'opacity': '0'}))
+        ])
+
+      ])
+    ])
+  ]
 })
 export class ToastComponent {
   @Input() message!: string;
@@ -32,6 +43,7 @@ export class ToastComponent {
 
   constructor() {
   }
+
   get style() {
     return this.styles[this.type]
   }

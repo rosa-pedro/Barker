@@ -32,6 +32,7 @@ export class ToasterService {
 
 
   showErrorToast(message: string) {
+    console.log('toast')
     this.toastsSource.next({
       message,
       type: EventTypes.Error,

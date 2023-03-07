@@ -1,6 +1,7 @@
 <button
   [disabled]="disabled"
   class="flex items-center justify-center w-full
+  hover:opacity-75
   {{disabled? 'brightness-75' : ''}}
   {{size === 'lg'? ' h-14 rounded-lg' : 'h-10 rounded-full'}}
   {{outlined? borderColor : color}}
