@@ -1,6 +1,13 @@
-import {Component, Input} from '@angular/core';
-import {EventTypes} from "../toaster.service";
-import {animate, group, state, style, transition, trigger} from "@angular/animations";
+import { Component, Input } from '@angular/core';
+import { EventTypes } from '../toaster.service';
+import {
+  animate,
+  group,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-toast',
@@ -8,27 +15,25 @@ import {animate, group, state, style, transition, trigger} from "@angular/animat
   styleUrls: ['./toast.component.scss'],
   animations: [
     trigger('slideInOut', [
-      state('in', style({height: '*', opacity: 0})),
+      state('in', style({ height: '*', opacity: 0 })),
       transition(':leave', [
-        style({height: '*', opacity: 0}),
+        style({ height: '*', opacity: 0 }),
 
         group([
-          animate(300, style({height: 0})),
-          animate('200ms ease-in-out', style({'opacity': '0'}))
-        ])
-
+          animate(300, style({ height: 0 })),
+          animate('200ms ease-in-out', style({ opacity: '0' })),
+        ]),
       ]),
       transition(':enter', [
-        style({height: '0', opacity: 0}),
+        style({ height: '0', opacity: 0 }),
 
         group([
-          animate(300, style({height: '*'})),
-          animate('200ms ease-in-out', style({'opacity': '0'}))
-        ])
-
-      ])
-    ])
-  ]
+          animate(300, style({ height: '*' })),
+          animate('200ms ease-in-out', style({ opacity: '0' })),
+        ]),
+      ]),
+    ]),
+  ],
 })
 export class ToastComponent {
   @Input() message!: string;
@@ -41,12 +46,9 @@ export class ToastComponent {
     info: 'bg-info',
   };
 
-  constructor() {
-  }
+  constructor() {}
 
   get style() {
-    return this.styles[this.type]
+    return this.styles[this.type];
   }
-
-
 }
