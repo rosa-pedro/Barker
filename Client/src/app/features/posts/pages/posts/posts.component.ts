@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MicroPost } from '../../models/micro-post.model';
+import { MicroPost } from '../../../../core/models/micro-post.model';
 
 @Component({
   selector: 'app-posts',
@@ -109,18 +109,36 @@ export class PostsComponent {
   filters = {
     general: {
       name: 'general',
-      options: ['More comments', 'Most liked', 'Newest', 'Oldest'],
+      options: [
+        'More comments',
+        'Most liked',
+        'Newest',
+        'Oldest',
+      ],
     },
     date: {
       name: 'date',
-      options: ['Today', 'Last week', 'Last month'],
+      options: [
+        'Today',
+        'Last week',
+        'Last month',
+      ],
     },
   };
 
-  filterByOptions = ['More comments', 'Most liked', 'Newest', 'Oldest'];
-  dateOptions = ['Today', 'Last week', 'Last month'];
+  filterByOptions = [
+    'More comments',
+    'Most liked',
+    'Newest',
+    'Oldest',
+  ];
+  dateOptions = [
+    'Today',
+    'Last week',
+    'Last month',
+  ];
 
   test() {
-    this.filters.general
+    this.filters.general;
   }
 }

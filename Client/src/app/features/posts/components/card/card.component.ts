@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { MicroPost } from '../../models/micro-post.model';
+import { MicroPost } from '../../../../core/models/micro-post.model';
 
 @Component({
   selector: 'app-card',
@@ -10,12 +10,10 @@ import { MicroPost } from '../../models/micro-post.model';
 export class CardComponent {
   @Input() post!: MicroPost;
 
-  constructor(private router: Router) {
-
-  }
+  constructor(private router: Router) {}
 
   openPost() {
     console.log('Open post ' + this.post.title);
-    this.router.navigate(['posts',this.post.id])
+    this.router.navigate(['posts', this.post.id]);
   }
 }
