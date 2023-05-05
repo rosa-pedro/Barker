@@ -1,9 +1,10 @@
 <button
   [disabled]="disabled"
-  class="flex items-center justify-center w-full
-  {{disabled? 'brightness-75' : ''}}
-  {{size === 'lg'? ' h-14 rounded-lg' : 'h-10 rounded-full'}}
-  {{outlined? borderColor : color}}
-  {{outlined? textColor :'text-white'}} font-medium">
+  class="flex items-center justify-center w-full hover:opacity-75 transition-opacity ease-out {{
+    disabled ? 'brightness-75' : ''
+  }} {{ size === 'lg' ? ' h-14 rounded-lg' : 'h-10 rounded-full' }} {{
+    outlined ? borderColor : color
+  }} {{ outlined ? textColor : 'text-white' }} font-medium"
+>
   {{ message }}
 </button>

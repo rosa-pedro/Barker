@@ -10,7 +10,7 @@ export class AuthLayoutComponent {
   errorMessage = ''
 
   constructor(private authService: AuthService) {
-    authService.error$.subscribe((message) => {
+   authService.error$.subscribe((message) => {
       if (!!message) {
         this.errorMessage = message;
         setTimeout(() => {

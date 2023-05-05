@@ -1,0 +1,7 @@
+  <div class="flex items-center flex-col-reverse py-10 gap-2">
+    <app-toast *ngFor="let toast of currentToasts"
+               [message]="toast.message"
+               [type]="toast.type"
+    class="">
+    </app-toast>
+  </div>
