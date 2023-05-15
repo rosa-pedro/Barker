@@ -1,9 +1,9 @@
-using API.Entities;
+using API.DTOs;
 
 namespace API.Interfaces;
 
 public interface IUserRepository
 {
-    Task<IEnumerable<User>> GetUsersAsync();
-    Task<User> GetUserAsync(string userName);
+    Task<IEnumerable<UserDto>> GetUsersAsync();
+    Task<UserDto> GetUserAsync(string userName);
 }

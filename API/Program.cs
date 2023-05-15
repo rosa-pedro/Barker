@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplicationServices();
 
-builder.Services.AddIdentityServices(); 
+builder.Services.AddIdentityServices();
 
 builder.Services.AddDatabaseServices(builder.Configuration);
 
