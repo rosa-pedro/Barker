@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplicationServices();
 
-builder.Services.AddIdentityServices();
+builder.Services.AddIdentityServices(builder.Configuration);
 
 builder.Services.AddDatabaseServices(builder.Configuration);
 
@@ -26,6 +26,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(
+    policyBuilder =>
+        policyBuilder
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .WithOrigins("https://localhost:4200")
+);
 
 app.UseAuthorization();
 
