@@ -15,5 +15,6 @@ public class AutoMapperProfiles : Profile
                 destination => destination.Age,
                 options => options.MapFrom(source => source.DateOfBirth.CalculateAge())
             );
+        CreateMap<RegisterDto, User>();
     }
 }
