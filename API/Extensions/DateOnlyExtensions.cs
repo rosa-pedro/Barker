@@ -4,14 +4,14 @@ public static class DateOnlyExtensions
 {
     public static int CalculateAge(this DateOnly dateOfBirth)
     {
-        DateOnly today = DateOnly.FromDateTime(DateTime.UtcNow);
+        //TODO: Find a better way to calculate age
 
-        int age = today.Year - dateOfBirth.Year;
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+
+        var age = today.Year - dateOfBirth.Year;
 
         if (dateOfBirth > today.AddYears(-age))
-        {
             age--;
-        }
 
         return age;
     }

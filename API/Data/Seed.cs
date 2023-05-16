@@ -31,8 +31,8 @@ public static class Seed
 
         // Users
         const string filePath = "Data/UserSeedData.json ";
-        string userData = await File.ReadAllTextAsync(filePath);
-        List<User>? users = JsonSerializer.Deserialize<List<User>>(userData);
+        var userData = await File.ReadAllTextAsync(filePath);
+        var users = JsonSerializer.Deserialize<List<User>>(userData);
 
         if (users == null)
         {

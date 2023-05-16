@@ -10,7 +10,7 @@ public class User : IdentityUser<int>
     public string Country { get; set; } = "";
     public string City { get; set; } = "";
     public string About { get; set; } = "";
-    public DateOnly DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
     public DateTime Created { get; set; } = DateTime.UtcNow;
     public DateTime LastActive { get; set; } = DateTime.UtcNow;
 

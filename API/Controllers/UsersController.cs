@@ -1,10 +1,12 @@
 using API.DTOs;
 using API.Interfaces;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[Authorize]
 public class UsersController : ApiController
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -18,7 +20,7 @@ public class UsersController : ApiController
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
     {
-        IEnumerable<UserDto> users = await _unitOfWork.UserRepository.GetUsersAsync();
+        var users = await _unitOfWork.UserRepository.GetUsersAsync();
         return Ok(users);
     }
 
@@ -26,18 +28,18 @@ public class UsersController : ApiController
     [HttpGet("{userName}")]
     public async Task<ActionResult<UserDto>> GetUser(string userName)
     {
-        return await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
-    }
+        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
 
-    // POST: api/Users
-    [HttpPost]
-    public void CreateUser([FromBody] string value) { }
+        if (user == null)
+            return NotFound("User was not found");
+
+        return user;
+    }
 
     // PUT: api/Users/5
     [HttpPut("{id}")]
-    public void UpdateUser(int id, [FromBody] string value) { }
-
-    // DELETE: api/Users/5
-    [HttpDelete("{id}")]
-    public void DeleteUser(int id) { }
+    public void UpdateUser(int id, [FromBody] string value)
+    {
+        //TODO: Update User
+    }
 }

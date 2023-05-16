@@ -16,11 +16,9 @@ public static class IdentityServiceExtension
         IConfiguration configuration
     )
     {
-        string? tokenKey = configuration["TokenKey"];
+        var tokenKey = configuration["TokenKey"];
         if (tokenKey == null)
-        {
             throw new NullReferenceException("A Token Key does not exist.");
-        }
 
         // Identity
         services

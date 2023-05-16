@@ -21,16 +21,17 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
 
-    public async Task<UserDto> GetUserByUserNameAsync(string userName)
+    public async Task<UserDto?> GetUserByUserNameAsync(string userName)
     {
         return await _context.Users
+            .Where(user => user.UserName == userName)
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-            .SingleAsync(user => user.UserName == userName);
+            .SingleOrDefaultAsync();
     }
 
-    public async Task<User> GetUserByEmailAsync(string email)
+    public async Task<User?> GetUserByEmailAsync(string email)
     {
-        return await _context.Users.SingleAsync(user => user.Email == email);
+        return await _context.Users.Where(user => user.Email == email).SingleOrDefaultAsync();
     }
 
     public async Task<IEnumerable<UserDto>> GetUsersAsync()

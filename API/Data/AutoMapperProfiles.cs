@@ -15,6 +15,14 @@ public class AutoMapperProfiles : Profile
                 destination => destination.Age,
                 options => options.MapFrom(source => source.DateOfBirth.CalculateAge())
             );
-        CreateMap<RegisterDto, User>();
+        CreateMap<RegisterDto, User>()
+            .ForMember(
+                destination => destination.UserName,
+                options => options.MapFrom(source => source.UserName.ToLower())
+            )
+            .ForMember(
+                destination => destination.PhoneNumber,
+                options => options.MapFrom(source => "")
+            );
     }
 }

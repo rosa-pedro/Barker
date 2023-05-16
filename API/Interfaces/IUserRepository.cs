@@ -6,6 +6,6 @@ namespace API.Interfaces;
 public interface IUserRepository
 {
     Task<IEnumerable<UserDto>> GetUsersAsync();
-    Task<UserDto> GetUserByUserNameAsync(string userName);
-    Task<User> GetUserByEmailAsync(string email);
+    Task<UserDto?> GetUserByUserNameAsync(string userName);
+    Task<User?> GetUserByEmailAsync(string email);
 }
