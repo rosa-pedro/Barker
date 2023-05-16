@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { fullPosts } from 'src/app/shared/dummy/fullPosts';
 import { FullPost } from '../../../../core/models/full-post.model';
+import { Observable } from 'rxjs';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-post',
@@ -7,118 +10,14 @@ import { FullPost } from '../../../../core/models/full-post.model';
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit {
-  post: FullPost | undefined;
+  post: Observable<FullPost> | undefined;
 
-  constructor() {}
+  constructor(private postService: PostService) {}
 
   ngOnInit(): void {
-    this.post = {
-      comments: [],
-      id: '1234',
-      images: [],
-      likes: 8,
-      message:
-        'Lorem ipsum dolor sit amet, consectetur ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        /*'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +
-        'adipiscing elit, sed do eiusmod tempor incididunt ' +
-        'ut labore et dolore magna aliqua. Ut enim ad minim ' +
-        'veniam, quis nostrud exercitation ullamco laboris nisi ' +
-        'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
-        'in reprehenderit in voluptate velit esse cillum dolore ' +
-        'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
-        'non proident, sunt in culpa qui officia deserunt mollit anim ' +*/
-        'id est laborum.',
-      title: 'Post 1',
-    };
+    this.post = this.postService.getPost();
+    this.postService
+      .getPost()
+      .subscribe((v) => console.log(v));
   }
 }

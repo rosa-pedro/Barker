@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { MicroPost } from '../../../../core/models/micro-post.model';
+import { MicroPost } from '../../../core/models/micro-post.model';
 
 @Component({
   selector: 'app-card',
