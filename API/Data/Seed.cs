@@ -17,7 +17,7 @@ public static class Seed
         }
 
         // Roles
-        List<Role> roles = new List<Role>
+        var roles = new List<Role>
         {
             new() { Name = "Member" },
             new() { Name = "Admin" },
