@@ -5,9 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UsersController : ControllerBase
+public class UsersController : ApiController
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -24,11 +22,11 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
-    // GET: api/Users/5
-    [HttpGet("{id}", Name = "Get")]
-    public string GetUser(int id)
+    // GET: api/Users/bob
+    [HttpGet("{userName}")]
+    public async Task<ActionResult<UserDto>> GetUser(string userName)
     {
-        return "value";
+        return await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
     }
 
     // POST: api/Users

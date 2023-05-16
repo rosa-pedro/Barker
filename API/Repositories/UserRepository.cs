@@ -1,5 +1,6 @@
 using API.Data;
 using API.DTOs;
+using API.Entities;
 using API.Interfaces;
 
 using AutoMapper;
@@ -20,11 +21,16 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
 
-    public async Task<UserDto> GetUserAsync(string userName)
+    public async Task<UserDto> GetUserByUserNameAsync(string userName)
     {
         return await _context.Users
             .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
             .SingleAsync(user => user.UserName == userName);
+    }
+
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+        return await _context.Users.SingleAsync(user => user.Email == email);
     }
 
     public async Task<IEnumerable<UserDto>> GetUsersAsync()
