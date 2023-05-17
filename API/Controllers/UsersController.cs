@@ -1,5 +1,8 @@
 using API.DTOs;
+using API.Extensions;
 using API.Interfaces;
+
+using AutoMapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +13,15 @@ namespace API.Controllers;
 public class UsersController : ApiController
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
 
-    public UsersController(IUnitOfWork unitOfWork)
+    public UsersController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
-    // GET: api/Users
+    // GET: api/users
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
     {
@@ -24,7 +29,7 @@ public class UsersController : ApiController
         return Ok(users);
     }
 
-    // GET: api/Users/bob
+    // GET: api/users/bob
     [HttpGet("{userName}")]
     public async Task<ActionResult<UserDto>> GetUser(string userName)
     {
@@ -36,10 +41,21 @@ public class UsersController : ApiController
         return user;
     }
 
-    // PUT: api/Users/5
-    [HttpPut("{id}")]
-    public void UpdateUser(int id, [FromBody] string value)
+    // PUT: api/users
+    [HttpPut]
+    public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
     {
-        //TODO: Update User
+        var id = User.GetId();
+        var user = await _unitOfWork.UserRepository.GetUserById(id);
+
+        if (user == null)
+            return NotFound();
+
+        _mapper.Map(userUpdateDto, user);
+
+        if (await _unitOfWork.Complete())
+            return NoContent();
+
+        return BadRequest("Failed to update user");
     }
 }

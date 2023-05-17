@@ -34,6 +34,11 @@ public class UserRepository : IUserRepository
         return await _context.Users.Where(user => user.Email == email).SingleOrDefaultAsync();
     }
 
+    public async Task<User?> GetUserById(int id)
+    {
+        return await _context.Users.FindAsync(id);
+    }
+
     public async Task<IEnumerable<UserDto>> GetUsersAsync()
     {
         return await _context.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToListAsync();

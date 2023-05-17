@@ -30,10 +30,14 @@ public class TokenService : ITokenService
         if (user.UserName == null)
             throw new NullReferenceException("A user must have a username");
 
+        if (user.Email == null)
+            throw new NullReferenceException("A user must have an email");
+
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.UniqueName, user.UserName)
+            new(JwtRegisteredClaimNames.UniqueName, user.UserName),
+            new(JwtRegisteredClaimNames.Email, user.Email)
         };
 
         var roles = await _userManager.GetRolesAsync(user);
