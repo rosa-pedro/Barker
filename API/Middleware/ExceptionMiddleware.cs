@@ -3,10 +3,6 @@ using System.Text.Json;
 
 using API.Errors;
 
-using Newtonsoft.Json;
-
-using JsonSerializer = System.Text.Json.JsonSerializer;
-
 namespace API.Middleware;
 
 public class ExceptionMiddleware
