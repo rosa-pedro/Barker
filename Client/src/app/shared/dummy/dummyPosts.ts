@@ -8,8 +8,9 @@ export let dummyPosts: Post[] = [
     author: users[0],
     title: 'Walk your damn dog',
     message:
-      'Lorem ipsum dolor sit amet, consectetur ' +
-      'adipiscing elit, sed do eiusmod tempor incididunt ' +
+      'Loremsum doea commodo consequat. Duis aute irure dolor ' +
+      'in reprehenderit in voluptate velit esse cillum dolore ' +
+      'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
       'ut labore et dolore magna aliqua. Ut enim ad minim ' +
       'veniam, quis nostrud exercitation ullamco laboris nisi ' +
       'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
@@ -24,13 +25,17 @@ export let dummyPosts: Post[] = [
     author: users[0],
     title: 'Collect the dodo from the ground',
     message:
-      'Lorem ipsum dolor sit amet, consectetur ' +
+      'Sit amet, consectetur ' +
       'adipiscing elit, sed do eiusmod tempor incididunt ' +
       'ut labore et dolore magna aliqua. Ut enim ad minim ' +
       'veniam, quis nostrud exercitation ullamco laboris nisi ' +
       'ut aliquip ex ea commodo consequat. Duis aute irure dolor ' +
       'in reprehenderit in voluptate velit esse cillum dolore ' +
-      'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ',
+      'eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat ' +
+      'Lorem ipsum dolor sit amet, consectetur ' +
+      'adipiscing elit, sed do eiusmod tempor incididunt ' +
+      'ut labore et dolore magna aliqua. Ut enim ad minim ' +
+      'veniam, quis nostrud exercitation ullamco laboris nisi ',
     likes: Math.floor(Math.random() * 100),
     images: [],
     date: new Date(),
@@ -40,7 +45,7 @@ export let dummyPosts: Post[] = [
     author: users[0],
     title: 'Let it goo',
     message:
-      'Lorem ipsum dolor sit amet, consectetur ' +
+      'Lorem tetur ' +
       'adipiscing elit, sed do eiusmod tempor incididunt ' +
       'ut labore et dolore magna aliqua. Ut enim ad minim ' +
       'veniam, quis nostrud exercitation ullamco laboris nisi ' +

@@ -10,6 +10,8 @@ import { ToasterComponent } from './toaster/toaster.component';
 import { ToastComponent } from './toaster/toast/toast.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { CardComponent } from './card/card.component';
+import { TooltipComponent } from './tooltip/tooltip.component';
+import { TtdirectiveComponent } from './tooltip/ttdirective/ttdirective.component';
 
 const UIComponents = [
   InputComponent,
@@ -18,6 +20,8 @@ const UIComponents = [
   ToasterComponent,
   ToastComponent,
   CardComponent,
+  TooltipComponent,
+  TtdirectiveComponent,
 ];
 
 @NgModule({
