@@ -1,6 +1,8 @@
 using API.DTOs;
 using API.Extensions;
+using API.Headers;
 using API.Interfaces;
+using API.Parameters;
 
 using AutoMapper;
 
@@ -23,9 +25,21 @@ public class UsersController : ApiController
 
     // GET: api/users
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers(
+        [FromQuery] UserParameters parameters
+    )
     {
-        var users = await _unitOfWork.UserRepository.GetUsersAsync();
+        var users = await _unitOfWork.UserRepository.GetUsersAsync(parameters);
+
+        Response.AddPaginationHeader(
+            new PaginationHeader(
+                users.CurrentPage,
+                users.PageSize,
+                users.TotalCount,
+                users.TotalPages
+            )
+        );
+
         return Ok(users);
     }
 
