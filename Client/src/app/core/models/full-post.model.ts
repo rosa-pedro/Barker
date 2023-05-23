@@ -1,6 +1,7 @@
-import { Post } from "./post.model";
-import { Comment } from "./comment.model";
+import { Post } from './post.model';
+import { Comment } from './comment.model';
 
 export interface FullPost extends Post {
-  comments: Comment[]
+  comments: Comment[];
+  liked: boolean;
 }

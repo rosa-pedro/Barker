@@ -1,8 +1,6 @@
-<div class="relative h-full">
+<div class="relative h-full w-full">
   <div
-    class="flex items-center justify-between p-2 cursor-pointer border rounded-md h-full {{
-      active ? 'border-2 border-primary' : ''
-    }}"
+    class="flex items-center gap-5 p-2 cursor-pointer rounded-md h-full"
     (click)="active = !active"
   >
     <span>
@@ -12,41 +10,27 @@
       {{ active ? "expand_less" : "expand_more" }}
     </span>
   </div>
+
+  <!-- Options -->
   <div
     class="{{
-      active
-        ? 'visible border-secondary bg-gray-50'
-        : 'invisible'
-    }} w-full flex flex-col absolute z-10 bg-white border rounded-md p-2 shadow-xl"
+      active ? 'visible bg-gray-50' : 'invisible'
+    }} flex flex-col w-max absolute z-10 bg-white border rounded-md p-2 shadow-xl"
   >
-    <!--<div
-      class="cursor-pointer border rounded-sm p-3"
-      (click)="active = false"
-    >
-      {{ selectedOption }}
-    </div>-->
     <div
       class="cursor-pointer border-b rounded-sm p-3 {{
-        selectedOption === 'All'
-          ? 'bg-gray-300'
-          : 'hover:bg-gray-50'
+        selectedOption === 'All' ? 'bg-gray-300' : 'hover:bg-gray-50'
       }} "
-      (click)="
-        selectedOption = 'All'; active = false
-      "
+      (click)="selectedOption = 'All'; active = false"
     >
       All
     </div>
     <div
       class="cursor-pointer border-b rounded-sm p-3 {{
-        option === selectedOption
-          ? 'bg-gray-300'
-          : 'hover:bg-gray-50'
+        option === selectedOption ? 'bg-gray-300' : 'hover:bg-gray-50'
       }}"
       *ngFor="let option of options"
-      (click)="
-        selectedOption = option; active = false
-      "
+      (click)="selectedOption = option; active = false"
     >
       {{ option }}
     </div>
