@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace API.DTOs;
 
 public class UserUpdateDto
 {
+    [Phone]
     public string? PhoneNumber { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }

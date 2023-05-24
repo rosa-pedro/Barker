@@ -1,5 +1,6 @@
 using API.Data;
 using API.Entities;
+using API.Interfaces;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,11 @@ public static class WebApplicationExtension
             var context = services.GetRequiredService<DataContext>();
             var userManager = services.GetRequiredService<UserManager<User>>();
             var roleManager = services.GetRequiredService<RoleManager<Role>>();
+            var unitOfWork = services.GetRequiredService<IUnitOfWork>();
 
             await context.Database.MigrateAsync();
             await Seed.SeedUsers(userManager, roleManager);
+            await Seed.SeedPosts(userManager, unitOfWork);
         }
         catch (Exception ex)
         {
