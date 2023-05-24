@@ -1,39 +1,83 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs";
-import {ToasterService} from "../../../shared/components/toaster/toaster.service";
-import {LoginForm, SignupForm} from "../models/forms.model";
+import {
+  BehaviorSubject,
+  map,
+  Subject,
+} from 'rxjs';
+import { ToasterService } from '../../../shared/components/toaster/toaster.service';
+import {
+  LoginForm,
+  SignupForm,
+} from '../models/forms.model';
+import { environment } from '../../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../../../core/models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  baseUrl = environment.apiUrl;
   private errorSource = new Subject<any>();
   error$ = this.errorSource.asObservable();
 
+  private currentUserSource =
+    new BehaviorSubject<User | null>(null);
+  currentUser$ =
+    this.currentUserSource.asObservable();
+
   mock = false;
-  constructor(private toasterService: ToasterService) { }
+  constructor(
+    private toasterService: ToasterService,
+    private http: HttpClient
+  ) {}
 
   login(loginForm: LoginForm) {
-    console.log(loginForm);
-    if(this.mock) {
-      this.toasterService.showSuccessToast('Login was successful')
-      this.mock = !this.mock
-    }else{
-      this.toasterService.showErrorToast('Username or Password is not correct')
-      this.mock = !this.mock
-    }
+    return this.http
+      .post<User>(
+        this.baseUrl + 'account/login',
+        loginForm
+      )
+      .pipe(
+        map((response: User) => {
+          const user = response;
+          if (user) {
+            this.setCurrentUser(user);
+          }
+        })
+      );
   }
 
   signup(signupForm: SignupForm) {
-    console.log(signupForm);
-    if(this.mock) {
-      this.toasterService.showSuccessToast('Signup was successful')
-      this.mock = !this.mock
-    }else{
-      this.toasterService.showErrorToast('Email already exists')
-      this.mock = !this.mock
-    }
+    return this.http
+      .post<User>(
+        this.baseUrl + 'account/register',
+        signupForm
+      )
+      .pipe(
+        map((user) => {
+          if (user) {
+            this.setCurrentUser(user);
+          }
+          return user;
+        })
+      );
   }
 
+  logout() {
+    this.setCurrentUser();
+  }
 
+  setCurrentUser(user?: User) {
+    if (user) {
+      this.currentUserSource.next(user);
+      localStorage.setItem(
+        'user',
+        JSON.stringify(user)
+      );
+    } else {
+      this.currentUserSource.next(null);
+      localStorage.clear();
+    }
+  }
 }

@@ -1,27 +1,39 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth.service";
-import {SignupForm} from "../../models/forms.model";
+import { Component, OnInit } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { SignupForm } from '../../models/forms.model';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent {
-
+export class SignupComponent implements OnInit {
   signupForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('',
-      [Validators.required, Validators.minLength(6)]),
-    username: new FormControl('', [Validators.required]),
-  })
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
+    username: new FormControl('', [
+      Validators.required,
+    ]),
+  });
 
+  constructor(private authService: AuthService) {}
 
-  constructor(private authService: AuthService) {
-  }
+  ngOnInit(): void {}
 
   signup() {
-    this.authService.signup(this.signupForm.value as SignupForm)
+    this.authService
+      .signup(this.signupForm.value as SignupForm)
+      .subscribe();
   }
 }

@@ -6,24 +6,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { GlobalLayoutComponent } from './core/components/global-layout/global-layout.component';
-import { PostsComponent } from './features/posts/pages/posts/posts.component';
 import { ComponentsModule } from './shared/components/components.module';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { UserTabComponent } from './core/components/user-tab/user-tab.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     GlobalLayoutComponent,
+    UserTabComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     CommonModule,
-    ComponentsModule
+    ComponentsModule,
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

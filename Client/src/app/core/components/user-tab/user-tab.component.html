@@ -1,0 +1,31 @@
+<div class="relative h-full w-full">
+  <div
+    class="flex items-center gap-5 p-2 cursor-pointer rounded-md h-full"
+    (click)="active = !active"
+  >
+    <span class="text-white">
+      {{ userName }}
+    </span>
+    <span class="material-icons text-white">
+      {{ active ? "expand_less" : "expand_more" }}
+    </span>
+  </div>
+
+  <!-- Options -->
+  <div
+    class="{{
+      active ? 'visible bg-gray-50' : 'invisible'
+    }} flex flex-col w-max absolute z-10 bg-white border rounded-md p-2 shadow-xl"
+  >
+    <div
+      class="cursor-pointer border-b p-3"
+      *ngFor="let option of options"
+      (click)="selectOption(option)"
+    >
+      <div class="flex justify-center gap-2">
+        <span class="material-icons"> {{ getIcon(option) }} </span>
+        {{ option }}
+      </div>
+    </div>
+  </div>
+</div>
