@@ -58,11 +58,11 @@ public class PostsController : ApiController
     [HttpPost]
     public async Task<ActionResult<PostDto>> CreatePost(CreatePostDto body)
     {
-        var userId = User.GetId();
-        var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+        var userName = User.GetUsername();
+        var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
 
         if (user == null)
-            return NotFound();
+            return Unauthorized();
 
         var post = new Post
         {
@@ -84,15 +84,13 @@ public class PostsController : ApiController
     {
         var username = User.GetUsername();
 
-        // TODO: Change to use userRepository instead, to get the posts from the user
-        // TODO: refactor userRepository to have a ProfileRepository and ProfileController
-        var post = await _unitOfWork.PostRepository.GetDomainPostAsync(id);
+        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(id);
 
         if (post == null)
             return NotFound();
 
         if (username != post.Author.UserName)
-            return Unauthorized();
+            return Unauthorized("You cannot update other users' posts");
 
         _mapper.Map(body, post);
 
@@ -106,7 +104,7 @@ public class PostsController : ApiController
     public async Task<ActionResult<Post>> DeletePost(int id)
     {
         var username = User.GetUsername();
-        var post = await _unitOfWork.PostRepository.GetDomainPostAsync(id);
+        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(id);
 
         if (post == null)
             return NotFound();

@@ -53,7 +53,7 @@ public class PostRepository : IPostRepository
             .SingleOrDefaultAsync();
     }
 
-    public async Task<Post?> GetDomainPostAsync(int id)
+    public async Task<Post?> GetApplicationPostAsync(int id)
     {
         return await _context.Posts
             .Where(post => post.Id == id)

@@ -5,8 +5,7 @@ namespace API.DTOs;
 public class LoginDto
 {
     [Required]
-    [EmailAddress]
-    public required string Email { get; set; }
+    public required string UserName { get; set; }
 
     [Required]
     [MinLength(6)]
