@@ -18,6 +18,8 @@ public class DataContext
         IdentityUserToken<int>
     >
 {
+    public DbSet<Post> Posts => Set<Post>();
+
     public DataContext(DbContextOptions options)
         : base(options) { }
 
@@ -37,6 +39,13 @@ public class DataContext
             .HasMany(role => role.UserRoles)
             .WithOne(userRole => userRole.Role)
             .HasForeignKey(userRole => userRole.RoleId)
+            .IsRequired();
+
+        builder
+            .Entity<User>()
+            .HasMany(user => user.Posts)
+            .WithOne(post => post.Author)
+            .HasForeignKey("AuthorId")
             .IsRequired();
     }
 }

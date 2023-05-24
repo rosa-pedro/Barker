@@ -2,6 +2,7 @@ using API.DTOs;
 using API.Extensions;
 using API.Headers;
 using API.Interfaces;
+using API.Models;
 using API.Parameters;
 
 using AutoMapper;
@@ -25,7 +26,7 @@ public class UsersController : ApiController
 
     // GET: api/users
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers(
+    public async Task<ActionResult<PagedList<UserDto>>> GetUsers(
         [FromQuery] UserParameters parameters
     )
     {
@@ -52,7 +53,7 @@ public class UsersController : ApiController
         if (user == null)
             return NotFound("User was not found");
 
-        return user;
+        return Ok(user);
     }
 
     // PUT: api/users
@@ -60,7 +61,7 @@ public class UsersController : ApiController
     public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
     {
         var id = User.GetId();
-        var user = await _unitOfWork.UserRepository.GetUserById(id);
+        var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
 
         if (user == null)
             return NotFound();
