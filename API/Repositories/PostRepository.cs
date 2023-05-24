@@ -23,7 +23,7 @@ public class PostRepository : IPostRepository
         _mapper = mapper;
     }
 
-    public async Task<PagedList<PostDto>> GetPostsAsync(PostParameters parameters)
+    public async Task<PagedList<MicroPostDto>> GetPostsAsync(PostParameters parameters)
     {
         var query = _context.Posts.AsQueryable();
 
@@ -36,24 +36,24 @@ public class PostRepository : IPostRepository
             _ => query.OrderByDescending(post => post.Created)
         };
 
-        var posts = query.ProjectTo<PostDto>(_mapper.ConfigurationProvider).AsNoTracking();
+        var posts = query.ProjectTo<MicroPostDto>(_mapper.ConfigurationProvider).AsNoTracking();
 
-        return await PagedList<PostDto>.CreateAsync(
+        return await PagedList<MicroPostDto>.CreateAsync(
             posts,
             parameters.PageNumber,
             parameters.PageSize
         );
     }
 
-    public async Task<PostDto?> GetPostAsync(int id)
+    public async Task<FullPostDto?> GetPostAsync(int id)
     {
         return await _context.Posts
             .Where(post => post.Id == id)
-            .ProjectTo<PostDto>(_mapper.ConfigurationProvider)
+            .ProjectTo<FullPostDto>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
     }
 
-    public async Task<Post?> GetDomainPostAsync(int id)
+    public async Task<Post?> GetApplicationPostAsync(int id)
     {
         return await _context.Posts
             .Where(post => post.Id == id)

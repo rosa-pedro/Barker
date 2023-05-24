@@ -24,7 +24,6 @@ public class UsersController : ApiController
         _mapper = mapper;
     }
 
-    // GET: api/users
     [HttpGet]
     public async Task<ActionResult<PagedList<UserDto>>> GetUsers(
         [FromQuery] UserParameters parameters
@@ -44,11 +43,10 @@ public class UsersController : ApiController
         return Ok(users);
     }
 
-    // GET: api/users/bob
     [HttpGet("{userName}")]
     public async Task<ActionResult<UserDto>> GetUser(string userName)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(userName);
+        var user = await _unitOfWork.UserRepository.GetUserAsync(userName);
 
         if (user == null)
             return NotFound("User was not found");
@@ -56,15 +54,14 @@ public class UsersController : ApiController
         return Ok(user);
     }
 
-    // PUT: api/users
     [HttpPut]
     public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
     {
-        var id = User.GetId();
-        var user = await _unitOfWork.UserRepository.GetUserByIdAsync(id);
+        var userName = User.GetUsername();
+        var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
 
         if (user == null)
-            return NotFound();
+            return Unauthorized();
 
         _mapper.Map(userUpdateDto, user);
 
