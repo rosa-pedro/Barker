@@ -2,7 +2,7 @@ import { User } from '../../core/models/user.model';
 
 export let users: User[] = [
   {
-    name: 'Hysa',
+    userName: 'Hysa',
     id: '1',
     profilePicture: '',
   },

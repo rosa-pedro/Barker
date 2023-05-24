@@ -3,9 +3,9 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
-import {FormControl} from "@angular/forms";
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -14,29 +14,36 @@ import {FormControl} from "@angular/forms";
 })
 export class InputComponent implements OnInit {
   @Input() placeholder: string = '';
-  @Input() inputFC: FormControl = new FormControl();
-  @Input() errorMessages = [];
+  @Input() inputFC: FormControl =
+    new FormControl();
+  @Input() errorMessages: string[] = [];
+  @Input() type = 'text';
 
   @Output() input = new EventEmitter();
 
   constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getErrorList() {
-    const errorsList = Object.keys(this.inputFC.errors!);
-    let finalList = []
+    const errorsList = Object.keys(
+      this.inputFC.errors!
+    );
+    let finalList = [...this.errorMessages];
     for (let e of errorsList) {
       switch (e) {
         case 'required':
-          finalList.push('This field is required');
+          finalList.push(
+            'This field is required'
+          );
           break;
         case 'email':
           finalList.push('Email is not valid');
           break;
         case 'minlength':
-          finalList.push('The minimum is not met');
+          finalList.push(
+            'The minimum is not met'
+          );
           break;
         default:
           finalList.push('This field is wrong');

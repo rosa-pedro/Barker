@@ -1,4 +1,8 @@
-import { Component, ElementRef, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+} from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
@@ -11,6 +15,7 @@ import { Component, ElementRef, Input } from '@angular/core';
 export class DropdownComponent {
   @Input() options: string[] = [];
   @Input() filterName: string = 'Filter by';
+  @Input() hasAll: boolean = true;
 
   selectedOption: string = 'All';
   active = false;
@@ -18,7 +23,11 @@ export class DropdownComponent {
   constructor(private _eref: ElementRef) {}
 
   onClick(event: any) {
-    if (!this._eref.nativeElement.contains(event.target)) {
+    if (
+      !this._eref.nativeElement.contains(
+        event.target
+      )
+    ) {
       this.active = false;
     }
   }

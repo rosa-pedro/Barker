@@ -18,6 +18,7 @@
     }} flex flex-col w-max absolute z-10 bg-white border rounded-md p-2 shadow-xl"
   >
     <div
+      *ngIf="hasAll"
       class="cursor-pointer border-b rounded-sm p-3 {{
         selectedOption === 'All' ? 'bg-gray-300' : 'hover:bg-gray-50'
       }} "

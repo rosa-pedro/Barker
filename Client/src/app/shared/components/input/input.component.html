@@ -2,27 +2,19 @@
   <input
     [formControl]="inputFC"
     class="peer/input border-b-2 h-14 w-full focus:outline-none focus:border-secondary placeholder-transparent"
-    type="text"
-    id="field"
+    [type]="type"
+    [id]="placeholder"
     [placeholder]="placeholder"
   />
   <label
-    for="field"
-    class="absolute left-0 -top-3.5 text-secondary text-sm transition-all
-    peer-placeholder-shown/input:text-base
-    peer-placeholder-shown/input:text-gray-400
-    peer-placeholder-shown/input:top-3.5
-    peer-focus/input:-top-2
-    peer-focus/input:text-secondary
-    peer-focus/input:text-sm
-    "
+    [for]="placeholder"
+    class="absolute left-0 -top-3.5 text-secondary text-sm transition-all peer-placeholder-shown/input:text-base peer-placeholder-shown/input:text-gray-400 peer-placeholder-shown/input:top-3.5 peer-focus/input:-top-2 peer-focus/input:text-secondary peer-focus/input:text-sm"
   >
     {{ placeholder }}
   </label>
-  <div  *ngIf="!inputFC.valid && inputFC.touched" >
-
-    <span *ngFor="let error of getErrorList()"
-          class="text-red-500 text-sm">{{error}}
+  <div *ngIf="!inputFC.valid && inputFC.touched">
+    <span *ngFor="let error of getErrorList()" class="text-red-500 text-sm"
+      >{{ error }}
     </span>
   </div>
 </div>

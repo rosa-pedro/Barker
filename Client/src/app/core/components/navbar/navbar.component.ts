@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,8 @@ export class NavbarComponent {
     'Chat',
   ];
   menu_active = false;
+
+  constructor(public authService: AuthService) {}
 
   hideMenu() {
     this.menu_active = false;

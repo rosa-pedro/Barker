@@ -37,7 +37,7 @@ public static class WebApplicationExtension
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
-                    .WithOrigins("https://localhost:4200")
+                    .WithOrigins("http://localhost:4200")
         );
     }
 }
