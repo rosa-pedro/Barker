@@ -1,11 +1,7 @@
 <!--container-->
 <div *ngIf="post | async" class="flex-1 bg-gray-200 h-full">
   <!--  header-->
-  <app-action-tab
-    [title]="(post | async)!.title"
-    [likes]="(post | async)!.likes"
-    [liked]="(post | async)!.liked"
-  ></app-action-tab>
+  <app-action-tab [title]="(post | async)!.title"></app-action-tab>
 
   <!--  Post-->
   <div class="mx-20 mt-10 bg-gray-50">
@@ -14,6 +10,6 @@
         {{ (post | async)?.title }}
       </h1>
     </div>
-    <div>{{ (post | async)?.message }}</div>
+    <div>{{ (post | async)?.content }}</div>
   </div>
 </div>

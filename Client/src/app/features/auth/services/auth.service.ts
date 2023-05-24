@@ -11,7 +11,7 @@ import {
 } from '../models/forms.model';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../../../core/models/user.model';
+import { User } from '../../../core/models/user/user.model';
 
 @Injectable({
   providedIn: 'root',

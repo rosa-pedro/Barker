@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MicroPost } from '../../../../core/models/micro-post.model';
-import { microPosts } from '../../../../shared/dummy/microPosts';
-import { Observable, of } from 'rxjs';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-posts',
@@ -9,10 +7,20 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./posts.component.scss'],
 })
 export class PostsComponent implements OnInit {
-  posts$: Observable<MicroPost[]> | undefined;
+  // posts$: Observable<Post[]> | undefined;
+
+  constructor(public postService: PostService) {}
 
   ngOnInit(): void {
-    this.posts$ = of(microPosts);
+    this.postService.getPosts().subscribe({
+      next: (posts) => {
+        console.log(posts);
+      },
+    });
+  }
+
+  loadMore() {
+    this.postService.getNextPosts().subscribe();
   }
 
   filters = {
