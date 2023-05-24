@@ -1,6 +1,6 @@
 namespace API.DTOs;
 
-public class PostDto
+public class MicroPostDto
 {
     public required int Id { get; set; }
     public required string Title { get; set; }

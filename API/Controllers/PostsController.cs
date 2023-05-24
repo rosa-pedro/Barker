@@ -26,7 +26,7 @@ public class PostsController : ApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<PagedList<PostDto>>> GetPosts(
+    public async Task<ActionResult<PagedList<MicroPostDto>>> GetPosts(
         [FromQuery] PostParameters parameters
     )
     {
@@ -45,7 +45,7 @@ public class PostsController : ApiController
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<PostDto>> GetPost(int id)
+    public async Task<ActionResult<FullPostDto>> GetPost(int id)
     {
         var post = await _unitOfWork.PostRepository.GetPostAsync(id);
 
@@ -56,7 +56,7 @@ public class PostsController : ApiController
     }
 
     [HttpPost]
-    public async Task<ActionResult<PostDto>> CreatePost(CreatePostDto body)
+    public async Task<ActionResult<FullPostDto>> CreatePost(CreatePostDto body)
     {
         var userName = User.GetUsername();
         var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
@@ -74,7 +74,7 @@ public class PostsController : ApiController
         _unitOfWork.PostRepository.AddPost(post);
 
         if (await _unitOfWork.Complete())
-            return Ok(_mapper.Map<PostDto>(post));
+            return Ok(_mapper.Map<FullPostDto>(post));
 
         return BadRequest("Failed to send message");
     }
