@@ -30,17 +30,20 @@ public class AccountController : ApiController
         _mapper = mapper;
     }
 
-    // POST: api/account/register
     [HttpPost("register")]
     public async Task<ActionResult<AccountDto>> Register(RegisterDto registerDto)
     {
-        if (await UserNameExists(registerDto.UserName))
-            return BadRequest("Username is taken.");
+        if (await IsUserNameAvailable(registerDto.UserName))
+            return BadRequest("UserName is taken.");
 
-        if (await EmailExists(registerDto.UserName))
+        if (await IsEmailAvailable(registerDto.UserName))
             return BadRequest("Email is taken.");
 
         var user = _mapper.Map<User>(registerDto);
+
+        if (user.UserName == null)
+            return BadRequest("Failed to register a user - UserName is undefined");
+
         var userResult = await _userManager.CreateAsync(user, registerDto.Password);
 
         if (!userResult.Succeeded)
@@ -51,9 +54,6 @@ public class AccountController : ApiController
         if (!roleResult.Succeeded)
             return BadRequest(roleResult.Errors);
 
-        if (user.UserName == null)
-            return BadRequest("Username is undefined");
-
         return new AccountDto
         {
             UserName = user.UserName,
@@ -61,11 +61,10 @@ public class AccountController : ApiController
         };
     }
 
-    // POST: api/account/login
     [HttpPost("login")]
     public async Task<ActionResult<AccountDto>> Login(LoginDto loginDto)
     {
-        var user = await _unitOfWork.UserRepository.GetUserByEmailAsync(loginDto.Email);
+        var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(loginDto.UserName);
 
         if (user == null)
             return Unauthorized("Invalid user");
@@ -76,7 +75,7 @@ public class AccountController : ApiController
             return Unauthorized("Invalid password");
 
         if (user.UserName == null)
-            return BadRequest("Username is undefined");
+            return BadRequest("Failed to login a user - UserName is undefined");
 
         return new AccountDto
         {
@@ -85,14 +84,20 @@ public class AccountController : ApiController
         };
     }
 
-    private async Task<bool> UserNameExists(string userName)
+    [HttpGet("is-username-available/{userName}")]
+    public async Task<ActionResult<bool>> IsAvailable(string userName)
+    {
+        return await IsUserNameAvailable(userName);
+    }
+
+    private async Task<bool> IsUserNameAvailable(string userName)
     {
         return await _userManager.Users.AnyAsync(
             user => user.UserName != null && user.UserName == userName.ToLower()
         );
     }
 
-    private async Task<bool> EmailExists(string email)
+    private async Task<bool> IsEmailAvailable(string email)
     {
         return await _userManager.Users.AnyAsync(
             user => user.Email != null && user.Email == email.ToLower()

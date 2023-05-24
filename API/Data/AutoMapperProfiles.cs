@@ -10,27 +10,18 @@ public class AutoMapperProfiles : Profile
 {
     public AutoMapperProfiles()
     {
-        // Users
-        MapUserToUserDto();
-        MapRegisterDtoToUser();
-        MapUserUpdateDtoToUser();
-
-        // Posts
-        MapPostToPostDto();
-        MapUpdatePostDtoToPost();
+        MapUser();
+        MapPost();
     }
 
-    private void MapUserToUserDto()
+    private void MapUser()
     {
         CreateMap<User, UserDto>()
             .ForMember(
                 destination => destination.Age,
                 options => options.MapFrom(source => source.DateOfBirth.CalculateAge())
             );
-    }
 
-    private void MapRegisterDtoToUser()
-    {
         CreateMap<RegisterDto, User>()
             .ForMember(
                 destination => destination.UserName,
@@ -40,10 +31,7 @@ public class AutoMapperProfiles : Profile
                 destination => destination.PhoneNumber,
                 options => options.MapFrom(source => "")
             );
-    }
 
-    private void MapUserUpdateDtoToUser()
-    {
         CreateMap<UserUpdateDto, User>()
             .ForMember(
                 destination => destination.DateOfBirth,
@@ -60,17 +48,24 @@ public class AutoMapperProfiles : Profile
             );
     }
 
-    private void MapPostToPostDto()
+    private void MapPost()
     {
-        CreateMap<Post, PostDto>()
+        CreateMap<Post, MicroPostDto>()
+            .ForMember(
+                destination => destination.Author,
+                options => options.MapFrom(source => source.Author.UserName)
+            )
+            .ForMember(
+                destination => destination.Content,
+                options => options.MapFrom(source => source.Content.Truncate(200))
+            );
+
+        CreateMap<Post, FullPostDto>()
             .ForMember(
                 destination => destination.Author,
                 options => options.MapFrom(source => source.Author.UserName)
             );
-    }
 
-    private void MapUpdatePostDtoToPost()
-    {
         CreateMap<UpdatePostDto, Post>()
             .ForAllMembers(
                 options => options.Condition((source, destination, value) => value != null)

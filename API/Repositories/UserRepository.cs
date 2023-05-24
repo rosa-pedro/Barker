@@ -23,24 +23,6 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
 
-    public async Task<UserDto?> GetUserByUserNameAsync(string userName)
-    {
-        return await _context.Users
-            .Where(user => user.UserName == userName)
-            .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-            .SingleOrDefaultAsync();
-    }
-
-    public async Task<User?> GetUserByEmailAsync(string email)
-    {
-        return await _context.Users.Where(user => user.Email == email).SingleOrDefaultAsync();
-    }
-
-    public async Task<User?> GetUserByIdAsync(int id)
-    {
-        return await _context.Users.FindAsync(id);
-    }
-
     public async Task<PagedList<UserDto>> GetUsersAsync(UserParameters parameters)
     {
         var query = _context.Users.AsQueryable();
@@ -58,5 +40,18 @@ public class UserRepository : IUserRepository
             parameters.PageNumber,
             parameters.PageSize
         );
+    }
+
+    public async Task<UserDto?> GetUserAsync(string userName)
+    {
+        return await _context.Users
+            .Where(user => user.UserName == userName)
+            .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
+    }
+
+    public async Task<User?> GetApplicationUserAsync(string userName)
+    {
+        return await _context.Users.Where(user => user.UserName == userName).SingleOrDefaultAsync();
     }
 }
