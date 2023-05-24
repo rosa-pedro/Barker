@@ -24,6 +24,7 @@ public class UsersController : ApiController
         _mapper = mapper;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<UserDto>>> GetUsers(
         [FromQuery] UserParameters parameters
@@ -43,6 +44,7 @@ public class UsersController : ApiController
         return Ok(users);
     }
 
+    [AllowAnonymous]
     [HttpGet("{userName}")]
     public async Task<ActionResult<UserDto>> GetUser(string userName)
     {

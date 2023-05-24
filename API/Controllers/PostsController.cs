@@ -25,6 +25,7 @@ public class PostsController : ApiController
         _mapper = mapper;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<MicroPostDto>>> GetPosts(
         [FromQuery] PostParameters parameters
@@ -44,6 +45,7 @@ public class PostsController : ApiController
         return Ok(posts);
     }
 
+    [AllowAnonymous]
     [HttpGet("{id:int}")]
     public async Task<ActionResult<FullPostDto>> GetPost(int id)
     {
