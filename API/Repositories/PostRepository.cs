@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 using API.Data;
 using API.DTOs;
 using API.Entities;
@@ -28,11 +30,40 @@ public class PostRepository : IPostRepository
         var query = _context.Posts.AsQueryable();
 
         var username = parameters.Username;
-        if (username != null)
+        if (!String.IsNullOrEmpty(username))
             query = query.Where(post => post.Author.UserName == username);
+
+        var search = parameters.Search;
+        if (!String.IsNullOrEmpty(search))
+            query = query.Where(
+                post =>
+                    Regex.IsMatch(post.Title, Regex.Escape(search), RegexOptions.IgnoreCase)
+                    || Regex.IsMatch(post.Content, Regex.Escape(search), RegexOptions.IgnoreCase)
+            );
+
+        switch (parameters.From)
+        {
+            case "today":
+                var today = DateTime.UtcNow.Date;
+                query = query.Where(post => post.Created >= today);
+                break;
+            case "lastWeek":
+                var lastWeek = DateTime.UtcNow.AddDays(-7);
+                query = query.Where(post => post.Created >= lastWeek);
+                break;
+            case "lastMonth":
+                var lastMonth = DateTime.UtcNow.AddDays(-30);
+                query = query.Where(post => post.Created >= lastMonth);
+                break;
+            case "lastYear":
+                var lastYear = DateTime.UtcNow.AddDays(-365);
+                query = query.Where(post => post.Created >= lastYear);
+                break;
+        }
 
         query = parameters.OrderBy switch
         {
+            "oldest" => query.OrderBy(post => post.Created),
             _ => query.OrderByDescending(post => post.Created)
         };
 
