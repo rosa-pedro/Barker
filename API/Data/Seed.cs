@@ -58,11 +58,40 @@ public static class Seed
         var users = await userManager.Users.ToListAsync();
         var totalUsers = users.Count;
 
+        const int year = 365;
+        const int month = 30;
+        const int week = 7;
+        const int today = 0;
+
+        var daysBalancing = new[]
+        {
+            "today",
+            "lastWeek",
+            "lastMonth",
+            "lastMonth",
+            "lastMonth",
+            "lastYear",
+            "lastYear",
+            "lastYear",
+            "lastYear"
+        };
+
         foreach (var post in posts)
         {
             var index = random.Next(totalUsers);
 
-            post.Created = DateTime.SpecifyKind(post.Created, DateTimeKind.Utc);
+            var daysBalancingIndex = random.Next(daysBalancing.Length);
+            var daysBefore = daysBalancing[daysBalancingIndex] switch
+            {
+                "today" => random.Next(today),
+                "lastWeek" => random.Next(week),
+                "LastMonth" => random.Next(month),
+                _ => random.Next(year)
+            };
+
+            post.Created = DateTime
+                .SpecifyKind(post.Created, DateTimeKind.Utc)
+                .AddDays(-daysBefore);
             post.Author = users.ElementAt(index);
 
             unitOfWork.PostRepository.AddPost(post);
