@@ -27,7 +27,7 @@ public class UsersController : ApiController
     [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<UserDto>>> GetUsers(
-        [FromQuery] UserParameters parameters
+        [FromQuery] UserQueryParameters parameters
     )
     {
         var users = await _unitOfWork.UserRepository.GetUsersAsync(parameters);

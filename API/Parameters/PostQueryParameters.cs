@@ -1,8 +1,8 @@
 namespace API.Parameters;
 
-public class PostParameters : PaginationParameters
+public class PostQueryParameters : PaginationQueryParameters
 {
-    public string? Username { get; set; }
+    public string? UserName { get; set; }
 
     public string? Search { get; set; }
     public string From { get; set; } = "always";

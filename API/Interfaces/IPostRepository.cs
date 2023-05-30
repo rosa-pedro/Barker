@@ -7,8 +7,9 @@ namespace API.Interfaces;
 
 public interface IPostRepository
 {
-    Task<PagedList<MicroPostDto>> GetPostsAsync(PostParameters parameters);
+    Task<PagedList<MicroPostDto>> GetPostsAsync(PostQueryParameters parameters);
     Task<FullPostDto?> GetPostAsync(int id);
+    Task<ICollection<Post>> GetApplicationPostsAsync();
     Task<Post?> GetApplicationPostAsync(int id);
     void AddPost(Post post);
     void DeletePost(Post post);

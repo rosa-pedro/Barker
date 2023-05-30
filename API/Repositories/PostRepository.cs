@@ -25,13 +25,13 @@ public class PostRepository : IPostRepository
         _mapper = mapper;
     }
 
-    public async Task<PagedList<MicroPostDto>> GetPostsAsync(PostParameters parameters)
+    public async Task<PagedList<MicroPostDto>> GetPostsAsync(PostQueryParameters parameters)
     {
         var query = _context.Posts.AsQueryable();
 
-        var username = parameters.Username;
-        if (!String.IsNullOrEmpty(username))
-            query = query.Where(post => post.Author.UserName == username);
+        var userName = parameters.UserName;
+        if (!String.IsNullOrEmpty(userName))
+            query = query.Where(post => post.Author.UserName == userName);
 
         var search = parameters.Search;
         if (!String.IsNullOrEmpty(search))
@@ -82,6 +82,11 @@ public class PostRepository : IPostRepository
             .Where(post => post.Id == id)
             .ProjectTo<FullPostDto>(_mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
+    }
+
+    public async Task<ICollection<Post>> GetApplicationPostsAsync()
+    {
+        return await _context.Posts.ToListAsync();
     }
 
     public async Task<Post?> GetApplicationPostAsync(int id)

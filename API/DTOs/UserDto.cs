@@ -13,8 +13,8 @@ public class UserDto
     public required string City { get; set; }
     public required string About { get; set; }
 
-    public int Age { get; set; }
+    public required int Age { get; set; }
 
-    public DateTime Created { get; set; }
-    public DateTime LastActive { get; set; }
+    public required DateTime Created { get; set; }
+    public required DateTime LastActive { get; set; }
 }

@@ -46,7 +46,7 @@ public static class Seed
         }
     }
 
-    public static async Task SeedPosts(UserManager<User> userManager, IUnitOfWork unitOfWork)
+    public static async Task SeedPosts(IUnitOfWork unitOfWork)
     {
         if (await unitOfWork.PostRepository.AnyAsync())
             return;
@@ -55,7 +55,7 @@ public static class Seed
         var posts = await ReadFile<Post>(filePath);
 
         var random = new Random();
-        var users = await userManager.Users.ToListAsync();
+        var users = await unitOfWork.UserRepository.GetApplicationUsersAsync();
         var totalUsers = users.Count;
 
         const int year = 365;
@@ -99,6 +99,40 @@ public static class Seed
 
         if (!await unitOfWork.Complete())
             throw new Exception("An error occurred during seeding posts");
+    }
+
+    public static async Task SeedComments(IUnitOfWork unitOfWork)
+    {
+        if (await unitOfWork.CommentRepository.AnyAsync())
+            return;
+
+        const string filePath = "Data/CommentSeedData.json";
+        var comments = await ReadFile<Comment>(filePath);
+
+        var random = new Random();
+        var posts = await unitOfWork.PostRepository.GetApplicationPostsAsync();
+        var users = await unitOfWork.UserRepository.GetApplicationUsersAsync();
+
+        const int year = 365;
+
+        foreach (var comment in comments)
+        {
+            var postIndex = random.Next(posts.Count);
+            var userIndex = random.Next(users.Count);
+
+            var daysbefore = random.Next(year);
+
+            comment.Post = posts.ElementAt(postIndex);
+            comment.Author = users.ElementAt(userIndex);
+            comment.Created = DateTime
+                .SpecifyKind(comment.Created, DateTimeKind.Utc)
+                .AddDays(-daysbefore);
+
+            unitOfWork.CommentRepository.AddComment(comment);
+        }
+
+        if (!await unitOfWork.Complete())
+            throw new Exception("An error occurred during seeding comments");
     }
 
     private static async Task<List<T>> ReadFile<T>(string filePath)
