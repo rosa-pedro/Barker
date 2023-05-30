@@ -23,7 +23,8 @@ public static class WebApplicationExtension
 
             await context.Database.MigrateAsync();
             await Seed.SeedUsers(userManager, roleManager);
-            await Seed.SeedPosts(userManager, unitOfWork);
+            await Seed.SeedPosts(unitOfWork);
+            await Seed.SeedComments(unitOfWork);
         }
         catch (Exception ex)
         {

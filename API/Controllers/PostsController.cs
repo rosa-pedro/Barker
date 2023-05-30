@@ -28,7 +28,7 @@ public class PostsController : ApiController
     [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<MicroPostDto>>> GetPosts(
-        [FromQuery] PostParameters parameters
+        [FromQuery] PostQueryParameters parameters
     )
     {
         var posts = await _unitOfWork.PostRepository.GetPostsAsync(parameters);
@@ -46,13 +46,13 @@ public class PostsController : ApiController
     }
 
     [AllowAnonymous]
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<FullPostDto>> GetPost(int id)
+    [HttpGet("{postId:int}")]
+    public async Task<ActionResult<FullPostDto>> GetPost(int postId)
     {
-        var post = await _unitOfWork.PostRepository.GetPostAsync(id);
+        var post = await _unitOfWork.PostRepository.GetPostAsync(postId);
 
         if (post == null)
-            return NotFound($"Post with id {id} was not found");
+            return NotFound($"Post with id {postId} was not found");
 
         return Ok(post);
     }
@@ -81,12 +81,12 @@ public class PostsController : ApiController
         return BadRequest("Failed to send message");
     }
 
-    [HttpPut("{id:int}")]
-    public async Task<ActionResult> UpdatePost(int id, [FromBody] UpdatePostDto body)
+    [HttpPut("{postId:int}")]
+    public async Task<ActionResult> UpdatePost(int postId, [FromBody] UpdatePostDto body)
     {
         var username = User.GetUsername();
 
-        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(id);
+        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(postId);
 
         if (post == null)
             return NotFound();
@@ -102,11 +102,11 @@ public class PostsController : ApiController
         return BadRequest("Failed to update post");
     }
 
-    [HttpDelete("{id:int}")]
-    public async Task<ActionResult<Post>> DeletePost(int id)
+    [HttpDelete("{postId:int}")]
+    public async Task<ActionResult<Post>> DeletePost(int postId)
     {
         var username = User.GetUsername();
-        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(id);
+        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(postId);
 
         if (post == null)
             return NotFound();

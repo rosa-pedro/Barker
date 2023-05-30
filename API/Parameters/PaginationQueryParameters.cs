@@ -1,6 +1,6 @@
 namespace API.Parameters;
 
-public class PaginationParameters
+public class PaginationQueryParameters
 {
     public int PageNumber { get; set; } = 1;
 

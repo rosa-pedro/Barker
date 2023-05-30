@@ -1,6 +1,6 @@
 namespace API.Parameters;
 
-public class UserParameters : PaginationParameters
+public class UserQueryParameters : PaginationQueryParameters
 {
     public string OrderBy { get; set; } = "lastActive";
 }

@@ -23,7 +23,7 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
 
-    public async Task<PagedList<UserDto>> GetUsersAsync(UserParameters parameters)
+    public async Task<PagedList<UserDto>> GetUsersAsync(UserQueryParameters parameters)
     {
         var query = _context.Users.AsQueryable();
 
@@ -53,5 +53,10 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetApplicationUserAsync(string userName)
     {
         return await _context.Users.Where(user => user.UserName == userName).SingleOrDefaultAsync();
+    }
+
+    public async Task<ICollection<User>> GetApplicationUsersAsync()
+    {
+        return await _context.Users.ToListAsync();
     }
 }

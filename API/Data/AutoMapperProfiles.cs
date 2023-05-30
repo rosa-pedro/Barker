@@ -12,6 +12,7 @@ public class AutoMapperProfiles : Profile
     {
         MapUser();
         MapPost();
+        MapComment();
     }
 
     private void MapUser()
@@ -69,6 +70,15 @@ public class AutoMapperProfiles : Profile
         CreateMap<UpdatePostDto, Post>()
             .ForAllMembers(
                 options => options.Condition((source, destination, value) => value != null)
+            );
+    }
+
+    private void MapComment()
+    {
+        CreateMap<Comment, CommentDto>()
+            .ForMember(
+                destination => destination.Author,
+                options => options.MapFrom(source => source.Author.UserName)
             );
     }
 }

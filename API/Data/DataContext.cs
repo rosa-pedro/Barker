@@ -19,6 +19,7 @@ public class DataContext
     >
 {
     public DbSet<Post> Posts => Set<Post>();
+    public DbSet<Comment> Comments => Set<Comment>();
 
     public DataContext(DbContextOptions options)
         : base(options) { }
