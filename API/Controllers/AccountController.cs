@@ -33,10 +33,10 @@ public class AccountController : ApiController
     [HttpPost("register")]
     public async Task<ActionResult<AccountDto>> Register(RegisterDto registerDto)
     {
-        if (await IsUserNameAvailable(registerDto.UserName))
+        if (!await IsUserNameAvailable(registerDto.UserName))
             return BadRequest("UserName is taken.");
 
-        if (await IsEmailAvailable(registerDto.UserName))
+        if (!await IsEmailAvailable(registerDto.UserName))
             return BadRequest("Email is taken.");
 
         var user = _mapper.Map<User>(registerDto);
@@ -84,7 +84,7 @@ public class AccountController : ApiController
         };
     }
 
-    [HttpGet("is-username-available/{userName}")]
+    [HttpGet("is-available/{userName}")]
     public async Task<ActionResult<bool>> IsAvailable(string userName)
     {
         return await IsUserNameAvailable(userName);
@@ -92,14 +92,14 @@ public class AccountController : ApiController
 
     private async Task<bool> IsUserNameAvailable(string userName)
     {
-        return await _userManager.Users.AnyAsync(
+        return !await _userManager.Users.AnyAsync(
             user => user.UserName != null && user.UserName == userName.ToLower()
         );
     }
 
     private async Task<bool> IsEmailAvailable(string email)
     {
-        return await _userManager.Users.AnyAsync(
+        return !await _userManager.Users.AnyAsync(
             user => user.Email != null && user.Email == email.ToLower()
         );
     }

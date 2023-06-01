@@ -30,7 +30,7 @@ public static class IdentityServiceExtension
             .AddRoleManager<RoleManager<Role>>()
             .AddEntityFrameworkStores<DataContext>();
 
-        //Authentication
+        // Authentication
         services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -43,6 +43,12 @@ public static class IdentityServiceExtension
                     ValidateAudience = false
                 };
             });
+
+        // Authorization
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("MembersOnly", policy => policy.RequireRole("Member"));
+        });
 
         return services;
     }

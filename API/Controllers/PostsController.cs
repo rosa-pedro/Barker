@@ -25,9 +25,10 @@ public class PostsController : ApiController
         _mapper = mapper;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<MicroPostDto>>> GetPosts(
-        [FromQuery] PostParameters parameters
+        [FromQuery] PostQueryParameters parameters
     )
     {
         var posts = await _unitOfWork.PostRepository.GetPostsAsync(parameters);
@@ -44,13 +45,29 @@ public class PostsController : ApiController
         return Ok(posts);
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<FullPostDto>> GetPost(int id)
+    [AllowAnonymous]
+    [HttpGet("{postId:int}")]
+    public async Task<ActionResult<FullPostDto>> GetPost(int postId)
     {
-        var post = await _unitOfWork.PostRepository.GetPostAsync(id);
+        var isAuthenticated = User.Identity is { IsAuthenticated: true };
+        FullPostDto? post;
 
+        if (isAuthenticated)
+        {
+            var userName = User.GetUserName();
+            var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
+            if (user == null)
+                return Unauthorized();
+
+            post = await _unitOfWork.PostRepository.GetPostWithUserVoteAsync(postId, user.Id);
+        }
+        else
+        {
+            post = await _unitOfWork.PostRepository.GetPostAsync(postId);
+        }
+ 
         if (post == null)
-            return NotFound($"Post with id {id} was not found");
+            return NotFound($"Post with id {postId} was not found");
 
         return Ok(post);
     }
@@ -58,7 +75,7 @@ public class PostsController : ApiController
     [HttpPost]
     public async Task<ActionResult<FullPostDto>> CreatePost(CreatePostDto body)
     {
-        var userName = User.GetUsername();
+        var userName = User.GetUserName();
         var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
 
         if (user == null)
@@ -79,12 +96,12 @@ public class PostsController : ApiController
         return BadRequest("Failed to send message");
     }
 
-    [HttpPut("{id:int}")]
-    public async Task<ActionResult> UpdatePost(int id, [FromBody] UpdatePostDto body)
+    [HttpPut("{postId:int}")]
+    public async Task<ActionResult> UpdatePost(int postId, [FromBody] UpdatePostDto body)
     {
-        var username = User.GetUsername();
+        var username = User.GetUserName();
 
-        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(id);
+        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(postId);
 
         if (post == null)
             return NotFound();
@@ -100,11 +117,11 @@ public class PostsController : ApiController
         return BadRequest("Failed to update post");
     }
 
-    [HttpDelete("{id:int}")]
-    public async Task<ActionResult<Post>> DeletePost(int id)
+    [HttpDelete("{postId:int}")]
+    public async Task<ActionResult<Post>> DeletePost(int postId)
     {
-        var username = User.GetUsername();
-        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(id);
+        var username = User.GetUserName();
+        var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(postId);
 
         if (post == null)
             return NotFound();

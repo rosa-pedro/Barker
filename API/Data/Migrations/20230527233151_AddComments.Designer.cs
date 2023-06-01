@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230527233151_AddComments")]
+    partial class AddComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,24 +82,6 @@ namespace API.Data.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("API.Entities.PostVote", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PostId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Votes");
                 });
 
             modelBuilder.Entity("API.Entities.Role", b =>
@@ -361,25 +346,6 @@ namespace API.Data.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("API.Entities.PostVote", b =>
-                {
-                    b.HasOne("API.Entities.Post", "Post")
-                        .WithMany("Votes")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.User", "User")
-                        .WithMany("PostsVoted")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("API.Entities.UserRole", b =>
                 {
                     b.HasOne("API.Entities.Role", "Role")
@@ -438,8 +404,6 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Votes");
                 });
 
             modelBuilder.Entity("API.Entities.Role", b =>
@@ -450,8 +414,6 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.User", b =>
                 {
                     b.Navigation("Posts");
-
-                    b.Navigation("PostsVoted");
 
                     b.Navigation("UserRoles");
                 });

@@ -24,9 +24,10 @@ public class UsersController : ApiController
         _mapper = mapper;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<UserDto>>> GetUsers(
-        [FromQuery] UserParameters parameters
+        [FromQuery] UserQueryParameters parameters
     )
     {
         var users = await _unitOfWork.UserRepository.GetUsersAsync(parameters);
@@ -43,6 +44,7 @@ public class UsersController : ApiController
         return Ok(users);
     }
 
+    [AllowAnonymous]
     [HttpGet("{userName}")]
     public async Task<ActionResult<UserDto>> GetUser(string userName)
     {
@@ -57,7 +59,7 @@ public class UsersController : ApiController
     [HttpPut]
     public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
     {
-        var userName = User.GetUsername();
+        var userName = User.GetUserName();
         var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
 
         if (user == null)

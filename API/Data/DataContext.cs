@@ -19,6 +19,8 @@ public class DataContext
     >
 {
     public DbSet<Post> Posts => Set<Post>();
+    public DbSet<Comment> Comments => Set<Comment>();
+    public DbSet<PostVote> Votes => Set<PostVote>();
 
     public DataContext(DbContextOptions options)
         : base(options) { }
@@ -27,6 +29,7 @@ public class DataContext
     {
         base.OnModelCreating(builder);
 
+        // Many to many relationship between User and Role
         builder
             .Entity<User>()
             .HasMany(user => user.UserRoles)
@@ -41,11 +44,29 @@ public class DataContext
             .HasForeignKey(userRole => userRole.RoleId)
             .IsRequired();
 
+        // One to many relationship between User and Post
         builder
             .Entity<User>()
             .HasMany(user => user.Posts)
             .WithOne(post => post.Author)
             .HasForeignKey("AuthorId")
             .IsRequired();
+
+        // Many to many vote relationship between Post and User
+        builder.Entity<PostVote>().HasKey(source => new { source.PostId, source.UserId });
+
+        builder
+            .Entity<PostVote>()
+            .HasOne<Post>(vote => vote.Post)
+            .WithMany(post => post.Votes)
+            .HasForeignKey(vote => vote.PostId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .Entity<PostVote>()
+            .HasOne<User>(vote => vote.User)
+            .WithMany(user => user.PostsVoted)
+            .HasForeignKey(vote => vote.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
