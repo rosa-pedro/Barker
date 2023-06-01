@@ -57,7 +57,7 @@ public class CommentsController : ApiController
         [FromBody] CreateCommentDto body
     )
     {
-        var userName = User.GetUsername();
+        var userName = User.GetUserName();
         var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
 
         if (user == null)
@@ -86,7 +86,7 @@ public class CommentsController : ApiController
     [HttpDelete("{commentId:int}")]
     public async Task<ActionResult> DeleteComment(int postId, int commentId)
     {
-        var userName = User.GetUsername();
+        var userName = User.GetUserName();
         var comment = await _unitOfWork.CommentRepository.GetApplicationCommentAsync(commentId);
 
         if (comment == null)

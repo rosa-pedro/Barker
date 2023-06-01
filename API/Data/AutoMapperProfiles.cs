@@ -13,6 +13,7 @@ public class AutoMapperProfiles : Profile
         MapUser();
         MapPost();
         MapComment();
+        MapVote();
     }
 
     private void MapUser()
@@ -44,9 +45,7 @@ public class AutoMapperProfiles : Profile
                                 : DateOnly.FromDateTime(DateTime.UtcNow)
                     )
             )
-            .ForAllMembers(
-                options => options.Condition((source, destination, value) => value != null)
-            );
+            .ForAllMembers(options => options.Condition((_, _, value) => value != null));
     }
 
     private void MapPost()
@@ -59,18 +58,39 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.Content,
                 options => options.MapFrom(source => source.Content.Truncate(200))
+            )
+            .ForMember(
+                destination => destination.Votes,
+                options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
             );
 
         CreateMap<Post, FullPostDto>()
             .ForMember(
                 destination => destination.Author,
                 options => options.MapFrom(source => source.Author.UserName)
+            )
+            .ForMember(
+                destination => destination.Votes,
+                options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
+            );
+
+        var userVote = 0;
+        CreateMap<Post, FullPostWithUserVoteDto>()
+            .ForMember(
+                destination => destination.Author,
+                options => options.MapFrom(source => source.Author.UserName)
+            )
+            .ForMember(
+                destination => destination.Votes,
+                options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
+            )
+            .ForMember(
+                destination => destination.UserVote,
+                options => options.MapFrom(source => userVote)
             );
 
         CreateMap<UpdatePostDto, Post>()
-            .ForAllMembers(
-                options => options.Condition((source, destination, value) => value != null)
-            );
+            .ForAllMembers(options => options.Condition((_, _, value) => value != null));
     }
 
     private void MapComment()
@@ -79,6 +99,23 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.Author,
                 options => options.MapFrom(source => source.Author.UserName)
+            );
+    }
+
+    private void MapVote()
+    {
+        CreateMap<PostVote, VoteDto>()
+            .ForMember(
+                destination => destination.TotalVotes,
+                options => options.MapFrom(source => source.Post.Votes.Sum(vote => (int)vote.Value))
+            )
+            .ForMember(
+                destination => destination.Vote,
+                options => options.MapFrom(source => source.Value)
+            )
+            .ForMember(
+                destination => destination.Voter,
+                options => options.MapFrom(source => source.User.UserName)
             );
     }
 }

@@ -9,4 +9,5 @@ public class Post
     public User Author { get; set; } = null!;
 
     public IEnumerable<Comment> Comments { get; } = new List<Comment>();
+    public ICollection<PostVote> Votes { get; set; } = new List<PostVote>();
 }

@@ -59,7 +59,7 @@ public class UsersController : ApiController
     [HttpPut]
     public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
     {
-        var userName = User.GetUsername();
+        var userName = User.GetUserName();
         var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
 
         if (user == null)

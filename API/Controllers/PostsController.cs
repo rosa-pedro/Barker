@@ -49,8 +49,23 @@ public class PostsController : ApiController
     [HttpGet("{postId:int}")]
     public async Task<ActionResult<FullPostDto>> GetPost(int postId)
     {
-        var post = await _unitOfWork.PostRepository.GetPostAsync(postId);
+        var isAuthenticated = User.Identity is { IsAuthenticated: true };
+        FullPostDto? post;
 
+        if (isAuthenticated)
+        {
+            var userName = User.GetUserName();
+            var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
+            if (user == null)
+                return Unauthorized();
+
+            post = await _unitOfWork.PostRepository.GetPostWithUserVoteAsync(postId, user.Id);
+        }
+        else
+        {
+            post = await _unitOfWork.PostRepository.GetPostAsync(postId);
+        }
+ 
         if (post == null)
             return NotFound($"Post with id {postId} was not found");
 
@@ -60,7 +75,7 @@ public class PostsController : ApiController
     [HttpPost]
     public async Task<ActionResult<FullPostDto>> CreatePost(CreatePostDto body)
     {
-        var userName = User.GetUsername();
+        var userName = User.GetUserName();
         var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
 
         if (user == null)
@@ -84,7 +99,7 @@ public class PostsController : ApiController
     [HttpPut("{postId:int}")]
     public async Task<ActionResult> UpdatePost(int postId, [FromBody] UpdatePostDto body)
     {
-        var username = User.GetUsername();
+        var username = User.GetUserName();
 
         var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(postId);
 
@@ -105,7 +120,7 @@ public class PostsController : ApiController
     [HttpDelete("{postId:int}")]
     public async Task<ActionResult<Post>> DeletePost(int postId)
     {
-        var username = User.GetUsername();
+        var username = User.GetUserName();
         var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(postId);
 
         if (post == null)
