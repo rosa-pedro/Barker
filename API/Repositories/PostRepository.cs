@@ -76,11 +76,22 @@ public class PostRepository : IPostRepository
         );
     }
 
-    public async Task<FullPostDto?> GetPostAsync(int id)
+    public async Task<FullPostDto?> GetPostAsync(int postId)
     {
         return await _context.Posts
-            .Where(post => post.Id == id)
+            .Where(post => post.Id == postId)
             .ProjectTo<FullPostDto>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
+    }
+
+    public async Task<FullPostWithUserVoteDto?> GetPostWithUserVoteAsync(int postId, int userId)
+    {
+        var vote = await _context.Votes.FindAsync(postId, userId);
+        var userVote = vote?.Value ?? 0;
+
+        return await _context.Posts
+            .Where(post => post.Id == postId)
+            .ProjectTo<FullPostWithUserVoteDto>(_mapper.ConfigurationProvider, new { userVote })
             .SingleOrDefaultAsync();
     }
 
@@ -89,10 +100,10 @@ public class PostRepository : IPostRepository
         return await _context.Posts.ToListAsync();
     }
 
-    public async Task<Post?> GetApplicationPostAsync(int id)
+    public async Task<Post?> GetApplicationPostAsync(int postId)
     {
         return await _context.Posts
-            .Where(post => post.Id == id)
+            .Where(post => post.Id == postId)
             .Include(post => post.Author)
             .SingleOrDefaultAsync();
     }
