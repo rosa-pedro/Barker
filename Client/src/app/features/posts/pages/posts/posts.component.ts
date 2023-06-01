@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { PostService } from '../../services/post.service';
 
 @Component({
@@ -11,35 +11,34 @@ export class PostsComponent implements OnInit {
 
   constructor(public postService: PostService) {}
 
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (
+      this.postService.hasNext &&
+      window.innerHeight + window.scrollY >= document.body.offsetHeight
+    ) {
+      this.loadMore();
+    }
+  }
+
   ngOnInit(): void {
     this.postService.getPosts().subscribe({
-      next: (posts) => {
-        console.log(posts);
-      },
+      next: (posts) => {},
     });
   }
 
-  loadMore() {
+  private loadMore() {
     this.postService.getNextPosts().subscribe();
   }
 
   filters = {
     general: {
       name: 'general',
-      options: [
-        'More comments',
-        'Most liked',
-        'Newest',
-        'Oldest',
-      ],
+      options: ['More comments', 'Most liked', 'Newest', 'Oldest'],
     },
     date: {
       name: 'date',
-      options: [
-        'Today',
-        'Last week',
-        'Last month',
-      ],
+      options: ['Today', 'Last week', 'Last month'],
     },
   };
 }

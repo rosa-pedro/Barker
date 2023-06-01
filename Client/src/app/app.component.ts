@@ -20,6 +20,5 @@ export class AppComponent implements OnInit {
     if (!storedUser) return;
     const user: User = JSON.parse(storedUser);
     this.authService.setCurrentUser(user);
-    console.log(user);
   }
 }

@@ -1,11 +1,13 @@
 <div
   class="shadow-md hover:shadow-xl rounded-md cursor-pointer hover:scale-105 transform transition-all duration-300 ease-in-out"
-  (click)="openPost()"
+  routerLink="/posts/{{ post.id }}"
 >
   <div class="w-full h-60 bg-gray-200"></div>
   <div class="p-3">
     <div class="flex items-center justify-between border-b pb-2">
-      <p class="text-xl truncate" [tooltip]="post.title">{{ post.title }}</p>
+      <p class="text-xl truncate" [tooltip]="post.title">
+        {{ post.id + post.title }}
+      </p>
       <div class="-space-y-px">
         <div class="flex space-x-3 cursor-pointer">
           <span class="material-icons text-lg">favorite_border</span>

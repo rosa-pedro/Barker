@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 export enum EventTypes {
   Success = 'success',
@@ -8,7 +8,7 @@ export enum EventTypes {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ToasterService {
   private toastsSource = new Subject<any>();
@@ -30,9 +30,7 @@ export class ToasterService {
     });
   }
 
-
   showErrorToast(message: string) {
-    console.log('toast')
     this.toastsSource.next({
       message,
       type: EventTypes.Error,

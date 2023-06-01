@@ -23,7 +23,6 @@ export class AuthorizationInterceptor
       .subscribe({
         next: (user) => {
           if (user) {
-            console.log(user);
             request = request.clone({
               setHeaders: {
                 Authorization: `Bearer ${user.token}`,
@@ -33,7 +32,6 @@ export class AuthorizationInterceptor
         },
       });
 
-    console.log(request);
     return next.handle(request);
   }
 }

@@ -9,10 +9,12 @@
   </div>
 
   <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
-    <app-card
+    <app-post-card
       *ngFor="let post of postService.posts$ | async"
       [post]="post"
-    ></app-card>
-    <app-button message="Load more" (click)="loadMore()"></app-button>
+    ></app-post-card>
+  </div>
+  <div *ngIf="!postService.hasNext" class="flex justify-center">
+    No more posts...
   </div>
 </div>
