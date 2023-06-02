@@ -7,13 +7,9 @@ import { PostService } from '../../services/post.service';
   styleUrls: ['./action-tab.component.scss'],
 })
 export class ActionTabComponent {
-  @Input() likes = 0;
+  @Input() votes = 0;
   @Input() title = '';
-  @Input() liked = false;
+  @Input() voted? = -1 | 0 | 1;
 
-  constructor(private postService: PostService) {}
-
-  like() {
-    this.postService.likePost();
-  }
+  constructor() {}
 }

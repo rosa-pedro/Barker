@@ -19,11 +19,9 @@ export class InputComponent implements OnInit {
   ngOnInit(): void {}
 
   getErrorList() {
-    const errorsList = Object.keys(this.inputFC.errors!);
-    let finalList = [
-      /*...this.errorMessages*/
-    ];
-    for (let e of errorsList) {
+    // const errorsList = Object.keys(this.inputFC.errors!);
+    // let finalList = [];
+    /*for (let e of errorsList) {
       switch (e) {
         case 'required':
           finalList.push('This field is required');
@@ -38,7 +36,7 @@ export class InputComponent implements OnInit {
           finalList.push('This field is wrong');
           break;
       }
-    }
-    return finalList;
+    }*/
+    // return finalList;
   }
 }

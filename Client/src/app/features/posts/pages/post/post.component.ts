@@ -10,13 +10,15 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit {
-  post: Observable<Post> | undefined;
-
   constructor(public postService: PostService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     console.log(this.route.snapshot.params['id']);
     this.postService.getPost(this.route.snapshot.params['id']).subscribe();
-    // this.post = null
+  }
+
+  upVote() {
+    console.log('upvote');
+    this.postService.upVote(this.route.snapshot.params['id']).subscribe();
   }
 }

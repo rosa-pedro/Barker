@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Subject } from 'rxjs';
-import { FullPost } from '../../../core/models/post/full-post.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Post } from '../../../core/models/post/post.model';
+import { FullPost } from '../../../core/models/post/full-post.model';
 
 interface RequestSpec {
   pageSize?: number;
@@ -21,7 +21,7 @@ export class PostService {
   private pageNumber = 1;
   private pageSize = 0;
 
-  private currentPostSource = new BehaviorSubject<Post | null>(null);
+  private currentPostSource = new BehaviorSubject<FullPost | null>(null);
   currentPost$ = this.currentPostSource.asObservable();
 
   private postsSource = new BehaviorSubject<Post[] | null>(null);
@@ -73,7 +73,6 @@ export class PostService {
   }
 
   getPost(postId: number) {
-    console.log(postId);
     return this.http.get<Post>(this.baseUrl + 'posts/' + postId).pipe(
       map((post: Post) => {
         if (post) {
@@ -84,5 +83,28 @@ export class PostService {
     );
   }
 
-  likePost() {}
+  upVote(postId: number) {
+    return this.http
+      .post<Vote>(this.baseUrl + `posts/${postId}/up-vote`, {})
+      .pipe(
+        map((voteResponse) => {
+          if (voteResponse) {
+            console.log(voteResponse);
+            let curPost: FullPost = {
+              ...this.currentPostSource.value!,
+              votes: voteResponse.totalVotes,
+              vote: voteResponse.vote,
+            };
+            this.currentPostSource.next(curPost);
+          }
+        })
+      );
+  }
+}
+
+interface Vote {
+  postId: number;
+  totalVotes: number;
+  vote: number;
+  voter: string;
 }

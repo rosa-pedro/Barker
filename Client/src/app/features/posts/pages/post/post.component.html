@@ -3,15 +3,34 @@
   <!--  header-->
   <app-action-tab
     [title]="(postService.currentPost$ | async)!.title"
+    [votes]="(postService.currentPost$ | async)!.votes"
+    [voted]="(postService.currentPost$ | async)!.vote"
   ></app-action-tab>
 
   <!--  Post-->
-  <div class="mx-20 mt-10 bg-gray-50">
-    <div>
+  <div class="grid grid-cols-10 gap-4">
+    <div class="col-start-1 col-end-2">
+      <div class="flex flex-col items-center mt-14 ml-5">
+        <span
+          class="material-icons cursor-pointer text-white"
+          [ngClass]="{
+            'text-green-400': (postService.currentPost$ | async)?.vote === 1
+          }"
+          (click)="upVote()"
+        >
+          keyboard_double_arrow_up
+        </span>
+        <hr class="border border-t border-solid w-3 border-gray-300" />
+        <span class="material-icons cursor-pointer text-white">
+          keyboard_double_arrow_down
+        </span>
+      </div>
+    </div>
+    <div class="col-start-2 col-span-8 flex flex-col gap-5">
       <h1 class="text-2xl">
         {{ (postService.currentPost$ | async)!.title }}
       </h1>
+      <div>{{ (postService.currentPost$ | async)!.content }}</div>
     </div>
-    <div>{{ (postService.currentPost$ | async)!.content }}</div>
   </div>
 </div>

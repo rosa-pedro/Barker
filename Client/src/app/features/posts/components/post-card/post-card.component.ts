@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { MicroPost } from '../../../../core/models/post/micro-post.model';
 import { Post } from '../../../../core/models/post/post.model';
 
 @Component({
@@ -9,7 +8,6 @@ import { Post } from '../../../../core/models/post/post.model';
   styleUrls: ['./post-card.component.scss'],
 })
 export class PostCardComponent {
-  @Input() mpost!: MicroPost;
   @Input() post!: Post;
 
   constructor(private router: Router) {}
