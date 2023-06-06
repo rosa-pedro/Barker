@@ -10,15 +10,18 @@ public static class ApplicationServiceExtension
     {
         // CORS
         services.AddCors();
-        
+
         // JWT Token
         services.AddScoped<ITokenService, TokenService>();
-        
+
         // Unit Of Work
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        
+
         // AutoMapper
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+        // Photo Service
+        services.AddScoped<IPhotoService, PhotoService>();
 
         return services;
     }
