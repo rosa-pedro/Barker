@@ -12,6 +12,7 @@ public class UserDto
     public required string Country { get; set; }
     public required string City { get; set; }
     public required string About { get; set; }
+    public required string Photo { get; set; }
 
     public required int Age { get; set; }
 

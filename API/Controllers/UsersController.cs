@@ -17,11 +17,13 @@ public class UsersController : ApiController
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IPhotoService _photoService;
 
-    public UsersController(IUnitOfWork unitOfWork, IMapper mapper)
+    public UsersController(IUnitOfWork unitOfWork, IMapper mapper, IPhotoService photoService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _photoService = photoService;
     }
 
     [AllowAnonymous]
@@ -61,7 +63,6 @@ public class UsersController : ApiController
     {
         var userName = User.GetUserName();
         var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
-
         if (user == null)
             return Unauthorized();
 
@@ -71,5 +72,73 @@ public class UsersController : ApiController
             return NoContent();
 
         return BadRequest("Failed to update user");
+    }
+
+    [HttpPost("set-profile-photo")]
+    public async Task<ActionResult<UserDto>> SetPhoto(IFormFile photo)
+    {
+        var userName = User.GetUserName();
+        var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
+        if (user == null)
+            return Unauthorized();
+
+        string photoName;
+        var oldPhoto = user.Photo;
+
+        try
+        {
+            photoName = await _photoService.UploadPhotoAsync(photo);
+
+            if (!string.IsNullOrEmpty(oldPhoto))
+                _photoService.DeletePhotoAsync(oldPhoto);
+        }
+        catch (Exception exception)
+        {
+            return BadRequest(exception);
+        }
+
+        var photoPath = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/images/{photoName}";
+        user.Photo = photoPath;
+
+        if (await _unitOfWork.Complete())
+        {
+            return CreatedAtAction(
+                nameof(GetUser),
+                new { userName = user.UserName },
+                _mapper.Map<UserDto>(user)
+            );
+        }
+
+        return BadRequest("Problem setting photo");
+    }
+
+    [HttpDelete("delete-profile-photo")]
+    public async Task<ActionResult> DeletePhoto()
+    {
+        var userName = User.GetUserName();
+        var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
+        if (user == null)
+            return Unauthorized();
+
+        var photo = user.Photo;
+
+        if (string.IsNullOrEmpty(photo))
+            return BadRequest("You have no photo to delete");
+
+        try
+        {
+            _photoService.DeletePhotoAsync(photo);
+        }
+        catch (Exception exception)
+        {
+            return BadRequest(exception);
+        }
+
+        user.Photo = "";
+
+        if (await _unitOfWork.Complete())
+            return Ok();
+
+        return BadRequest("Problem deleting photo");
     }
 }
