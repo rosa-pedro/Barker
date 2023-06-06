@@ -8,7 +8,13 @@
     <app-dropdown class="h-10" [options]="filters.date.options"></app-dropdown>
   </div>
 
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-    <app-card *ngFor="let post of posts$ | async" [post]="post"></app-card>
+  <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+    <app-post-card
+      *ngFor="let post of postService.posts$ | async"
+      [post]="post"
+    ></app-post-card>
+  </div>
+  <div *ngIf="!postService.hasNext" class="flex justify-center">
+    No more posts...
   </div>
 </div>

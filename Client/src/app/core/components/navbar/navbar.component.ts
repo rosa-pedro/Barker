@@ -21,7 +21,5 @@ export class NavbarComponent {
     this.menu_active = false;
   }
 
-  signup() {
-    console.log('signup');
-  }
+  signup() {}
 }

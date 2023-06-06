@@ -12,9 +12,11 @@
   >
     {{ placeholder }}
   </label>
-  <div *ngIf="!inputFC.valid && inputFC.touched">
-    <span *ngFor="let error of getErrorList()" class="text-red-500 text-sm"
+  <div>
+    <!--<span
+      *ngFor="let error of getErrorList()"
+      class="text-red-500 text-sm flex flex-col"
       >{{ error }}
-    </span>
+    </span>-->
   </div>
 </div>

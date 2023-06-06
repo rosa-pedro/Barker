@@ -45,7 +45,6 @@ export class UserTabComponent {
   }
 
   selectOption(option: string) {
-    console.log(option);
     switch (option) {
       case 'Logout':
         // TODO: Needs modal

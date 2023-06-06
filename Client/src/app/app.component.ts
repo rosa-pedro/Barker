@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './features/auth/services/auth.service';
-import { User } from './core/models/user.model';
+import { User } from './core/models/user/user.model';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +20,5 @@ export class AppComponent implements OnInit {
     if (!storedUser) return;
     const user: User = JSON.parse(storedUser);
     this.authService.setCurrentUser(user);
-    console.log(user);
   }
 }

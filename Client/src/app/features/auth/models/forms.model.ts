@@ -1,8 +1,8 @@
 export interface LoginForm {
-  email: string;
+  userName: string;
   password: string;
 }
 
-export interface SignupForm extends LoginForm{
-  username: string
+export interface SignupForm extends LoginForm {
+  username: string;
 }

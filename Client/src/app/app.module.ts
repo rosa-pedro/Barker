@@ -8,8 +8,12 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { GlobalLayoutComponent } from './core/components/global-layout/global-layout.component';
 import { ComponentsModule } from './shared/components/components.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+} from '@angular/common/http';
 import { UserTabComponent } from './core/components/user-tab/user-tab.component';
+import { AuthorizationInterceptor } from './core/interceptors/authorization.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,13 @@ import { UserTabComponent } from './core/components/user-tab/user-tab.component'
     ComponentsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizationInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
