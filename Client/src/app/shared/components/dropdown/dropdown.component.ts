@@ -1,8 +1,15 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
+  Output,
 } from '@angular/core';
+
+export interface DropdownOption {
+  code: string;
+  value: string;
+}
 
 @Component({
   selector: 'app-dropdown',
@@ -13,22 +20,28 @@ import {
   },
 })
 export class DropdownComponent {
-  @Input() options: string[] = [];
+  @Input() options: DropdownOption[] = [];
   @Input() filterName: string = 'Filter by';
   @Input() hasAll: boolean = true;
 
-  selectedOption: string = 'All';
+  @Output('selectionChange') selectionChange = new EventEmitter<string>();
+
+  defaultOption: DropdownOption = { code: 'all', value: 'All' };
+  selectedOption: DropdownOption = this.defaultOption;
   active = false;
 
   constructor(private _eref: ElementRef) {}
 
-  onClick(event: any) {
-    if (
-      !this._eref.nativeElement.contains(
-        event.target
-      )
-    ) {
+  private onClick(event: any) {
+    if (!this._eref.nativeElement.contains(event.target)) {
       this.active = false;
     }
+  }
+
+  onOptionClick(option: DropdownOption) {
+    this.selectedOption = option;
+    this.active = false;
+    console.log(option);
+    this.selectionChange.emit(option.code);
   }
 }

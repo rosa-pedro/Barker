@@ -6,10 +6,12 @@ import { HttpClient } from '@angular/common/http';
 import { Post } from '../../../core/models/post/post.model';
 import { FullPost } from '../../../core/models/post/full-post.model';
 
-interface RequestSpec {
+export interface RequestSpec {
   pageSize?: number;
   pageNumber?: number;
   username?: string;
+  orderBy?: string;
+  from?: string;
 }
 
 @Injectable({
@@ -19,7 +21,6 @@ export class PostService {
   baseUrl = environment.apiUrl;
 
   private pageNumber = 1;
-  private pageSize = 0;
 
   private currentPostSource = new BehaviorSubject<FullPost | null>(null);
   currentPost$ = this.currentPostSource.asObservable();
@@ -39,17 +40,18 @@ export class PostService {
     return this.getPostsFinalize('posts');
   }
 
-  private getPostsFinalize(requestEnd: string) {
+  private getPostsFinalize(requestEnd: string, isNext?: boolean) {
     return this.http.get<Post[]>(this.baseUrl + requestEnd).pipe(
       map((response: Post[]) => {
         const posts = response;
         if (posts && posts.length > 0) {
           const curPosts = this.postsSource.value;
-          if (curPosts) {
+          if (curPosts && isNext) {
             this.postsSource.next([...curPosts, ...posts]);
           } else {
             this.postsSource.next(posts);
           }
+          console.log(curPosts);
         } else {
           this.hasNext = false;
         }
@@ -59,17 +61,27 @@ export class PostService {
 
   getNextPosts() {
     this.pageNumber += 1;
-    return this.getPostsAux({
-      pageNumber: this.pageNumber,
-    } as RequestSpec);
+    return this.getPostsFiltered(
+      {
+        pageNumber: this.pageNumber,
+      } as RequestSpec,
+      true
+    );
   }
 
-  getPostsAux(spec: RequestSpec) {
-    let requestEnd = 'posts';
+  getPostsFiltered(spec: RequestSpec, isNext: boolean) {
+    let requestEnd = 'posts?';
     if (spec.pageNumber) {
-      requestEnd = requestEnd + '?pageNumber=' + spec.pageNumber;
+      requestEnd = requestEnd + 'pageNumber=' + spec.pageNumber + '&';
     }
-    return this.getPostsFinalize(requestEnd);
+    if (spec.orderBy) {
+      requestEnd = requestEnd + 'OrderBy=' + spec.orderBy + '&';
+    }
+    if (spec.from) {
+      requestEnd = requestEnd + 'From=' + spec.from + '&';
+    }
+    console.log(requestEnd);
+    return this.getPostsFinalize(requestEnd, isNext);
   }
 
   getPost(postId: number) {

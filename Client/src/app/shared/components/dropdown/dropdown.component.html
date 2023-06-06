@@ -1,39 +1,41 @@
 <div class="relative h-full w-full">
   <div
-    class="flex items-center gap-5 p-2 cursor-pointer rounded-md h-full"
+    class="flex justify-between items-center gap-5 p-2 cursor-pointer rounded-md h-full border"
     (click)="active = !active"
   >
     <span>
-      {{ selectedOption }}
+      {{ selectedOption.value }}
     </span>
     <span class="material-icons">
-      {{ active ? "expand_less" : "expand_more" }}
+      {{ active ? 'expand_less' : 'expand_more' }}
     </span>
   </div>
 
   <!-- Options -->
   <div
     class="{{
-      active ? 'visible bg-gray-50' : 'invisible'
-    }} flex flex-col w-max absolute z-10 bg-white border rounded-md p-2 shadow-xl"
+      active ? 'visible bg-secondary_lighter' : 'invisible'
+    }} w-full flex flex-col w-max absolute z-10  border rounded-md p-2 shadow-xl"
   >
     <div
       *ngIf="hasAll"
       class="cursor-pointer border-b rounded-sm p-3 {{
-        selectedOption === 'All' ? 'bg-gray-300' : 'hover:bg-gray-50'
+        selectedOption.code === 'all'
+          ? 'bg-gray-300'
+          : 'hover:bg-primary_lighter'
       }} "
-      (click)="selectedOption = 'All'; active = false"
+      (click)="onOptionClick(defaultOption)"
     >
       All
     </div>
     <div
       class="cursor-pointer border-b rounded-sm p-3 {{
-        option === selectedOption ? 'bg-gray-300' : 'hover:bg-gray-50'
+        option === selectedOption ? 'bg-gray-300' : 'hover:bg-primary_lighter'
       }}"
       *ngFor="let option of options"
-      (click)="selectedOption = option; active = false"
+      (click)="onOptionClick(option)"
     >
-      {{ option }}
+      {{ option.value }}
     </div>
   </div>
 </div>
