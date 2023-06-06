@@ -64,6 +64,8 @@ public class PostRepository : IPostRepository
         query = parameters.OrderBy switch
         {
             "oldest" => query.OrderBy(post => post.Created),
+            "mostCommented" => query.OrderByDescending(post => post.Comments.Count()),
+            "mostLiked" => query.OrderByDescending(post => post.Votes.Sum(vote => (int)vote.Value)),
             _ => query.OrderByDescending(post => post.Created)
         };
 
