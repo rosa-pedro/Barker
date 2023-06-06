@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { PostService } from '../../services/post.service';
-import { Post } from '../../../../core/models/post/post.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -13,12 +11,14 @@ export class PostComponent implements OnInit {
   constructor(public postService: PostService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['id']);
     this.postService.getPost(this.route.snapshot.params['id']).subscribe();
   }
 
   upVote() {
-    console.log('upvote');
     this.postService.upVote(this.route.snapshot.params['id']).subscribe();
+  }
+
+  downVote() {
+    this.postService.downVote(this.route.snapshot.params['id']).subscribe();
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Subject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -77,7 +77,6 @@ export class PostService {
       map((post: Post) => {
         if (post) {
           this.currentPostSource.next(post);
-          console.log(post);
         }
       })
     );
@@ -89,11 +88,28 @@ export class PostService {
       .pipe(
         map((voteResponse) => {
           if (voteResponse) {
-            console.log(voteResponse);
             let curPost: FullPost = {
               ...this.currentPostSource.value!,
               votes: voteResponse.totalVotes,
-              vote: voteResponse.vote,
+              userVote: voteResponse.vote,
+            };
+            this.currentPostSource.next(curPost);
+            console.log(curPost);
+          }
+        })
+      );
+  }
+
+  downVote(postId: number) {
+    return this.http
+      .post<Vote>(this.baseUrl + `posts/${postId}/down-vote`, {})
+      .pipe(
+        map((voteResponse) => {
+          if (voteResponse) {
+            let curPost: FullPost = {
+              ...this.currentPostSource.value!,
+              votes: voteResponse.totalVotes,
+              userVote: voteResponse.vote,
             };
             this.currentPostSource.next(curPost);
           }
