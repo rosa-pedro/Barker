@@ -8,5 +8,6 @@ public class MicroPostDto
     public required string Photo { get; set; }
     public required DateTime Created { get; set; }
     public required int Votes { get; set; }
+    public required int Comments { get; set; }
     public required string Author { get; set; }
 }

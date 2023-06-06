@@ -62,6 +62,10 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.Votes,
                 options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
+            )
+            .ForMember(
+                destination => destination.Comments,
+                options => options.MapFrom(source => source.Comments.Count())
             );
 
         CreateMap<Post, FullPostDto>()
@@ -72,6 +76,10 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.Votes,
                 options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
+            )
+            .ForMember(
+                destination => destination.Comments,
+                options => options.MapFrom(source => source.Comments.Count())
             );
 
         var userVote = 0;
