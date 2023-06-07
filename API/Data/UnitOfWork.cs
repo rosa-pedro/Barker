@@ -18,6 +18,7 @@ public class UnitOfWork : IUnitOfWork
 
     public IUserRepository UserRepository => new UserRepository(_context, _mapper);
     public IPostRepository PostRepository => new PostRepository(_context, _mapper);
+    public IPetRepository PetRepository => new PetRepository(_context, _mapper);
     public ICommentRepository CommentRepository => new CommentRepository(_context, _mapper);
     public IVoteRepository VoteRepository => new VoteRepository(_context);
 

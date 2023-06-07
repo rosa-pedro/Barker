@@ -79,7 +79,6 @@ public class PostsController : ApiController
     {
         var userName = User.GetUserName();
         var user = await _unitOfWork.UserRepository.GetApplicationUserAsync(userName);
-
         if (user == null)
             return Unauthorized();
 
@@ -101,14 +100,14 @@ public class PostsController : ApiController
     [HttpPut("{postId:int}")]
     public async Task<ActionResult> UpdatePost(int postId, [FromBody] UpdatePostDto body)
     {
-        var username = User.GetUserName();
+        var userName = User.GetUserName();
 
         var post = await _unitOfWork.PostRepository.GetApplicationPostAsync(postId);
 
         if (post == null)
             return NotFound();
 
-        if (username != post.Author.UserName)
+        if (userName != post.Author.UserName)
             return Unauthorized("You cannot update other users' posts");
 
         _mapper.Map(body, post);
