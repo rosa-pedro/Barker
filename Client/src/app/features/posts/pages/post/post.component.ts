@@ -11,7 +11,12 @@ export class PostComponent implements OnInit {
   constructor(public postService: PostService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.postService.getPost(this.route.snapshot.params['id']).subscribe();
+    this.postService.getPost(this.route.snapshot.params['id']).subscribe({
+      next: () => {},
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   upVote() {

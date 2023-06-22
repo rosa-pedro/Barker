@@ -24,6 +24,8 @@ export class DropdownComponent {
   @Input() filterName: string = 'Filter by';
   @Input() hasAll: boolean = true;
 
+  @Input() label: string = '';
+
   @Output('selectionChange') selectionChange = new EventEmitter<string>();
 
   defaultOption: DropdownOption = { code: 'all', value: 'All' };

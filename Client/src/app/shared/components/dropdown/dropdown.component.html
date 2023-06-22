@@ -1,9 +1,10 @@
 <div class="relative h-full w-full">
+  <!--  <label class="text-xs"> {{ label }} </label>-->
   <div
     class="flex justify-between items-center gap-5 p-2 cursor-pointer rounded-md h-full border"
     (click)="active = !active"
   >
-    <span>
+    <span class="text-sm">
       {{ selectedOption.value }}
     </span>
     <span class="material-icons">
@@ -14,24 +15,24 @@
   <!-- Options -->
   <div
     class="{{
-      active ? 'visible bg-secondary_lighter' : 'invisible'
-    }} w-full flex flex-col w-max absolute z-10  border rounded-md p-2 shadow-xl"
+      active ? 'visible ' : 'invisible'
+    }} w-full flex flex-col w-max absolute z-10  border rounded-md p-1 shadow-xl text-sm"
   >
     <div
       *ngIf="hasAll"
-      class="cursor-pointer border-b rounded-sm p-3 {{
-        selectedOption.code === 'all'
-          ? 'bg-gray-300'
-          : 'hover:bg-primary_lighter'
-      }} "
+      class="cursor-pointer border-b border-primary rounded-sm p-3 {{
+        selectedOption.code === 'all' ? 'bg-primary text-white' : ''
+      }} hover:bg-primary_lighter hover:text-white"
       (click)="onOptionClick(defaultOption)"
     >
       All
     </div>
     <div
-      class="cursor-pointer border-b rounded-sm p-3 {{
-        option === selectedOption ? 'bg-gray-300' : 'hover:bg-primary_lighter'
-      }}"
+      class="cursor-pointer border-b border-primary rounded-sm p-3 {{
+        option === selectedOption
+          ? 'bg-primary text-white'
+          : 'hover:bg-primary_lighter '
+      }} text-sm hover:text-white"
       *ngFor="let option of options"
       (click)="onOptionClick(option)"
     >
