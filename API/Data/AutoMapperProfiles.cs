@@ -14,6 +14,7 @@ public class AutoMapperProfiles : Profile
         MapPost();
         MapComment();
         MapVote();
+        MapPet();
     }
 
     private void MapUser()
@@ -62,6 +63,10 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.Votes,
                 options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
+            )
+            .ForMember(
+                destination => destination.Comments,
+                options => options.MapFrom(source => source.Comments.Count())
             );
 
         CreateMap<Post, FullPostDto>()
@@ -72,6 +77,10 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.Votes,
                 options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
+            )
+            .ForMember(
+                destination => destination.Comments,
+                options => options.MapFrom(source => source.Comments.Count())
             );
 
         var userVote = 0;
@@ -117,5 +126,40 @@ public class AutoMapperProfiles : Profile
                 destination => destination.Voter,
                 options => options.MapFrom(source => source.User.UserName)
             );
+    }
+
+    private void MapPet()
+    {
+        CreateMap<Pet, PetDto>()
+            .ForMember(
+                destination => destination.Age,
+                options => options.MapFrom(source => source.DateOfBirth.CalculateAge())
+            );
+
+        CreateMap<CreatePetDto, Pet>()
+            .ForMember(
+                destination => destination.DateOfBirth,
+                options =>
+                    options.MapFrom(
+                        source =>
+                            source.DateOfBirth != null
+                                ? DateOnly.Parse(source.DateOfBirth)
+                                : DateOnly.FromDateTime(DateTime.UtcNow)
+                    )
+            )
+            .ForAllMembers(options => options.Condition((_, _, value) => value != null));
+
+        CreateMap<UpdatePetDto, Pet>()
+            .ForMember(
+                destination => destination.DateOfBirth,
+                options =>
+                    options.MapFrom(
+                        source =>
+                            source.DateOfBirth != null
+                                ? DateOnly.Parse(source.DateOfBirth)
+                                : DateOnly.FromDateTime(DateTime.UtcNow)
+                    )
+            )
+            .ForAllMembers(options => options.Condition((_, _, value) => value != null));
     }
 }

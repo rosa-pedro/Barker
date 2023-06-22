@@ -21,6 +21,7 @@ public class DataContext
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<PostVote> Votes => Set<PostVote>();
+    public DbSet<Pet> Pets => Set<Pet>();
 
     public DataContext(DbContextOptions options)
         : base(options) { }
@@ -50,6 +51,14 @@ public class DataContext
             .HasMany(user => user.Posts)
             .WithOne(post => post.Author)
             .HasForeignKey("AuthorId")
+            .IsRequired();
+
+        // One to many relationship between User and Pet
+        builder
+            .Entity<User>()
+            .HasMany(user => user.Pets)
+            .WithOne(post => post.Owner)
+            .HasForeignKey("OwnerId")
             .IsRequired();
 
         // Many to many vote relationship between Post and User
