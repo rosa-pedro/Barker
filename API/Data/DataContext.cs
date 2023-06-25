@@ -22,6 +22,9 @@ public class DataContext
     public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<PostVote> Votes => Set<PostVote>();
     public DbSet<Pet> Pets => Set<Pet>();
+    public DbSet<Message> Messages => Set<Message>();
+    public DbSet<Group> Groups => Set<Group>();
+    public DbSet<Connection> Connections => Set<Connection>();
 
     public DataContext(DbContextOptions options)
         : base(options) { }
@@ -77,5 +80,21 @@ public class DataContext
             .WithMany(user => user.PostsVoted)
             .HasForeignKey(vote => vote.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Many to many message relationship between users
+
+        builder
+            .Entity<Message>()
+            .HasOne<User>(message => message.Sender)
+            .WithMany(user => user.MessagesSent)
+            .HasForeignKey(message => message.SenderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+            .Entity<Message>()
+            .HasOne<User>(message => message.Recipient)
+            .WithMany(user => user.MessagesReceived)
+            .HasForeignKey(message => message.RecipientId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

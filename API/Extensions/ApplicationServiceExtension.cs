@@ -23,6 +23,10 @@ public static class ApplicationServiceExtension
         // Photo Service
         services.AddScoped<IPhotoService, PhotoService>();
 
+        // Messages
+        services.AddSignalR();
+        services.AddSingleton<PresenceTracker>();
+
         return services;
     }
 }
