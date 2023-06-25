@@ -43,7 +43,6 @@ export class DropdownComponent {
   onOptionClick(option: DropdownOption) {
     this.selectedOption = option;
     this.active = false;
-    console.log(option);
     this.selectionChange.emit(option.code);
   }
 }

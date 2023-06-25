@@ -51,7 +51,6 @@ export class PostService {
           } else {
             this.postsSource.next(posts);
           }
-          console.log(curPosts);
         } else {
           this.hasNext = false;
         }

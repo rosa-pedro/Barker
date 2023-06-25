@@ -38,8 +38,8 @@ export class PostsComponent implements OnInit {
     general: {
       name: 'general',
       options: [
-        { code: ' ', value: 'More comments' },
-        { code: ' ', value: 'Most liked' },
+        { code: 'moreComments', value: 'More comments' },
+        { code: 'mostLiked', value: 'Most liked' },
         { code: 'newest', value: 'Newest' },
         { code: 'oldest', value: 'Oldest' },
       ] as DropdownOption[],
@@ -56,7 +56,6 @@ export class PostsComponent implements OnInit {
   };
 
   orderBy(filter: 'general' | 'date', option: string) {
-    // TODO: improve this code cause its messy
     console.log(this.filters[filter].options.find((o) => o.code === option));
 
     const findInFilters = this.filters[filter].options.find(
@@ -81,7 +80,10 @@ export class PostsComponent implements OnInit {
 
     this.postService.getPostsFiltered(this.filtering, false).subscribe({
       next: (value) => {
-        console.log(value);
+        if (value === undefined) {
+          // TODO: Implement a toast to display this message
+          console.log(value);
+        }
       },
     });
   }
