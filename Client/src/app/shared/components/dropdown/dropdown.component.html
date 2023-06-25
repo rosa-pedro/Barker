@@ -1,39 +1,42 @@
 <div class="relative h-full w-full">
+  <!--  <label class="text-xs"> {{ label }} </label>-->
   <div
-    class="flex items-center gap-5 p-2 cursor-pointer rounded-md h-full"
+    class="flex justify-between items-center gap-5 p-2 cursor-pointer rounded-md h-full border"
     (click)="active = !active"
   >
-    <span>
-      {{ selectedOption }}
+    <span class="text-xs">
+      {{ selectedOption.value }}
     </span>
     <span class="material-icons">
-      {{ active ? "expand_less" : "expand_more" }}
+      {{ active ? 'expand_less' : 'expand_more' }}
     </span>
   </div>
 
   <!-- Options -->
   <div
     class="{{
-      active ? 'visible bg-gray-50' : 'invisible'
-    }} flex flex-col w-max absolute z-10 bg-white border rounded-md p-2 shadow-xl"
+      active ? 'visible ' : 'invisible'
+    }} w-full flex flex-col w-max absolute z-10  border rounded-md p-1 shadow-xl text-xs"
   >
     <div
       *ngIf="hasAll"
-      class="cursor-pointer border-b rounded-sm p-3 {{
-        selectedOption === 'All' ? 'bg-gray-300' : 'hover:bg-gray-50'
-      }} "
-      (click)="selectedOption = 'All'; active = false"
+      class="cursor-pointer border-b border-primary rounded-sm p-3 {{
+        selectedOption.code === 'all' ? 'bg-primary text-white' : ''
+      }} hover:bg-primary_lighter hover:text-white"
+      (click)="onOptionClick(defaultOption)"
     >
       All
     </div>
     <div
-      class="cursor-pointer border-b rounded-sm p-3 {{
-        option === selectedOption ? 'bg-gray-300' : 'hover:bg-gray-50'
-      }}"
+      class="cursor-pointer border-b border-primary rounded-sm p-3 {{
+        option === selectedOption
+          ? 'bg-primary text-white'
+          : 'hover:bg-primary_lighter '
+      }} text-xs hover:text-white"
       *ngFor="let option of options"
-      (click)="selectedOption = option; active = false"
+      (click)="onOptionClick(option)"
     >
-      {{ option }}
+      {{ option.value }}
     </div>
   </div>
 </div>

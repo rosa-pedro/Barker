@@ -96,6 +96,10 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.UserVote,
                 options => options.MapFrom(source => userVote)
+            )
+            .ForMember(
+                destination => destination.Comments,
+                options => options.MapFrom(source => (int) source.Comments.Count())
             );
 
         CreateMap<UpdatePostDto, Post>()

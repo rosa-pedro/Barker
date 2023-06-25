@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { PostService } from '../../services/post.service';
+import { PostService, RequestSpec } from '../../services/post.service';
+import { DropdownOption } from '../../../../shared/components/dropdown/dropdown.component';
 
 @Component({
   selector: 'app-posts',
@@ -7,7 +8,7 @@ import { PostService } from '../../services/post.service';
   styleUrls: ['./posts.component.scss'],
 })
 export class PostsComponent implements OnInit {
-  // posts$: Observable<Post[]> | undefined;
+  filtering: RequestSpec = {};
 
   constructor(public postService: PostService) {}
 
@@ -22,9 +23,11 @@ export class PostsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.postService.getPosts().subscribe({
-      next: (posts) => {},
-    });
+    this.loadPosts();
+  }
+
+  private loadPosts() {
+    this.postService.getPosts().subscribe();
   }
 
   private loadMore() {
@@ -34,11 +37,54 @@ export class PostsComponent implements OnInit {
   filters = {
     general: {
       name: 'general',
-      options: ['More comments', 'Most liked', 'Newest', 'Oldest'],
+      options: [
+        { code: 'moreComments', value: 'More comments' },
+        { code: 'mostLiked', value: 'Most liked' },
+        { code: 'newest', value: 'Newest' },
+        { code: 'oldest', value: 'Oldest' },
+      ] as DropdownOption[],
     },
     date: {
       name: 'date',
-      options: ['Today', 'Last week', 'Last month'],
+      options: [
+        { code: 'today', value: 'Today' },
+        { code: 'lastWeek', value: 'Last week' },
+        { code: 'lastMonth', value: 'Last month' },
+        { code: 'lastYear', value: 'Last year' },
+      ] as DropdownOption[],
     },
   };
+
+  orderBy(filter: 'general' | 'date', option: string) {
+    console.log(this.filters[filter].options.find((o) => o.code === option));
+
+    const findInFilters = this.filters[filter].options.find(
+      (o) => o.code === option
+    );
+
+    const chosenOption = findInFilters
+      ? findInFilters
+      : { code: 'all', value: 'All' };
+    if (filter === 'general') {
+      if (option === 'all') {
+        this.filtering.orderBy = undefined;
+      }
+      this.filtering.orderBy = chosenOption!.code;
+    }
+    if (filter === 'date') {
+      this.filtering.from = chosenOption!.code;
+      if (option === 'all') {
+        this.filtering.from = undefined;
+      }
+    }
+
+    this.postService.getPostsFiltered(this.filtering, false).subscribe({
+      next: (value) => {
+        if (value === undefined) {
+          // TODO: Implement a toast to display this message
+          console.log(value);
+        }
+      },
+    });
+  }
 }
