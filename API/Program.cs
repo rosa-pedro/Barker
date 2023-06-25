@@ -39,6 +39,7 @@ app.UseAuthorization();
 app.UseStaticFiles();
 
 app.MapControllers();
+app.MapHubs();
 
 app.SeedDatabase();
 
