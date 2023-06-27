@@ -1,6 +1,7 @@
 using System.Text.Json;
 
 using API.Entities;
+using API.Enumerations;
 using API.Interfaces;
 
 using Microsoft.AspNetCore.Identity;
@@ -46,6 +47,33 @@ public static class Seed
         }
     }
 
+    public static async Task SeedPets(IUnitOfWork unitOfWork)
+    {
+        if (await unitOfWork.PetRepository.AnyAsync())
+            return;
+
+        const string filePath = "Data/PetSeedData.json";
+        var pets = await ReadFile<Pet>(filePath);
+
+        var random = new Random();
+        var users = await unitOfWork.UserRepository.GetApplicationUsersAsync();
+        var totalUsers = users.Count;
+
+        foreach (var pet in pets)
+        {
+            var index = random.Next(totalUsers);
+
+            pet.Name = pet.Name.ToLower();
+            pet.Created = DateTime.SpecifyKind(pet.Created, DateTimeKind.Utc);
+            pet.Owner = users.ElementAt(index);
+
+            unitOfWork.PetRepository.AddPet(pet);
+        }
+
+        if (!await unitOfWork.Complete())
+            throw new Exception("An error occurred during seeding pets");
+    }
+
     public static async Task SeedPosts(IUnitOfWork unitOfWork)
     {
         if (await unitOfWork.PostRepository.AnyAsync())
@@ -76,11 +104,17 @@ public static class Seed
             "lastYear"
         };
 
+        var votes = new[] { VoteType.UpVote, VoteType.NullVote, VoteType.DownVote };
+
         foreach (var post in posts)
         {
-            var index = random.Next(totalUsers);
-
+            var userIndex = random.Next(totalUsers);
+            var voteIndex = random.Next(votes.Length);
             var daysBalancingIndex = random.Next(daysBalancing.Length);
+
+            var user = users.ElementAt(userIndex);
+            var vote = votes.ElementAt(voteIndex);
+
             var daysBefore = daysBalancing[daysBalancingIndex] switch
             {
                 "today" => random.Next(today),
@@ -92,7 +126,15 @@ public static class Seed
             post.Created = DateTime
                 .SpecifyKind(post.Created, DateTimeKind.Utc)
                 .AddDays(-daysBefore);
-            post.Author = users.ElementAt(index);
+            post.Author = user;
+
+            var userVote = new PostVote
+            {
+                UserId = user.Id,
+                PostId = post.Id,
+                Value = vote
+            };
+            post.Votes.Add(userVote);
 
             unitOfWork.PostRepository.AddPost(post);
         }
