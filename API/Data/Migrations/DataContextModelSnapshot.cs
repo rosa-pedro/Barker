@@ -49,7 +49,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Connection", b =>
@@ -68,7 +68,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("GroupName");
 
-                    b.ToTable("Connections");
+                    b.ToTable("Connections", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Group", b =>
@@ -78,7 +78,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Name");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Message", b =>
@@ -125,7 +125,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Pet", b =>
@@ -165,7 +165,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Pets");
+                    b.ToTable("Pets", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Post", b =>
@@ -198,7 +198,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.PostVote", b =>
@@ -216,7 +216,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Votes");
+                    b.ToTable("Votes", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Role", b =>

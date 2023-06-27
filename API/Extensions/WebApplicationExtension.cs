@@ -24,6 +24,7 @@ public static class WebApplicationExtension
 
             await context.Database.MigrateAsync();
             await Seed.SeedUsers(userManager, roleManager);
+            await Seed.SeedPets(unitOfWork);
             await Seed.SeedPosts(unitOfWork);
             await Seed.SeedComments(unitOfWork);
         }
