@@ -1,0 +1,39 @@
+<div *ngIf="profileService.member$ | async" class="flex flex-col gap-5 w-full">
+  <span class="text-secondary font-semibold text-3xl">
+    @{{ (profileService.member$ | async)?.userName }}
+  </span>
+
+  <app-button
+    *ngIf="!isAuthenticatedUser"
+    class="w-1/4"
+    message="Send message"
+    icon="chat"
+    [outlined]="true"
+    (click)="sendMessage()"
+  ></app-button>
+
+  <app-button
+    *ngIf="isAuthenticatedUser"
+    class="w-1/4"
+    message="Edit profile"
+    icon="chat"
+    [outlined]="true"
+    (click)="editProfile()"
+  ></app-button>
+
+  <app-profile-tabs>
+    <app-profile-tab
+      *ngFor="let option of options; let i = index"
+      [option]="option"
+      [active]="option.code === activeTab"
+    >
+      <div [ngSwitch]="option.code">
+        <div *ngSwitchCase="'about'">
+          <app-personal-info></app-personal-info>
+        </div>
+        <div *ngSwitchCase="'pets'">this is pets</div>
+        <div *ngSwitchCase="'posts'">this is posts</div>
+      </div>
+    </app-profile-tab>
+  </app-profile-tabs>
+</div>

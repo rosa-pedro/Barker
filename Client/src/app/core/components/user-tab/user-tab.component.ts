@@ -1,9 +1,6 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-} from '@angular/core';
+import { Component, ElementRef, Input } from '@angular/core';
 import { AuthService } from '../../../features/auth/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-tab',
@@ -20,15 +17,12 @@ export class UserTabComponent {
 
   constructor(
     private _eref: ElementRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   onClick(event: any) {
-    if (
-      !this._eref.nativeElement.contains(
-        event.target
-      )
-    ) {
+    if (!this._eref.nativeElement.contains(event.target)) {
       this.active = false;
     }
   }
@@ -51,6 +45,7 @@ export class UserTabComponent {
         this.authService.logout();
         break;
       case 'Profile':
+        this.router.navigate(['profile', this.userName]);
         break;
       default:
         break;

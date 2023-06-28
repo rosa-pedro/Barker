@@ -1,10 +1,19 @@
 <button
   [disabled]="disabled"
-  class="flex items-center justify-center w-full hover:opacity-75 transition-opacity ease-out {{
+  class="flex flex-row items-center justify-center w-full hover:opacity-75 transition-opacity ease-out {{
     disabled ? 'brightness-75' : ''
   }} {{ size === 'lg' ? ' h-14 rounded-lg' : 'h-10 rounded-full' }} {{
     outlined ? borderColor : color
   }} {{ outlined ? textColor : 'text-white' }} font-medium"
 >
-  {{ message }}
+  <span
+    class="material-icons {{
+      outlined ? 'text-primary' : 'text-white'
+    }} mr-2 text-base"
+  >
+    {{ icon }}
+  </span>
+  <span>
+    {{ message }}
+  </span>
 </button>

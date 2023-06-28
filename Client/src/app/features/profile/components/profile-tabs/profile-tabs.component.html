@@ -1,0 +1,14 @@
+<div class="flex flex-row w-full border-b border-b-secondary gap-5">
+  <div *ngFor="let tab of tabs" class="cursor-pointer" (click)="selectTab(tab)">
+    <div
+      class="flex w-fit px-2 text-primary gap-2"
+      [ngClass]="{
+        'border-b-2 border-b-primary': tab.active
+      }"
+    >
+      <span class="material-icons text-base"> {{ tab.option.icon }} </span>
+      <span class="font-semibold">{{ tab.option.value }}</span>
+    </div>
+  </div>
+</div>
+<ng-content></ng-content>

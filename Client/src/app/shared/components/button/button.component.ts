@@ -11,6 +11,7 @@ export class ButtonComponent {
   @Input() size: string = '';
   @Input() disabled: boolean = false;
   @Input() outlined: boolean = false;
+  @Input() icon: string = '';
 
   colors = {
     error: {
@@ -47,20 +48,14 @@ export class ButtonComponent {
 
   get color(): string {
     // return 'bg-' + this.type
-    return this.colors[
-      this.type as keyof typeof this.colors
-    ].color;
+    return this.colors[this.type as keyof typeof this.colors].color;
   }
 
   get borderColor(): string {
-    return this.colors[
-      this.type as keyof typeof this.colors
-    ].borderColor;
+    return this.colors[this.type as keyof typeof this.colors].borderColor;
   }
 
   get textColor(): string {
-    return this.colors[
-      this.type as keyof typeof this.colors
-    ].text;
+    return this.colors[this.type as keyof typeof this.colors].text;
   }
 }
