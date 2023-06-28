@@ -25,6 +25,14 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.Age,
                 options => options.MapFrom(source => source.DateOfBirth.CalculateAge())
+            )
+            .ForMember(
+                destination => destination.NumberOfPosts,
+                options => options.MapFrom(source => source.Posts.Count())
+            )
+            .ForMember(
+                destination => destination.NumberOfPets,
+                options => options.MapFrom(source => source.Pets.Count())
             );
 
         CreateMap<RegisterDto, User>()
@@ -105,7 +113,7 @@ public class AutoMapperProfiles : Profile
             )
             .ForMember(
                 destination => destination.Comments,
-                options => options.MapFrom(source => (int) source.Comments.Count())
+                options => options.MapFrom(source => (int)source.Comments.Count())
             );
 
         CreateMap<UpdatePostDto, Post>()
