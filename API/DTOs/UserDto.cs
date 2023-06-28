@@ -15,6 +15,8 @@ public class UserDto
     public required string Photo { get; set; }
 
     public required int Age { get; set; }
+    public int NumberOfPosts { get; set; }
+    public int NumberOfPets { get; set; }
 
     public required DateTime Created { get; set; }
     public required DateTime LastActive { get; set; }
