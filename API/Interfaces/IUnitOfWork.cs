@@ -7,6 +7,7 @@ public interface IUnitOfWork
     IPetRepository PetRepository { get; }
     ICommentRepository CommentRepository { get; }
     IVoteRepository VoteRepository { get; }
+    IMessageRepository MessageRepository { get; }
     Task<bool> Complete();
     bool HasChanges();
 }

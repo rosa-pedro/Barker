@@ -15,6 +15,8 @@ public class AutoMapperProfiles : Profile
         MapComment();
         MapVote();
         MapPet();
+        MapMessage();
+        MapDateTime();
     }
 
     private void MapUser()
@@ -94,6 +96,10 @@ public class AutoMapperProfiles : Profile
                 options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
             )
             .ForMember(
+                destination => destination.Comments,
+                options => options.MapFrom(source => source.Comments.Count())
+            )
+            .ForMember(
                 destination => destination.UserVote,
                 options => options.MapFrom(source => userVote)
             )
@@ -165,5 +171,28 @@ public class AutoMapperProfiles : Profile
                     )
             )
             .ForAllMembers(options => options.Condition((_, _, value) => value != null));
+    }
+
+    private void MapMessage()
+    {
+        CreateMap<Message, MessageDto>()
+            .ForMember(
+                destination => destination.SenderPhoto,
+                options => options.MapFrom(source => source.Sender.Photo)
+            )
+            .ForMember(
+                destination => destination.RecipientPhoto,
+                options => options.MapFrom(source => source.Recipient.Photo)
+            );
+    }
+
+    private void MapDateTime()
+    {
+        CreateMap<DateTime, DateTime>()
+            .ConvertUsing(date => DateTime.SpecifyKind(date, DateTimeKind.Utc));
+        CreateMap<DateTime?, DateTime?>()
+            .ConvertUsing(
+                date => date.HasValue ? DateTime.SpecifyKind(date.Value, DateTimeKind.Utc) : null
+            );
     }
 }

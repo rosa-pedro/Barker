@@ -18,5 +18,7 @@ public class User : IdentityUser<int>
     public IEnumerable<Pet> Pets { get; } = new List<Pet>();
     public IEnumerable<Post> Posts { get; } = new List<Post>();
     public IEnumerable<PostVote> PostsVoted { get; set; } = new List<PostVote>();
+    public IEnumerable<Message> MessagesSent { get; set; } = new List<Message>();
+    public IEnumerable<Message> MessagesReceived { get; set; } = new List<Message>();
     public IEnumerable<UserRole> UserRoles { get; set; } = null!;
 }

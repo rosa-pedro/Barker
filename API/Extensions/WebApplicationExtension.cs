@@ -1,5 +1,6 @@
 using API.Data;
 using API.Entities;
+using API.Hubs;
 using API.Interfaces;
 
 using Microsoft.AspNetCore.Identity;
@@ -23,6 +24,7 @@ public static class WebApplicationExtension
 
             await context.Database.MigrateAsync();
             await Seed.SeedUsers(userManager, roleManager);
+            await Seed.SeedPets(unitOfWork);
             await Seed.SeedPosts(unitOfWork);
             await Seed.SeedComments(unitOfWork);
         }
@@ -43,5 +45,11 @@ public static class WebApplicationExtension
                     .AllowCredentials()
                     .WithOrigins("http://localhost:4200")
         );
+    }
+
+    public static void MapHubs(this WebApplication application)
+    {
+        application.MapHub<PresenceHub>("hubs/presence");
+        application.MapHub<MessageHub>("hubs/message");
     }
 }

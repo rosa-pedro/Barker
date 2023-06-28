@@ -37,7 +37,7 @@ public class PhotoService : IPhotoService
         }
     }
 
-    public void DeletePhotoAsync(string photo)
+    public bool DeletePhotoAsync(string photo)
     {
         if (photo.IsNullOrEmpty())
             throw new Exception("Photo does not exist");
@@ -51,7 +51,7 @@ public class PhotoService : IPhotoService
             var fullPhotoPath = Path.Combine(rootDirectory, photoPath);
 
             if (!File.Exists(fullPhotoPath))
-                throw new Exception("Photo does not exist");
+                return false;
 
             File.Delete(fullPhotoPath);
         }
@@ -60,6 +60,8 @@ public class PhotoService : IPhotoService
             Console.WriteLine(exception);
             throw new Exception("Photo deletion failed", exception);
         }
+
+        return true;
     }
 
     private string GenerateRandomPhotoName()
