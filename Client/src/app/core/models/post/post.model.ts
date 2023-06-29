@@ -6,4 +6,5 @@ export interface Post {
   votes: number;
   author: string;
   photo: string;
+  comments: number;
 }

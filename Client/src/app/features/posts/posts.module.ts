@@ -17,5 +17,6 @@ import { PostCardComponent } from './components/post-card/post-card.component';
   imports: [PostsRoutingModule, CommonModule, ComponentsModule],
   providers: [],
   bootstrap: [],
+  exports: [PostsComponent],
 })
 export class PostsModule {}

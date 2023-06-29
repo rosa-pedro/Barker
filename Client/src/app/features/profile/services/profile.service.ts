@@ -4,7 +4,8 @@ import { BehaviorSubject, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../auth/services/auth.service';
 import { Member } from '../../../core/models/member/member.model';
-import { PetService } from './pet.service';
+import { PostService, RequestSpec } from '../../posts/services/post.service';
+import { Post } from '../../../core/models/post/post.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +16,13 @@ export class ProfileService {
   private memberSource = new BehaviorSubject<Member | null>(null);
   member$ = this.memberSource.asObservable();
 
+  private userPostsSource = new BehaviorSubject<Post[] | null>(null);
+  userPosts$ = this.userPostsSource.asObservable();
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
-    private petsService: PetService
+    private postService: PostService
   ) {}
 
   getMember(userName: string) {
@@ -34,8 +38,17 @@ export class ProfileService {
     );
   }
 
-  getPets() {
-    return this.petsService.getPets();
+  getPostsFromUser(username: string) {
+    const fromUser: RequestSpec = {
+      username: username,
+    };
+    return this.postService.getPostsFiltered(fromUser, false).subscribe({
+      next: (posts: Post[]) => {
+        if (posts) {
+          this.userPostsSource.next(posts);
+        }
+      },
+    });
   }
 
   isAuthenticatedUser(): boolean {

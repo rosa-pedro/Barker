@@ -12,4 +12,32 @@
       {{ (profileService.member$ | async)?.created | timeago }}
     </span>
   </div>
+  <div
+    *ngIf="(profileService.member$ | async)?.numberOfPosts! > 0; else noPets"
+    class="flex flex-row gap-2 items-center"
+  >
+    <span class="font-semibold text-sm text-primary"> Number of pets </span>
+    <span class="font-semibold text-secondary">
+      {{ (profileService.member$ | async)?.numberOfPets }}
+    </span>
+  </div>
+  <ng-template #noPets>
+    <div *ngIf="!profileService.isAuthenticatedUser()">
+      This user doesn't have pets yet.
+    </div>
+  </ng-template>
+  <div
+    *ngIf="(profileService.member$ | async)?.numberOfPosts! > 0; else noPosts"
+    class="flex flex-row gap-2 items-center"
+  >
+    <span class="font-semibold text-sm text-primary"> Number of posts </span>
+    <span class="font-semibold text-secondary">
+      {{ (profileService.member$ | async)?.numberOfPosts }}
+    </span>
+  </div>
+  <ng-template #noPosts>
+    <div *ngIf="!profileService.isAuthenticatedUser()">
+      This user hasn't posted yet.
+    </div>
+  </ng-template>
 </div>

@@ -1,4 +1,10 @@
-import { Component, ContentChildren, QueryList } from '@angular/core';
+import {
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Output,
+  QueryList,
+} from '@angular/core';
 import { ProfileTabComponent } from './profile-tab/profile-tab.component';
 import { Router } from '@angular/router';
 
@@ -8,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile-tabs.component.scss'],
 })
 export class ProfileTabsComponent {
+  @Output('selectionChange') selectionChange = new EventEmitter<string>();
   @ContentChildren(ProfileTabComponent) tabs:
     | QueryList<ProfileTabComponent>
     | undefined;
@@ -20,5 +27,6 @@ export class ProfileTabsComponent {
     });
     tab.active = true;
     this.router.navigate([], { queryParams: { tab: tab.option.code } });
+    this.selectionChange.emit(tab.option.code);
   }
 }

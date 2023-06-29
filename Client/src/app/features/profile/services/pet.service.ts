@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, map } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Pet } from '../../../core/models/pet/pet.model';
 
 @Injectable({
@@ -14,8 +14,10 @@ export class PetService {
   pets$ = this.petsSource.asObservable();
   constructor(private http: HttpClient) {}
 
-  getPets() {
-    return this.http.get<Pet[]>(this.baseUrl + 'pets').pipe(
+  getPets(owner: string) {
+    let body = { owner: owner };
+    let params = new HttpParams().set('requestData', JSON.stringify(body));
+    return this.http.get<Pet[]>(this.baseUrl + 'pets', { params: params }).pipe(
       map((pets: Pet[]) => {
         if (pets) {
           this.petsSource.next(pets);

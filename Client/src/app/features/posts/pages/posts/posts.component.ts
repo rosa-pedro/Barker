@@ -39,7 +39,7 @@ export class PostsComponent implements OnInit {
     general: {
       name: 'general',
       options: [
-        { code: 'moreComments', value: 'More comments' },
+        { code: 'mostCommented', value: 'More comments' },
         { code: 'mostLiked', value: 'Most liked' },
         { code: 'newest', value: 'Newest' },
         { code: 'oldest', value: 'Oldest' },

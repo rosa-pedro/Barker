@@ -13,4 +13,6 @@ export interface Member {
   age: number;
   created: Date;
   lastActive: Date;
+  numberOfPosts: number;
+  numberOfPets: number;
 }

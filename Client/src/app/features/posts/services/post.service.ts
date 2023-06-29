@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -40,9 +40,13 @@ export class PostService {
     return this.getPostsFinalize('posts');
   }
 
-  private getPostsFinalize(requestEnd: string, isNext?: boolean) {
+  private getPostsFinalize(
+    requestEnd: string,
+    isNext?: boolean
+  ): Observable<Post[]> {
     return this.http.get<Post[]>(this.baseUrl + requestEnd).pipe(
       map((response: Post[]) => {
+        console.log(response);
         const posts = response;
         if (posts && posts.length > 0) {
           const curPosts = this.postsSource.value;
@@ -54,6 +58,7 @@ export class PostService {
         } else {
           this.hasNext = false;
         }
+        return response;
       })
     );
   }
@@ -78,6 +83,9 @@ export class PostService {
     }
     if (spec.from) {
       requestEnd = requestEnd + 'From=' + spec.from + '&';
+    }
+    if (spec.username) {
+      requestEnd = requestEnd + 'username=' + spec.username + '&';
     }
     console.log(requestEnd);
     return this.getPostsFinalize(requestEnd, isNext);

@@ -21,7 +21,7 @@
     (click)="editProfile()"
   ></app-button>
 
-  <app-profile-tabs>
+  <app-profile-tabs (selectionChange)="selectionChange($event)">
     <app-profile-tab
       *ngFor="let option of options; let i = index"
       [option]="option"
@@ -34,7 +34,9 @@
         <div *ngSwitchCase="'pets'">
           <app-pets></app-pets>
         </div>
-        <div *ngSwitchCase="'posts'">this is posts</div>
+        <div *ngSwitchCase="'posts'">
+          <app-posts-tab></app-posts-tab>
+        </div>
       </div>
     </app-profile-tab>
   </app-profile-tabs>
