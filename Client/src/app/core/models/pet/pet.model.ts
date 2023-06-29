@@ -7,4 +7,5 @@ export interface Pet {
   owner: string;
   age: number;
   created: Date;
+  gender: string;
 }

@@ -1,4 +1,7 @@
-<div class="flex flex-col h-full overflow-y-scroll gap-5 h-[65vh]">
+<div
+  *ngIf="profileService.userPosts$ | async; else noPosts"
+  class="flex flex-col h-full gap-5"
+>
   <div
     *ngFor="let post of profileService.userPosts$ | async"
     class="w-full drop-shadow-md rounded-lg hover:brightness-95 hover:cursor-pointer"
@@ -36,3 +39,22 @@
     </div>
   </div>
 </div>
+
+<ng-template #noPosts>
+  <div
+    *ngIf="profileService.isAuthenticatedUser(); else notAuth"
+    class="flex flex-row justify-center"
+  >
+    <span class="text-sm text-primary">
+      You have no added posts. <br />
+      You can add a post
+      <span
+        class="underline text-secondary font-semibold hover:font-bold hover:cursor-pointer"
+      >
+        here</span
+      >.
+    </span>
+  </div>
+
+  <ng-template #notAuth> There are no posts </ng-template>
+</ng-template>

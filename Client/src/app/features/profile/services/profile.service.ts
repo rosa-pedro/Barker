@@ -44,7 +44,7 @@ export class ProfileService {
     };
     return this.postService.getPostsFiltered(fromUser, false).subscribe({
       next: (posts: Post[]) => {
-        if (posts) {
+        if (posts && posts.length > 0) {
           this.userPostsSource.next(posts);
         }
       },

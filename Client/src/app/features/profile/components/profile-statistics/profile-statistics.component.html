@@ -22,7 +22,10 @@
     </span>
   </div>
   <ng-template #noPets>
-    <div *ngIf="!profileService.isAuthenticatedUser()">
+    <div
+      class="font-semibold text-sm text-primary"
+      *ngIf="!profileService.isAuthenticatedUser()"
+    >
       This user doesn't have pets yet.
     </div>
   </ng-template>
@@ -36,7 +39,10 @@
     </span>
   </div>
   <ng-template #noPosts>
-    <div *ngIf="!profileService.isAuthenticatedUser()">
+    <div
+      class="font-semibold text-sm text-primary"
+      *ngIf="!profileService.isAuthenticatedUser()"
+    >
       This user hasn't posted yet.
     </div>
   </ng-template>
