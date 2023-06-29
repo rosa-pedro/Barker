@@ -27,16 +27,22 @@ public class PetsController : ApiController
         _photoService = photoService;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<PetDto>>> GetPets(
-        [FromQuery] PaginationQueryParameters queryParameters
+        [FromQuery] PaginationQueryParameters queryParameters,
+        [FromBody] GetPetsDto body
     )
     {
-        var userName = User.GetUserName();
+        var owner = body.Owner;
+        var users = await _unitOfWork.UserRepository.GetApplicationUsersAsync();
+
+        if (users.All(user => user.UserName != owner))
+            return BadRequest($"Owner {owner} does not exist");
 
         var repositoryParameters = new PetRepositoryParameters(queryParameters)
         {
-            UserName = userName
+            UserName = owner
         };
 
         var pets = await _unitOfWork.PetRepository.GetPetsAsync(repositoryParameters);
