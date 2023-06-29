@@ -23,12 +23,12 @@ public class PetRepository : IPetRepository
         _mapper = mapper;
     }
 
-    public async Task<PagedList<PetDto>> GetPetsAsync(PetRepositoryParameters parameters)
+    public async Task<PagedList<PetDto>> GetPetsAsync(PetQueryParameters parameters)
     {
         var query = _context.Pets.AsQueryable();
 
-        var userName = parameters.UserName;
-        query = query.Where(pet => pet.Owner.UserName == userName);
+        var owner = parameters.Owner;
+        query = query.Where(pet => pet.Owner.UserName == owner);
 
         var pets = query.ProjectTo<PetDto>(_mapper.ConfigurationProvider).AsNoTracking();
 

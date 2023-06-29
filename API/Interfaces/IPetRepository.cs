@@ -7,7 +7,7 @@ namespace API.Interfaces;
 
 public interface IPetRepository
 {
-    Task<PagedList<PetDto>> GetPetsAsync(PetRepositoryParameters parameters);
+    Task<PagedList<PetDto>> GetPetsAsync(PetQueryParameters parameters);
     Task<PetDto?> GetPetAsync(int id);
     Task<Pet?> GetApplicationPetAsync(int id);
     void AddPet(Pet pet);
