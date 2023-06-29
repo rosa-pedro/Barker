@@ -9,6 +9,7 @@ import { ProfileTabsComponent } from './components/profile-tabs/profile-tabs.com
 import { ProfileTabComponent } from './components/profile-tabs/profile-tab/profile-tab.component';
 import { ProfileStatisticsComponent } from './components/profile-statistics/profile-statistics.component';
 import { TimeagoModule } from 'ngx-timeago';
+import { PetsComponent } from './components/pets/pets.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { TimeagoModule } from 'ngx-timeago';
     ProfileTabsComponent,
     ProfileTabComponent,
     ProfileStatisticsComponent,
+    PetsComponent,
   ],
   imports: [
     CommonModule,

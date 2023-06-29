@@ -4,6 +4,7 @@ import { BehaviorSubject, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../auth/services/auth.service';
 import { Member } from '../../../core/models/member/member.model';
+import { PetService } from './pet.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,11 @@ export class ProfileService {
   private memberSource = new BehaviorSubject<Member | null>(null);
   member$ = this.memberSource.asObservable();
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private petsService: PetService
+  ) {}
 
   getMember(userName: string) {
     return this.http.get<Member>(this.baseUrl + 'users/' + userName).pipe(
@@ -29,12 +34,17 @@ export class ProfileService {
     );
   }
 
+  getPets() {
+    return this.petsService.getPets();
+  }
+
   isAuthenticatedUser(): boolean {
     let isAuthenticatedUser = false;
     this.authService.currentUser$.subscribe((user) => {
-      isAuthenticatedUser =
-        user?.userName === this.memberSource.value?.userName;
-      console.log(this.memberSource.value);
+      if (user) {
+        isAuthenticatedUser =
+          user.userName === this.memberSource.value?.userName;
+      }
     });
     return isAuthenticatedUser;
   }

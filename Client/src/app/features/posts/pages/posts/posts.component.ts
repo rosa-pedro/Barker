@@ -12,12 +12,13 @@ export class PostsComponent implements OnInit {
 
   constructor(public postService: PostService) {}
 
-  @HostListener('window:scroll', [])
+  @HostListener('window:scroll')
   onScroll(): void {
-    if (
-      this.postService.hasNext &&
-      window.innerHeight + window.scrollY >= document.body.offsetHeight
-    ) {
+    const viewportHeight = window.innerHeight;
+    const pageHeight = window.document.body.scrollHeight;
+    const pageScrollY = window.scrollY;
+    const pixelsToReachBottom = pageHeight - (pageScrollY + viewportHeight);
+    if (this.postService.hasNext && pixelsToReachBottom <= 0) {
       this.loadMore();
     }
   }
