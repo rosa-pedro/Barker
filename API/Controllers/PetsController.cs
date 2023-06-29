@@ -30,22 +30,16 @@ public class PetsController : ApiController
     [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedList<PetDto>>> GetPets(
-        [FromQuery] PaginationQueryParameters queryParameters,
-        [FromBody] GetPetsDto body
+        [FromQuery] PetQueryParameters parameters
     )
     {
-        var owner = body.Owner;
+        var owner = parameters.Owner;
         var users = await _unitOfWork.UserRepository.GetApplicationUsersAsync();
 
         if (users.All(user => user.UserName != owner))
             return BadRequest($"Owner {owner} does not exist");
-
-        var repositoryParameters = new PetRepositoryParameters(queryParameters)
-        {
-            UserName = owner
-        };
-
-        var pets = await _unitOfWork.PetRepository.GetPetsAsync(repositoryParameters);
+        
+        var pets = await _unitOfWork.PetRepository.GetPetsAsync(parameters);
 
         Response.AddPaginationHeader(
             new PaginationHeader(pets.CurrentPage, pets.PageSize, pets.TotalCount, pets.TotalPages)

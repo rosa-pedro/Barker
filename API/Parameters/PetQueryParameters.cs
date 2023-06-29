@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs;
+namespace API.Parameters;
 
-public class GetPetsDto
+public class PetQueryParameters : PaginationQueryParameters
 {
     [Required]
     public required string Owner { get; set; }
