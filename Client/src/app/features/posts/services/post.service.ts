@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Post } from '../../../core/models/post/post.model';
 import { FullPost } from '../../../core/models/post/full-post.model';
+import { Comment } from '../../../core/models/comment/comment.model';
 
 export interface RequestSpec {
   pageSize?: number;
@@ -24,6 +25,9 @@ export class PostService {
 
   private currentPostSource = new BehaviorSubject<FullPost | null>(null);
   currentPost$ = this.currentPostSource.asObservable();
+
+  private currentCommentsSource = new BehaviorSubject<Comment[] | null>(null);
+  currentComments$ = this.currentCommentsSource.asObservable();
 
   private postsSource = new BehaviorSubject<Post[] | null>(null);
   posts$ = this.postsSource.asObservable();

@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserTabComponent } from './core/components/user-tab/user-tab.component';
 import { AuthorizationInterceptor } from './core/interceptors/authorization.interceptor';
 import { TimeagoModule } from 'ngx-timeago';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TimeagoModule } from 'ngx-timeago';
     CommonModule,
     ComponentsModule,
     HttpClientModule,
+    AngularSvgIconModule.forRoot(),
     TimeagoModule.forRoot(),
   ],
   providers: [

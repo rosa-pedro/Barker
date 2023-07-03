@@ -1,0 +1,55 @@
+<div class="flex flex-col gap-4 p-5">
+  <div class="border-b border-t border-gray-200 pt-5">
+    <label for="about" class="text-sm font-medium text-primary"
+      >What's on your mind?</label
+    >
+    <div class="h-full pt-2 flex flex-col gap-2">
+      <textarea
+        id="about"
+        name="about"
+        rows="4"
+        [formControl]="newComment"
+        class="outline outline-gray-200 outline-offset-2 outline-1 w-full h-full py-1.5 px-2 focus:outline-secondary"
+      ></textarea>
+      <div class="w-full h-10 pt-0.5">
+        <div
+          (click)="sendComment()"
+          class="flex flex-row items-center float-right rounded-full px-3 py-0.5"
+          [ngClass]="
+            newComment.valid
+              ? 'bg-secondary cursor-pointer hover:brightness-95'
+              : 'bg-gray-400 cursor-not-allowed hover:bg-gray-300'
+          "
+        >
+          <span class="text-gray-100 text-sm font-semibold"> Comment </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <div *ngFor="let comment of commentsService.currentComments$ | async">
+      <div class="flex flex-row text-secondary text-sm items-center gap-2">
+        <div
+          class="flex flex-row text-secondary text-sm items-center gap-0.5 cursor-pointer"
+          (click)="goToProfile(comment.author)"
+        >
+          <span class="material-icons"> account_circle </span>
+          <span class="hover:underline">
+            {{ comment.author }}
+          </span>
+        </div>
+
+        <span class="material-icons text-[0.40rem]"> fiber_manual_record </span>
+        <span class="">
+          {{ comment.created | timeago }}
+        </span>
+      </div>
+      <div class="mt-2 ml-3 px-2 border-l-2 border-l-gray-200">
+        <p class="text-primary">
+          {{ comment.content }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,7 @@
   <div
     *ngFor="let post of profileService.userPosts$ | async"
     class="w-full drop-shadow-md rounded-lg hover:brightness-95 hover:cursor-pointer"
+    (click)="goToPost(post.id)"
   >
     <div class="grid grid-cols-3 bg-gray-50 p-2">
       <img

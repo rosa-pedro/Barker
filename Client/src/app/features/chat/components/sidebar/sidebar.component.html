@@ -1,0 +1,64 @@
+<div class="flex flex-col py-5 px-5 gap-5">
+  <p class="text-2xl font-bold text-primary">Your chats</p>
+  <div class="flex flex-row items-center gap-2">
+    <input
+      type="text"
+      placeholder="Search user..."
+      class="bg-gray-50 rounded-md h-9 w-full px-2 text-primary"
+    />
+    <span
+      class="material-icons text-primary cursor-pointer hover:brightness-150"
+      >clear</span
+    >
+  </div>
+  <div>
+    <div
+      *ngFor="let user of chatService.activeChats$ | async"
+      class="hover:bg-gray-200 cursor-pointer"
+      (click)="openChat(user.userName)"
+    >
+      <div class="flex flex-row items-center">
+        <div class="p-2">
+          <div class="w-14 relative after:block after:pt-[100%]">
+            <img
+              class="h-full rounded-full w-full object-cover absolute"
+              [src]="user.photo"
+              alt=""
+            />
+          </div>
+        </div>
+        <div
+          class="flex flex-row items-center justify-between w-full border-b border-b-gray-50 p-3"
+        >
+          <div class="flex flex-col">
+            <p class="text-lg text-primary font-semibold">
+              {{ user.userName }}
+            </p>
+            <p class="text-sm text-gray-600">{{ user.lastMessage }}</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <p
+              class="text-xs contrast-75"
+              [ngClass]="
+                user.hasUnreadMessage === true
+                  ? 'text-secondary'
+                  : 'text-gray-600'
+              "
+            >
+              {{ user.lastMessageTime.getHours() }}:{{
+                user.lastMessageTime.getMinutes()
+              }}
+            </p>
+
+            <span
+              [hidden]="!user.hasUnreadMessage"
+              class="material-icons text-secondary"
+            >
+              fiber_manual_record
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

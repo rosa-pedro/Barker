@@ -6,6 +6,10 @@ import { PostsComponent } from './pages/posts/posts.component';
 import { PostsRoutingModule } from './posts-routing.module';
 import { ActionTabComponent } from './components/action-tab/action-tab.component';
 import { PostCardComponent } from './components/post-card/post-card.component';
+import { TimeagoModule } from 'ngx-timeago';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { CommentsComponent } from './components/comments/comments.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,8 +17,16 @@ import { PostCardComponent } from './components/post-card/post-card.component';
     PostComponent,
     ActionTabComponent,
     PostCardComponent,
+    CommentsComponent,
   ],
-  imports: [PostsRoutingModule, CommonModule, ComponentsModule],
+  imports: [
+    PostsRoutingModule,
+    CommonModule,
+    ComponentsModule,
+    TimeagoModule,
+    AngularSvgIconModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [],
   exports: [PostsComponent],
