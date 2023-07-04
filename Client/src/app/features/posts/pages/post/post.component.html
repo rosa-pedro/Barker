@@ -1,49 +1,89 @@
 <!--container-->
-<div *ngIf="postService.currentPost$ | async" class="flex-1 bg-gray-100 h-full">
+<div
+  *ngIf="postService.currentPost$ | async"
+  class="flex-grow my-10 border border-gray-200 rounded-md"
+>
   <!--  header-->
-  <app-action-tab
+  <!--<app-action-tab
     [title]="(postService.currentPost$ | async)!.title"
     [votes]="(postService.currentPost$ | async)!.votes"
     [voted]="(postService.currentPost$ | async)!.userVote"
-  ></app-action-tab>
+  ></app-action-tab>-->
+  <div class="p-5 bg-gray-200">
+    <p class="text-primary font-semibold text-2xl">
+      {{ (postService.currentPost$ | async)?.title }}
+    </p>
+  </div>
 
   <!--  Post-->
-  <div class="grid grid-cols-10 gap-4 pt-5">
-    <div class="col-start-1 col-end-2">
-      <!--  upvote down vote-->
-      <div
-        class="flex flex-col items-center mt-14 ml-5 py-3 rounded-2xl bg-primary_lighter"
-      >
+  <div class="grid grid-cols-10">
+    <div
+      class="col-span-1 flex flex-col justify-between items-center pt-20 my-5 border-r border-r-gray-300"
+    >
+      <div class="flex flex-col items-center">
         <span
-          class="material-icons cursor-pointer"
+          class="material-icons text-6xl hover:drop-shadow-lg hover:shadow-primary hover:cursor-pointer"
           [ngClass]="
-            (postService.currentPost$ | async)!.userVote === 1
-              ? 'text-success'
-              : 'text-white'
+            (postService.currentPost$ | async)?.userVote === 1
+              ? 'text-secondary'
+              : 'text-gray-400'
           "
           (click)="upVote()"
         >
-          keyboard_double_arrow_up
+          arrow_drop_up
         </span>
-        <hr class="border border-t border-solid w-3 border-gray-300" />
+        <span class="text-xl text-primary">
+          {{ (postService.currentPost$ | async)?.votes }}
+        </span>
         <span
-          class="material-icons cursor-pointer"
+          class="material-icons text-6xl hover:drop-shadow-lg hover:shadow-primary hover:cursor-pointer"
           [ngClass]="
-            (postService.currentPost$ | async)!.userVote === -1
+            (postService.currentPost$ | async)?.userVote === -1
               ? 'text-error'
-              : 'text-white'
+              : 'text-gray-400'
           "
           (click)="downVote()"
         >
-          keyboard_double_arrow_down
+          arrow_drop_down
+        </span>
+      </div>
+
+      <div class="flex flex-row items-center">
+        <span class="material-icons text-xl text-primary"> mode_comment </span>
+        <span class="text-xl text-primary">
+          {{ (postService.currentPost$ | async)?.comments }}
         </span>
       </div>
     </div>
-    <div class="col-start-2 col-span-8 flex flex-col gap-5">
-      <h1 class="text-2xl text-clip overflow-hidden whitespace-pre">
-        {{ (postService.currentPost$ | async)!.title }}
-      </h1>
-      <div>{{ (postService.currentPost$ | async)!.content }}</div>
+    <div class="col-span-4 p-3">
+      <div class="flex flex-col h-full justify-between">
+        <div class="flex flex-col gap-2">
+          <div class="flex flex-row items-center gap-0.5">
+            <div class="flex flex-row text-secondary text-sm items-center">
+              Posted by&nbsp;
+              <p class="hover:underline cursor-pointer">
+                {{ (postService.currentPost$ | async)?.author }}
+              </p>
+              &nbsp;
+              <span class="material-icons text-[0.40rem]">
+                fiber_manual_record
+              </span>
+              &nbsp;
+              <span class="">
+                {{ (postService.currentPost$ | async)?.created | timeago }}
+              </span>
+            </div>
+          </div>
+          <img [src]="(postService.currentPost$ | async)?.photo" alt="" />
+        </div>
+        <div class="flex flex-row items-center gap-5"></div>
+      </div>
+    </div>
+    <div class="col-span-5 p-5">
+      <p class="text-primary">
+        {{ (postService.currentPost$ | async)?.content }}
+      </p>
     </div>
   </div>
+  <app-comments></app-comments>
 </div>

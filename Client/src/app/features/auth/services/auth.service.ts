@@ -14,7 +14,7 @@ export class AuthService {
   private errorSource = new Subject<any>();
   error$ = this.errorSource.asObservable();
 
-  private currentUserSource = new BehaviorSubject<User | null>(null);
+  private currentUserSource = new BehaviorSubject<User | undefined>(undefined);
   currentUser$ = this.currentUserSource.asObservable();
 
   mock = false;
@@ -57,7 +57,7 @@ export class AuthService {
       this.currentUserSource.next(user);
       localStorage.setItem('user', JSON.stringify(user));
     } else {
-      this.currentUserSource.next(null);
+      this.currentUserSource.next(undefined);
       localStorage.clear();
     }
   }

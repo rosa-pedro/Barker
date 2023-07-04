@@ -8,12 +8,11 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { GlobalLayoutComponent } from './core/components/global-layout/global-layout.component';
 import { ComponentsModule } from './shared/components/components.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  HTTP_INTERCEPTORS,
-  HttpClientModule,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { UserTabComponent } from './core/components/user-tab/user-tab.component';
 import { AuthorizationInterceptor } from './core/interceptors/authorization.interceptor';
+import { TimeagoModule } from 'ngx-timeago';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @NgModule({
   declarations: [
@@ -29,6 +28,8 @@ import { AuthorizationInterceptor } from './core/interceptors/authorization.inte
     CommonModule,
     ComponentsModule,
     HttpClientModule,
+    AngularSvgIconModule.forRoot(),
+    TimeagoModule.forRoot(),
   ],
   providers: [
     {

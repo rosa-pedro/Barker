@@ -4,7 +4,7 @@
     class="flex justify-between items-center gap-5 p-2 cursor-pointer rounded-md h-full border"
     (click)="active = !active"
   >
-    <span class="text-xs">
+    <span class="text-sm">
       {{ selectedOption.value }}
     </span>
     <span class="material-icons">
@@ -16,7 +16,7 @@
   <div
     class="{{
       active ? 'visible ' : 'invisible'
-    }} w-full flex flex-col w-max absolute z-10  border rounded-md p-1 shadow-xl text-xs"
+    }} w-full flex flex-col w-max absolute z-10  border rounded-md p-1 shadow-xl text-sm bg-gray-50"
   >
     <div
       *ngIf="hasAll"
@@ -32,7 +32,7 @@
         option === selectedOption
           ? 'bg-primary text-white'
           : 'hover:bg-primary_lighter '
-      }} text-xs hover:text-white"
+      }} text-sm hover:text-white"
       *ngFor="let option of options"
       (click)="onOptionClick(option)"
     >

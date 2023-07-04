@@ -5,4 +5,6 @@ export interface Post {
   created: Date;
   votes: number;
   author: string;
+  photo: string;
+  comments: number;
 }
