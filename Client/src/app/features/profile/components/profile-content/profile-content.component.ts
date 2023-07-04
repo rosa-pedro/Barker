@@ -36,7 +36,6 @@ export class ProfileContentComponent implements OnInit {
         this.router.navigate([], { queryParams: { tab: 'about' } });
       }
     });
-    console.log(this.route.snapshot.params['tab']);
     this.profileService.member$.subscribe((user) => {
       if (user) {
         this.isAuthenticatedUser = this.profileService.isAuthenticatedUser();

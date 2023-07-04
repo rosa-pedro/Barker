@@ -78,6 +78,49 @@ export class ChatService {
 
   constructor(private http: HttpClient) {}
 
+  getMessages(username: string) {
+    const messages: Message[] = [
+      {
+        id: 1,
+        senderId: 2,
+        senderUserName: 'sarah',
+        recipientId: 1,
+        content: 'Hello, im sarah! Can you talk?',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'Im queen! Nice to meet you!',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'Yes I can talk',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 2,
+        senderUserName: 'sarah',
+        recipientId: 1,
+        content: 'Great!!',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+    ];
+
+    this.messageThreadSource.next(messages);
+  }
+
   getActiveChats() {
     let activeChats: ChatMember[] = [
       {

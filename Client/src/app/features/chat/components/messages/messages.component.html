@@ -1,59 +1,20 @@
-<div class="list flex-1 h-full">
-  "Eiusmod excepteur cupidatat nostrud nulla eu minim enim pariatur pariatur
-  anim commodo amet duis. Dolore laborum exercitation magna voluptate non amet
-  in veniam dolore. Consequat mollit reprehenderit deserunt ut dolore ipsum nisi
-  voluptate consequat anim enim labore"Eiusmod excepteur cupidatat nostrud nulla
-  eu minim enim pariatur pariatur anim commodo amet duis. Dolore laborum
-  exercitation magna voluptate non amet in veniam dolore. Consequat mollit
-  reprehenderit deserunt ut dolore ipsum nisi voluptate consequat anim enim
-  labore"Eiusmod excepteur cupidatat nostrud nulla eu minim enim pariatur
-  pariatur anim commodo amet duis. Dolore laborum exercitation magna voluptate
-  non amet in veniam dolore. Consequat mollit reprehenderit deserunt ut dolore
-  ipsum nisi voluptate consequat anim enim labore"Eiusmod excepteur cupidatat
-  nostrud nulla eu minim enim pariatur pariatur anim commodo amet duis. Dolore
-  laborum exercitation magna voluptate non amet in veniam dolore. Consequat
-  mollit reprehenderit deserunt ut dolore ipsum nisi voluptate consequat anim
-  enim labore"Eiusmod excepteur cupidatat nostrud nulla eu minim enim pariatur
-  pariatur anim commodo amet duis. Dolore laborum exercitation magna voluptate
-  non amet in veniam dolore. Consequat mollit reprehenderit deserunt ut dolore
-  ipsum nisi voluptate consequat anim enim labore"Eiusmod excepteur cupidatat
-  nostrud nulla eu minim enim pariatur pariatur anim commodo amet duis. Dolore
-  laborum exercitation magna voluptate non amet in veniam dolore. Consequat
-  mollit reprehenderit deserunt ut dolore ipsum nisi voluptate consequat anim
-  enim labore"Eiusmod excepteur cupidatat nostrud nulla eu minim enim pariatur
-  pariatur anim commodo amet duis. Dolore laborum exercitation magna voluptate
-  non amet in veniam dolore. Consequat mollit reprehenderit deserunt ut dolore
-  ipsum nisi voluptate consequat anim enim labore"Eiusmod excepteur cupidatat
-  nostrud nulla eu minim enim pariatur pariatur anim commodo amet duis. Dolore
-  laborum exercitation magna voluptate non amet in veniam dolore. Consequat
-  mollit reprehenderit deserunt ut dolore ipsum nisi voluptate consequat anim
-  enim labore"Eiusmod excepteur cupidatat nostrud nulla eu minim enim pariatur
-  pariatur anim commodo amet duis. Dolore laborum exercitation magna voluptate
-  non amet in veniam dolore. Consequat mollit reprehenderit deserunt ut dolore
-  ipsum nisi voluptate consequat anim enim labore"Eiusmod excepteur cupidatat
-  nostrud nulla eu minim enim pariatur pariatur anim commodo amet duis. Dolore
-  laborum exercitation magna voluptate non amet in veniam dolore. Consequat
-  mollit reprehenderit deserunt ut dolore ipsum nisi voluptate consequat anim
-  enim labore"Eiusmod excepteur cupidatat nostrud nulla eu minim enim pariatur
-  pariatur anim commodo amet duis. Dolore laborum exercitation magna voluptate
-  non amet in veniam dolore. Consequat mollit reprehenderit deserunt ut dolore
-  ipsum nisi voluptate consequat anim enim labore"Eiusmod excepteur cupidatat
-  nostrud nulla eu minim enim pariatur pariatur anim commodo amet duis. Dolore
-  laborum exercitation magna voluptate non amet in veniam dolore. Consequat
-  mollit reprehenderit deserunt ut dolore ipsum nisi voluptate consequat anim
-  enim labore"Eiusmod excepteur cupidatat nostrud nulla eu minim enim pariatur
-  pariatur anim commodo amet duis. Dolore laborum exercitation magna voluptate
-  non amet in veniam dolore. Consequat mollit reprehenderit deserunt ut dolore
-  ipsum nisi voluptate consequat anim enim labore"Eiusmod excepteur cupidatat
-  nostrud nulla eu minim enim pariatur pariatur anim commodo amet duis. Dolore
-  laborum exercitation magna voluptate non amet in veniam dolore. Consequat
-  mollit reprehenderit deserunt ut dolore ipsum nisi voluptate consequat anim
-  enim labore"Eiusmod excepteur cupidatat nostrud nulla eu minim enim pariatur
-  pariatur anim commodo amet duis. Dolore laborum exercitation magna voluptate
-  non amet in veniam dolore. Consequat mollit reprehenderit deserunt ut dolore
-  ipsum nisi voluptate consequat anim enim labore"Eiusmod excepteur cupidatat
-  nostrud nulla eu minim enim pariatur pariatur anim commodo amet duis. Dolore
-  laborum exercitation magna voluptate non amet in veniam dolore. Consequat
-  mollit reprehenderit deserunt ut dolore ipsum nisi voluptate consequat anim
-  enim labore
+<div class="h-full flex flex-col justify-between">
+  <div class="px-6 flex flex-col w-full gap-2">
+    <div
+      *ngFor="let message of chatService.messageThread$ | async"
+      class="w-fit drop-shadow-sm p-2 p rounded-sm flex flex-row gap-5 items-center font-semibold"
+      [ngClass]="
+        message.senderUserName === (authService.currentUser$ | async)?.userName
+          ? 'ml-auto bg-secondary text-gray-100'
+          : 'mr-auto bg-gray-200 text-primary'
+      "
+    >
+      <span>{{ message.content }}</span>
+      <span class="text-xs">
+        {{ message.messageSent.getHours() }}:{{
+          message.messageSent.getMinutes()
+        }}
+      </span>
+    </div>
+  </div>
 </div>
