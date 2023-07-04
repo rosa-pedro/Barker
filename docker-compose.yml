@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  application:
+    container_name: application
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=7049
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=barkerpw
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/barker.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    ports:
+      - "5079:80"
+      - "7049:443"
+    depends_on: 
+      - database
+
+  database:
+    container_name: database
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_DB=barker
+    ports:
+      - "5432:5432"
+

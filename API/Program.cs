@@ -36,6 +36,7 @@ app.UseConfiguration();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.MapControllers();
