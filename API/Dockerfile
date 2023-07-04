@@ -1,9 +1,9 @@
 ﻿FROM node:18.16-alpine3.17 as dist
 WORKDIR /app
 RUN npm install -g @angular/cli@15.2.0
-COPY ./Client/package.json ./Client/package-lock.json ./
+COPY ../Client/package.json ../Client/package-lock.json ./
 RUN npm install
-COPY ./Client/. ./
+COPY ../Client/. ./
 RUN ng build
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -16,8 +16,8 @@ WORKDIR /src
 COPY ["API/API.csproj", "API/"]
 RUN dotnet restore "API/API.csproj"
 COPY . .
+COPY --from=dist /app/dist/client /src/API/wwwroot
 WORKDIR "/src/API"
-COPY --from=dist /app/dist/client ./API/wwwroot
 RUN dotnet build "API.csproj" -c Release -o /app/build
 
 FROM build AS publish

@@ -8,8 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4009961-FEDE-40A3-92CF-5EA9F8AE4E62}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
-		Dockerfile = Dockerfile
-		.dockerignore = .dockerignore
 	EndProjectSection
 EndProject
 Global
