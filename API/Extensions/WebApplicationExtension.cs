@@ -23,6 +23,7 @@ public static class WebApplicationExtension
             var unitOfWork = services.GetRequiredService<IUnitOfWork>();
 
             await context.Database.MigrateAsync();
+            await Seed.ClearConnections(context);
             await Seed.SeedUsers(userManager, roleManager);
             await Seed.SeedPets(unitOfWork);
             await Seed.SeedPosts(unitOfWork);

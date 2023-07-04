@@ -36,10 +36,12 @@ app.UseConfiguration();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.MapControllers();
 app.MapHubs();
+app.MapFallbackToController("Index", "Fallback");
 
 app.SeedDatabase();
 
