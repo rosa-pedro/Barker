@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { first } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss'],
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, AfterViewChecked {
+  message: FormControl = new FormControl<string>('', [Validators.required]);
+
   constructor(
     readonly chatService: ChatService,
     readonly authService: AuthService,
@@ -17,13 +26,20 @@ export class MessagesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(first()).subscribe((params) => {
+    this.route.queryParams.pipe().subscribe((params) => {
       if (params['username']) {
-        const username = params['tab'];
+        const username = params['username'];
         this.chatService.getMessages(username);
       }
     });
-
-    // chat
   }
+
+  ngAfterViewChecked() {
+    let messagesPane = document.getElementById('messages-pane');
+    if (messagesPane) {
+      messagesPane.scrollTop = messagesPane.scrollHeight;
+    }
+  }
+
+  sendMessage() {}
 }

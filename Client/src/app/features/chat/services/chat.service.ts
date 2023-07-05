@@ -73,7 +73,7 @@ export class ChatService {
   private activeChatsSource = new BehaviorSubject<ChatMember[] | null>(null);
   activeChats$ = this.activeChatsSource.asObservable();
 
-  private messageThreadSource = new BehaviorSubject<Message[]>([]);
+  private messageThreadSource = new BehaviorSubject<Message[] | null>(null);
   messageThread$ = this.messageThreadSource.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -112,7 +112,124 @@ export class ChatService {
         senderId: 2,
         senderUserName: 'sarah',
         recipientId: 1,
-        content: 'Great!!',
+        content: 'How is your dog?',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'hes great',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 2,
+        senderUserName: 'sarah',
+        recipientId: 1,
+        content: 'Wonderful',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 2,
+        senderUserName: 'sarah',
+        recipientId: 1,
+        content: 'Id like to meet him sometime',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'Sure, why not',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 2,
+        senderUserName: 'sarah',
+        recipientId: 1,
+        content: 'Tomorrow at the park?',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'Deal',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'Deal',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'what time',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'afternoon is better',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 2,
+        senderUserName: 'sarah',
+        recipientId: 1,
+        content: '3pm for me is perfect',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: '3pm it is then',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 1,
+        senderUserName: 'queen',
+        recipientId: 2,
+        content: 'See you there',
+        dateRead: new Date(),
+        messageSent: new Date(),
+      },
+      {
+        id: 1,
+        senderId: 2,
+        senderUserName: 'sarah',
+        recipientId: 1,
+        content: 'See ya',
         dateRead: new Date(),
         messageSent: new Date(),
       },
@@ -170,12 +287,14 @@ export class ChatService {
       ) {
         this.messageThread$.pipe(take(1)).subscribe({
           next: (messages) => {
-            (messages as Message[]).forEach((message) => {
-              if (!message.dateRead) {
-                message.dateRead = new Date(Date.now());
-              }
-            });
-            this.messageThreadSource.next([...messages]);
+            if (messages) {
+              (messages as Message[]).forEach((message) => {
+                if (!message.dateRead) {
+                  message.dateRead = new Date(Date.now());
+                }
+              });
+              this.messageThreadSource.next([...messages]);
+            }
           },
         });
       }
@@ -183,8 +302,10 @@ export class ChatService {
 
     this.hubConnection.on('NewMessage', (message) => {
       this.messageThread$.pipe(take(1)).subscribe({
-        next: (messages) => {
-          this.messageThreadSource.next([...messages, message]);
+        next: (messages: Message[] | null) => {
+          if (messages) {
+            this.messageThreadSource.next([...messages, message]);
+          }
         },
       });
     });

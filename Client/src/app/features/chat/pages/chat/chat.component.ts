@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { ProfileService } from '../../../profile/services/profile.service';
 import { AuthService } from '../../../auth/services/auth.service';
-import { take } from 'rxjs';
-import { User } from '../../../../core/models/user/user.model';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -10,5 +8,8 @@ import { User } from '../../../../core/models/user/user.model';
   styleUrls: ['./chat.component.scss'],
 })
 export class ChatComponent {
-  constructor(readonly authService: AuthService) {}
+  constructor(
+    readonly authService: AuthService,
+    readonly chatService: ChatService
+  ) {}
 }

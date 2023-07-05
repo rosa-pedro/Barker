@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit {
   openChat(username: string) {
     console.log(this.user);
     this.router.navigate([], { queryParams: { username: username } });
+    this.chatService.getMessages(username);
     // this.chatService.createHubConnection(this.user!, username);
   }
 }
