@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { User } from '../../../../core/models/user/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +11,7 @@ import { User } from '../../../../core/models/user/user.model';
 export class SidebarComponent implements OnInit {
   @Input() user: User | undefined;
 
-  constructor(readonly chatService: ChatService) {}
+  constructor(readonly chatService: ChatService, private router: Router) {}
 
   ngOnInit(): void {
     this.chatService.getActiveChats(); //.subscribe()
@@ -18,6 +19,8 @@ export class SidebarComponent implements OnInit {
 
   openChat(username: string) {
     console.log(this.user);
+    this.router.navigate([], { queryParams: { username: username } });
+    // this.chatService.getMessages(username);
     this.chatService.createHubConnection(this.user!, username);
   }
 }

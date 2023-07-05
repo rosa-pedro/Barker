@@ -10,7 +10,7 @@ import { CommentsService } from '../../services/comments.service';
   styleUrls: ['./comments.component.scss'],
 })
 export class CommentsComponent implements OnInit {
-  newComment: FormControl = new FormControl<any>('', [Validators.required]);
+  newComment: FormControl = new FormControl<string>('', [Validators.required]);
 
   constructor(
     readonly commentsService: CommentsService,
