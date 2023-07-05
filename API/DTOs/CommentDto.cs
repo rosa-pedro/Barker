@@ -6,5 +6,6 @@ public class CommentDto
     public required string Content { get; set; }
     public required DateTime Created { get; set; }
     public required string Author { get; set; }
+    public required string AuthorPhoto { get; set; }
     public required int PostId { get; set; }
 }

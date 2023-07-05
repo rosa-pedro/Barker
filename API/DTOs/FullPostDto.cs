@@ -10,4 +10,5 @@ public class FullPostDto
     public required int Votes { get; set; }
     public required int Comments { get; set; }
     public required string Author { get; set; }
+    public required string AuthorPhoto { get; set; }
 }

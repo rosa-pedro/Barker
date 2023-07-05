@@ -85,6 +85,10 @@ public class AutoMapperProfiles : Profile
                 options => options.MapFrom(source => source.Author.UserName)
             )
             .ForMember(
+                destination => destination.AuthorPhoto,
+                options => options.MapFrom(source => source.Author.Photo)
+            )
+            .ForMember(
                 destination => destination.Votes,
                 options => options.MapFrom(source => source.Votes.Sum(vote => (int)vote.Value))
             )
@@ -126,6 +130,10 @@ public class AutoMapperProfiles : Profile
             .ForMember(
                 destination => destination.Author,
                 options => options.MapFrom(source => source.Author.UserName)
+            )
+            .ForMember(
+                destination => destination.AuthorPhoto,
+                options => options.MapFrom(source => source.Author.Photo)
             );
     }
 
