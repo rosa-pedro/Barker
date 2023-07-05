@@ -29,7 +29,7 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     this.route.queryParams.pipe().subscribe((params) => {
       if (params['username']) {
         const username = params['username'];
-        this.chatService.getMessages(username);
+        // this.chatService.getMessages(username);
       }
     });
   }
