@@ -43,7 +43,11 @@ export class ProfileContentComponent implements OnInit {
     });
   }
 
-  sendMessage() {}
+  sendMessage() {
+    this.router.navigate(['../chat'], {
+      queryParams: { with: this.route.snapshot.params['username'] },
+    });
+  }
 
   editProfile() {}
 
