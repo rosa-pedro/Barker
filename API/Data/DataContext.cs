@@ -82,7 +82,6 @@ public class DataContext
             .OnDelete(DeleteBehavior.Cascade);
 
         // Many to many message relationship between users
-
         builder
             .Entity<Message>()
             .HasOne<User>(message => message.Sender)

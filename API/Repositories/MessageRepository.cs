@@ -78,9 +78,41 @@ public class MessageRepository : IMessageRepository
         );
     }
 
+    public async Task<Message?> GetLastMessageFromUser(
+        string currentUserName,
+        string targetUserName
+    )
+    {
+        return await _context.Messages
+            .Where(
+                message =>
+                    message.RecipientUserName == currentUserName
+                    && message.SenderUserName == targetUserName
+                    && message.RecipientDeleted == false
+            )
+            .OrderBy(message => message.MessageSent)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<int> GetNumberOfUnreadMessagesFromUser(
+        string currentUserName,
+        string targetUserName
+    )
+    {
+        return await _context.Messages
+            .Where(
+                message =>
+                    message.RecipientUserName == currentUserName
+                    && message.SenderUserName == targetUserName
+                    && message.RecipientDeleted == false
+                    && message.DateRead == null
+            )
+            .CountAsync();
+    }
+
     public async Task<IEnumerable<MessageDto>> GetMessageThread(
         string currentUserName,
-        string recipientUserName
+        string otherUserName
     )
     {
         var query = _context.Messages
@@ -88,11 +120,11 @@ public class MessageRepository : IMessageRepository
                 message =>
                     (
                         message.RecipientUserName == currentUserName
-                        && message.SenderUserName == recipientUserName
+                        && message.SenderUserName == otherUserName
                         && message.RecipientDeleted == false
                     )
                     || (
-                        message.RecipientUserName == recipientUserName
+                        message.RecipientUserName == otherUserName
                         && message.SenderUserName == currentUserName
                         && message.SenderDeleted == false
                     )
