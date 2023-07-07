@@ -22,6 +22,7 @@ public class UnitOfWork : IUnitOfWork
     public ICommentRepository CommentRepository => new CommentRepository(_context, _mapper);
     public IVoteRepository VoteRepository => new VoteRepository(_context);
     public IMessageRepository MessageRepository => new MessageRepository(_context, _mapper);
+    public IGroupRepository GroupRepository => new GroupRepository(_context);
 
     public async Task<bool> Complete()
     {

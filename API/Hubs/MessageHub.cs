@@ -32,28 +32,39 @@ public class MessageHub : Hub
         if (httpContext == null)
             throw new HubException("Failed to connect");
 
-        var caller = Context.User;
-        if (caller == null)
-            throw new HubException("Caller not found");
+        var user = Context.User;
+        if (user == null)
+            throw new HubException("User not found");
 
-        var callerUserName = caller.GetUserName();
-        var answererUserName = httpContext.Request.Query["user"].ToString();
+        var currentUserName = user.GetUserName();
+        var otherUserName = httpContext.Request.Query["user"].ToString();
 
-        var groupName = GetGroupName(callerUserName, answererUserName);
+        var groupName = GetGroupName(currentUserName, otherUserName);
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-        var group = await AddToMessageGroup(groupName);
+        var group = await AddToMessageGroup(groupName, currentUserName, otherUserName);
 
         await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
         var messages = await _unitOfWork.MessageRepository.GetMessageThread(
-            callerUserName,
-            answererUserName
+            currentUserName,
+            otherUserName
         );
+
+        var currentUser = await _unitOfWork.UserRepository.GetApplicationUserAsync(currentUserName);
+        if (currentUser == null)
+            throw new HubException("User not found");
+
+        var currentUserPhoto = currentUser.Photo;
 
         if (_unitOfWork.HasChanges())
             await _unitOfWork.Complete();
 
-        await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
+        await Clients.Caller.SendAsync(
+            "ReceiveMessageThread",
+            messages,
+            currentUserName,
+            currentUserPhoto
+        );
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
@@ -125,7 +136,7 @@ public class MessageHub : Hub
         return stringCompare ? $"{caller}-{answerer}" : $"{answerer}-{caller}";
     }
 
-    private async Task<Group> AddToMessageGroup(string groupName)
+    private async Task<Group> AddToMessageGroup(string groupName, params string[] participants)
     {
         var user = Context.User;
         if (user == null)
@@ -143,6 +154,9 @@ public class MessageHub : Hub
             group = new Group { Name = groupName };
             _unitOfWork.MessageRepository.AddGroup(group);
         }
+
+        for (int i = 0; i < participants.Length; i++)
+            group.Participants[i] = participants[i];
 
         group.Connections.Add(connection);
 
