@@ -78,26 +78,27 @@ public class MessageRepository : IMessageRepository
         );
     }
 
-    public async Task<Message?> GetLastMessageFromUser(
-        string currentUserName,
-        string targetUserName
-    )
+    public async Task<Message?> GetLastMessage(string currentUserName, string targetUserName)
     {
         return await _context.Messages
             .Where(
                 message =>
-                    message.RecipientUserName == currentUserName
-                    && message.SenderUserName == targetUserName
-                    && message.RecipientDeleted == false
+                    (
+                        message.RecipientUserName == currentUserName
+                        && message.SenderUserName == targetUserName
+                        && message.RecipientDeleted == false
+                    )
+                    || (
+                        message.RecipientUserName == targetUserName
+                        && message.SenderUserName == currentUserName
+                        && message.SenderDeleted == false
+                    )
             )
-            .OrderBy(message => message.MessageSent)
+            .OrderByDescending(message => message.MessageSent)
             .FirstOrDefaultAsync();
     }
 
-    public async Task<int> GetNumberOfUnreadMessagesFromUser(
-        string currentUserName,
-        string targetUserName
-    )
+    public async Task<int> GetNumberOfUnreadMessages(string currentUserName, string targetUserName)
     {
         return await _context.Messages
             .Where(

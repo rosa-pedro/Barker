@@ -11,8 +11,8 @@ public interface IMessageRepository
     void DeleteMessage(Message message);
     Task<Message?> GetMessage(int id);
     Task<PagedList<MessageDto>> GetMessagesForUser(MessageRepositoryParameters parameters);
-    Task<Message?> GetLastMessageFromUser(string currentUserName, string targetUserName);
-    Task<int> GetNumberOfUnreadMessagesFromUser(string currentUserName, string targetUserName);
+    Task<Message?> GetLastMessage(string currentUserName, string targetUserName);
+    Task<int> GetNumberOfUnreadMessages(string currentUserName, string targetUserName);
     Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserName, string otherUserName);
     void AddGroup(Group group);
     void RemoveConnection(Connection connection);
