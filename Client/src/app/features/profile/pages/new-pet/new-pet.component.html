@@ -20,11 +20,11 @@
         Upload photo&nbsp;
         <input
           accept="image/*"
-          formControlName="photo"
           id="file-upload"
           name="file-upload"
           type="file"
           class="sr-only"
+          (change)="onPhotoSelect($event)"
         />
       </label>
     </div>

@@ -13,7 +13,6 @@ import { PetsComponent } from './components/pets/pets.component';
 import { PostsTabComponent } from './components/posts-tab/posts-tab.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewPetComponent } from './pages/new-pet/new-pet.component';
-import { DpDatePickerModule } from 'ng2-date-picker';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import { DpDatePickerModule } from 'ng2-date-picker';
     ComponentsModule,
     TimeagoModule.forChild(),
     ReactiveFormsModule,
-    DpDatePickerModule,
   ],
 })
 export class ProfileModule {}
