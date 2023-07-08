@@ -3,7 +3,7 @@ export interface Pet {
   name: string;
   type: string;
   about: string;
-  photo: string;
+  photo: File;
   owner: string;
   age: number;
   created: Date;

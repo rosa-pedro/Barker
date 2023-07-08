@@ -27,4 +27,14 @@ export class PetService {
   addPet(pet: Pet) {
     return this.http.post<Pet>(this.baseUrl + 'pets', pet);
   }
+
+  setPetPhoto(petId: number, photo: File) {
+    const data: FormData = new FormData();
+    data.append('Photo', photo);
+
+    return this.http.post(
+      this.baseUrl + `pets/${petId}/set-profile-photo`,
+      data
+    );
+  }
 }

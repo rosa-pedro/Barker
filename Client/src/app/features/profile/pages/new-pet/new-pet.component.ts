@@ -26,7 +26,7 @@ export class NewPetComponent {
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required]],
-      photo: [''],
+      photo: [null],
       gender: [''],
       type: ['', [Validators.required]],
       dateOfBirth: [''],
@@ -35,7 +35,16 @@ export class NewPetComponent {
   }
 
   hasPhoto() {
-    return this.form.value.photo !== '';
+    return this.form.value.photo !== null;
+  }
+
+  onPhotoSelect(event: any) {
+    if (event.target.files.length > 0) {
+      const photoFormControl = this.form.get('photo');
+
+      if (photoFormControl !== null)
+        photoFormControl.setValue(event.target.files[0]);
+    }
   }
 
   submit() {
@@ -43,11 +52,15 @@ export class NewPetComponent {
       const pet: Pet = this.form.value;
       this.petService.addPet(pet).subscribe({
         next: (value) => {
-          this.router.navigate(
-            ['./profile/' + this.route.snapshot.params['username']],
-            { queryParams: { tab: 'pets' } }
-          );
-          console.log(value);
+          this.petService.setPetPhoto(value.id, pet.photo).subscribe({
+            next: () => {
+              this.router.navigate(
+                ['./profile/' + this.route.snapshot.params['username']],
+                { queryParams: { tab: 'pets' } }
+              );
+            },
+            error: (error) => console.log(error),
+          });
         },
       });
     }
