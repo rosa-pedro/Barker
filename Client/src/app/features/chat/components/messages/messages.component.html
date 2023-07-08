@@ -52,7 +52,6 @@
     <span
       [ngClass]="message.valid ? 'text-primary' : 'text-transparent'"
       class="material-icons text-primary cursor-pointer"
-      (keydown.enter)="sendMessage(); (false)"
       (click)="sendMessage()"
     >
       send

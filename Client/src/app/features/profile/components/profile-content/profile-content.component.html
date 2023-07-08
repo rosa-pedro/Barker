@@ -4,7 +4,7 @@
   </span>
 
   <app-button
-    *ngIf="!isAuthenticatedUser"
+    *ngIf="!profileService.isAuthenticatedUser()"
     class="w-1/4"
     message="Send message"
     icon="chat"
@@ -12,14 +12,27 @@
     (click)="sendMessage()"
   ></app-button>
 
-  <app-button
-    *ngIf="isAuthenticatedUser"
-    class="w-1/4"
-    message="Edit profile"
-    icon="chat"
-    [outlined]="true"
-    (click)="editProfile()"
-  ></app-button>
+  <div
+    class="flex flex-row gap-5 w-full"
+    *ngIf="profileService.isAuthenticatedUser()"
+  >
+    <app-button
+      class="w-1/4"
+      message="Edit profile"
+      icon="chat"
+      [outlined]="true"
+      (click)="editProfile()"
+    ></app-button>
+
+    <app-button
+      class="w-1/4"
+      message="Add pet"
+      type="success"
+      icon="pets"
+      [outlined]="true"
+      (click)="newPet()"
+    ></app-button>
+  </div>
 
   <app-profile-tabs (selectionChange)="selectionChange($event)">
     <app-profile-tab

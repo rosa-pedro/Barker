@@ -67,4 +67,16 @@ export class ProfileContentComponent implements OnInit {
         );
     }
   }
+
+  newPet() {
+    this.router.navigate(['new-pet'], { relativeTo: this.route });
+  }
+
+  /*newPet(newPetModal: TemplateRef<any>) {
+    this.modalService
+      .open(newPetModal, { size: 'lg', title: 'New Pet' })
+      .subscribe((action) => {
+        console.log('modalAction', action);
+      });
+  }*/
 }

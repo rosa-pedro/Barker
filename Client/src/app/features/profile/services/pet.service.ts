@@ -23,4 +23,8 @@ export class PetService {
       })
     );
   }
+
+  addPet(pet: Pet) {
+    return this.http.post<Pet>(this.baseUrl + 'pets', pet);
+  }
 }

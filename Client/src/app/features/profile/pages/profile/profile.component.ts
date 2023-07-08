@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
 
@@ -7,7 +7,7 @@ import { ProfileService } from '../../services/profile.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   constructor(
     readonly profileService: ProfileService,
     private route: ActivatedRoute
@@ -17,5 +17,9 @@ export class ProfileComponent implements OnInit {
     this.profileService
       .getMember(this.route.snapshot.params['username'])
       .subscribe(() => {});
+  }
+
+  ngOnDestroy(): void {
+    this.profileService.clear();
   }
 }
