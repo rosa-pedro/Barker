@@ -1,6 +1,6 @@
-<div class="flex flex-col py-5 px-5 gap-5">
-  <p class="text-2xl font-bold text-primary">Your chats</p>
-  <div class="flex flex-row items-center gap-2">
+<div class="flex flex-col py-5 gap-5">
+  <p class="px-5 text-2xl font-bold text-primary">Your chats</p>
+  <div class="px-5 flex flex-row items-center gap-2">
     <input
       type="text"
       placeholder="Search user..."
@@ -13,45 +13,45 @@
   </div>
   <div>
     <div
-      *ngFor="let user of chatService.activeChats$ | async"
+      *ngFor="let chat of chatService.activeChats$ | async"
       class="hover:bg-gray-200 cursor-pointer"
-      (click)="openChat(user.userName)"
+      (click)="openChat(chat)"
     >
-      <div class="flex flex-row items-center">
-        <div class="p-2">
+      <div class="pl-5 flex flex-row items-center">
+        <div class="py-2">
           <div class="w-14 relative after:block after:pt-[100%]">
             <img
               class="h-full rounded-full w-full object-cover absolute"
-              [src]="user.photo"
+              [src]="chat.photo"
               alt=""
             />
           </div>
         </div>
         <div
-          class="flex flex-row items-center justify-between w-full border-b border-b-gray-50 p-3"
+          class="flex flex-row items-center justify-between w-full border-b border-b-gray-50 py-3 ml-3"
         >
           <div class="flex flex-col">
             <p class="text-lg text-primary font-semibold">
-              {{ user.userName }}
+              {{ chat.userName }}
             </p>
-            <p class="text-sm text-gray-600">{{ user.lastMessage }}</p>
+            <p class="text-sm text-gray-600">{{ chat.lastMessage }}</p>
           </div>
-          <div class="flex flex-col items-center">
+          <div class="flex pr-3 flex-col items-center">
             <p
               class="text-xs contrast-75"
               [ngClass]="
-                user.hasUnreadMessage === true
+                chat.hasUnreadMessage === true
                   ? 'text-secondary'
                   : 'text-gray-600'
               "
             >
-              {{ user.lastMessageTime.getHours() }}:{{
-                user.lastMessageTime.getMinutes()
+              {{ chat.lastMessageTime.getHours() }}:{{
+                chat.lastMessageTime.getMinutes()
               }}
             </p>
 
             <span
-              [hidden]="!user.hasUnreadMessage"
+              [hidden]="!chat.hasUnreadMessage"
               class="material-icons text-secondary"
             >
               fiber_manual_record

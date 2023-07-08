@@ -1,23 +1,36 @@
-<div
-  *ngIf="chatService.messageThread$ | async"
-  class="flex-1 h-full flex flex-col bg-gray-50 overflow-hidden"
->
-  <div class="w-full py-5 bg-red-200">hello</div>
+<div class="flex-1 h-full flex flex-col bg-gray-50 overflow-hidden">
+  <div
+    class="flex flex-row items-center w-full py-2 px-5 bg-gray-300 border-l border-l-gray-200"
+  >
+    <!--<div class="w-14 relative after:block after:pt-[100%]">
+      <img
+        class="h-full rounded-full w-full object-cover absolute"
+        [src]="activeChat?.photo"
+        alt=""
+      />
+    </div>-->
+    <p class="text-lg text-primary font-semibold">
+      {{ username }}
+    </p>
+  </div>
+
   <div id="messages-pane" class="flex-1 overflow-y-scroll">
     <div class="flex flex-col justify-between">
       <div class="px-6 flex flex-col w-full gap-2">
         <div
           *ngFor="let message of chatService.messageThread$ | async"
-          class="w-fit drop-shadow-sm p-2 p rounded-sm flex flex-row gap-5 items-center font-semibold"
+          class="w-fit text-base drop-shadow-sm p-2 p rounded-sm flex flex-row gap-5 items-center"
           [ngClass]="
             message.senderUserName ===
             (authService.currentUser$ | async)?.userName
               ? 'ml-auto bg-secondary text-gray-100'
               : 'mr-auto bg-gray-200 text-primary'
           "
+          (click)="test(message)"
         >
           <span>{{ message.content }}</span>
           <span class="text-xs">
+            <!--            {{ message.messageSent.getHours() }}-->
             {{ message.messageSent.getHours() }}:{{
               message.messageSent.getMinutes()
             }}
@@ -29,14 +42,13 @@
   <div
     class="flex flex-row items-center gap-5 bg-gray-300 px-5 py-2 border-l border-l-gray-200 w-full"
   >
-    <textarea
+    <input
       id="about"
       name="about"
-      rows="1"
       placeholder="Type a message"
       [formControl]="message"
       class="bg-transparent text-primary font-semibold hover:bg-gray-200 w-full h-full py-1.5 px-2 focus:outline-transparent"
-    ></textarea>
+    />
     <span
       [ngClass]="message.valid ? 'text-primary' : 'text-transparent'"
       class="material-icons text-primary cursor-pointer"

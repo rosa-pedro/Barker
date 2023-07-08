@@ -8,6 +8,7 @@ import { ToastComponent } from './toaster/toast/toast.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { TtdirectiveComponent } from './tooltip/ttdirective/ttdirective.component';
+import { ModalComponent } from './modal/modal.component';
 
 const UIComponents = [
   InputComponent,
@@ -20,7 +21,7 @@ const UIComponents = [
 ];
 
 @NgModule({
-  declarations: [...UIComponents],
+  declarations: [...UIComponents, ModalComponent],
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
   providers: [],
   bootstrap: [],

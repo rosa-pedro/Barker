@@ -57,8 +57,14 @@ export class ProfileService {
       if (user) {
         isAuthenticatedUser =
           user.userName === this.memberSource.value?.userName;
+      } else {
+        isAuthenticatedUser = false;
       }
     });
     return isAuthenticatedUser;
+  }
+
+  clear() {
+    this.memberSource.next(null);
   }
 }

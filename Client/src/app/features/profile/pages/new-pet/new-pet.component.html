@@ -1,0 +1,95 @@
+<form [formGroup]="form" class="flex flex-col w-full items-center gap-2 py-5">
+  <div *ngIf="hasPhoto()">
+    {{ imageURL }}
+    <div class="w-full relative after:block after:pt-[100%]">
+      <img
+        class="h-full w-full object-cover absolute"
+        [src]="imageURL"
+        alt=""
+      />
+    </div>
+  </div>
+
+  <div
+    *ngIf="!hasPhoto()"
+    class="text-primary flex flex-col items-center gap-2 w-full py-10 border-2 border-dashed border-gray-200"
+  >
+    <span class="material-icons text-6xl text-gray-300">image</span>
+    <div class="flex flex-row">
+      <label for="file-upload" class="text-secondary font-semibold">
+        Upload photo&nbsp;
+        <input
+          accept="image/*"
+          formControlName="photo"
+          id="file-upload"
+          name="file-upload"
+          type="file"
+          class="sr-only"
+        />
+      </label>
+    </div>
+    <p class="text-sm">JPG only</p>
+  </div>
+  <div class="grid grid-cols-2 items-center gap-2">
+    <div class="flex flex-row justify-end">
+      <p class="font-semibold text-secondary">Name</p>
+    </div>
+    <input
+      formControlName="name"
+      type="text"
+      class="px-2 border bg-gray-200 rounded-md text-primary"
+    />
+  </div>
+  <div class="grid grid-cols-2 items-center gap-2">
+    <div class="flex flex-row justify-end">
+      <p class="font-semibold text-secondary">Type</p>
+    </div>
+    <input
+      formControlName="type"
+      type="text"
+      class="px-2 border bg-gray-200 rounded-md text-primary"
+    />
+  </div>
+  <div class="grid grid-cols-2 items-center gap-2">
+    <div class="flex flex-row justify-end">
+      <p class="font-semibold text-secondary">Birthday (mm/dd/yyyy)</p>
+    </div>
+
+    <input
+      formControlName="dateOfBirth"
+      type="text"
+      class="px-2 border bg-gray-200 rounded-md text-primary"
+    />
+  </div>
+  <div class="grid grid-cols-2 items-center gap-2">
+    <div class="flex flex-row justify-end">
+      <p class="font-semibold text-secondary">Gender</p>
+    </div>
+    <app-dropdown
+      class="h-7 w-32"
+      (selectionChange)="changeGender($event)"
+      [options]="genders"
+      [hasAll]="false"
+    ></app-dropdown>
+  </div>
+  <div class="grid grid-cols-2 items-center gap-2 w-full">
+    <div class="flex flex-row justify-end">
+      <p class="font-semibold text-secondary">About</p>
+    </div>
+    <textarea
+      formControlName="about"
+      type="number"
+      rows="5"
+      class="px-2 border bg-gray-200 rounded-md text-primary w-full"
+    ></textarea>
+  </div>
+</form>
+<div class="modal-footer flex justify-end">
+  <app-button
+    [disabled]="!form.valid"
+    class="w-1/5"
+    type="success"
+    (click)="submit()"
+    message="Submit"
+  ></app-button>
+</div>

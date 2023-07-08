@@ -1,0 +1,23 @@
+<div
+  class="modal absolute left-1/2 top-1/2 z-[3] h-auto border border-secondary bg-gray-50 rounded-md p-5 {{
+    size
+  }}"
+>
+  <div class="flex justify-between mb-10">
+    <span class="text-secondary text-2xl font-bold">
+      {{ title }}
+    </span>
+    <span class="cursor-pointer" (click)="close()">✕</span>
+  </div>
+  <div class="mb-10">
+    <ng-content></ng-content>
+  </div>
+  <!--<div class="modal-footer flex justify-end">
+    <button (click)="submit()">Submit</button>
+  </div>-->
+</div>
+
+<div
+  class="flex justify-center items-center absolute z-[2] h-full w-full inset-0 bg-black opacity-25"
+  (click)="close()"
+></div>
