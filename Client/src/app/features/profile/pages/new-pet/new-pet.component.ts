@@ -42,8 +42,10 @@ export class NewPetComponent {
     if (event.target.files.length > 0) {
       const photoFormControl = this.form.get('photo');
 
-      if (photoFormControl !== null)
+      if (photoFormControl !== null) {
         photoFormControl.setValue(event.target.files[0]);
+        this.imageURL = this.form.value.photo.name;
+      }
     }
   }
 

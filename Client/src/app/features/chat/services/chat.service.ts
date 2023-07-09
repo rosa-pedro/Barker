@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, take } from 'rxjs';
-import { Post } from '../../../core/models/post/post.model';
 import { ChatMember } from '../../../core/models/member/chat-member';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -79,8 +78,13 @@ export class ChatService {
   constructor(private http: HttpClient) {}
 
   getActiveChats() {
-    // this.activeChatsSource.next(activeChats);
-    // return this.activeChatsSource.asObservable();
+    return this.http.get<ChatMember[]>(this.baseUrl + 'groups/').pipe(
+      map((activeChats: ChatMember[]) => {
+        if (activeChats && activeChats.length > 0) {
+          this.activeChatsSource.next(activeChats);
+        }
+      })
+    );
   }
 
   createHubConnection(user: User, otherUsername: string) {
@@ -91,7 +95,9 @@ export class ChatService {
       .withAutomaticReconnect()
       .build();
 
-    this.hubConnection.start().catch((error) => console.log(error));
+    this.hubConnection.start().catch((error) => {
+      console.log(error);
+    });
 
     this.hubConnection.on('ReceiveMessageThread', (messages) => {
       if (messages) {
@@ -129,6 +135,16 @@ export class ChatService {
         next: (messages: Message[] | null) => {
           if (messages) {
             this.messageThreadSource.next([...messages, message]);
+            if (this.activeChatsSource.value) {
+              let actChats: ChatMember[] = [...this.activeChatsSource.value];
+              actChats.map((chat) => {
+                if (chat.participant === otherUsername) {
+                  chat.lastMessage = message.content;
+                  chat.lastMessageSent = new Date(Date.now());
+                }
+              });
+              this.activeChatsSource.next([...actChats]);
+            }
           }
         },
       });

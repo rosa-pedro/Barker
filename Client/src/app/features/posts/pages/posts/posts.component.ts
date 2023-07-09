@@ -1,6 +1,9 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { PostService, RequestSpec } from '../../services/post.service';
 import { DropdownOption } from '../../../../shared/components/dropdown/dropdown.component';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-posts',
@@ -9,8 +12,11 @@ import { DropdownOption } from '../../../../shared/components/dropdown/dropdown.
 })
 export class PostsComponent implements OnInit {
   filtering: RequestSpec = {};
+  search: FormControl = new FormControl('');
+  shouldScroll = false;
+  buttonAdd = 'New post';
 
-  constructor(public postService: PostService) {}
+  constructor(public postService: PostService, private router: Router) {}
 
   @HostListener('window:scroll')
   onScroll(): void {
@@ -21,10 +27,18 @@ export class PostsComponent implements OnInit {
     if (this.postService.hasNext && pixelsToReachBottom <= 0) {
       this.loadMore();
     }
+    this.shouldScroll = pageScrollY > 500;
+    console.log(this.shouldScroll);
   }
 
   ngOnInit(): void {
     this.loadPosts();
+    this.search.valueChanges.pipe(debounceTime(500)).subscribe((value) => {
+      if (value !== '') this.filtering.search = value;
+      else this.filtering.search = undefined;
+
+      this.searchPost();
+    });
   }
 
   private loadPosts() {
@@ -56,13 +70,10 @@ export class PostsComponent implements OnInit {
     },
   };
 
-  orderBy(filter: 'general' | 'date', option: string) {
-    console.log(this.filters[filter].options.find((o) => o.code === option));
-
+  orderBy(filter: 'general' | 'date', option?: string) {
     const findInFilters = this.filters[filter].options.find(
       (o) => o.code === option
     );
-
     const chosenOption = findInFilters
       ? findInFilters
       : { code: 'all', value: 'All' };
@@ -78,14 +89,26 @@ export class PostsComponent implements OnInit {
         this.filtering.from = undefined;
       }
     }
+    this.searchPost();
+  }
 
+  searchPost() {
     this.postService.getPostsFiltered(this.filtering, false).subscribe({
       next: (value) => {
+        console.log(value);
         if (value === undefined) {
           // TODO: Implement a toast to display this message
           console.log(value);
         }
       },
     });
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
+
+  newPost() {
+    this.router.navigate(['./new-post']);
   }
 }

@@ -55,7 +55,6 @@ export class ProfileContentComponent implements OnInit {
     switch ($event) {
       case 'pets':
         this.profileService.member$.subscribe((member: Member | null) => {
-          console.log(member?.userName);
           if (member) {
             this.petService.getPets(member.userName).subscribe();
           }

@@ -1,17 +1,14 @@
 <div class="flex flex-col py-5 gap-5">
   <p class="px-5 text-2xl font-bold text-primary">Your chats</p>
   <div class="px-5 flex flex-row items-center gap-2">
-    <input
-      type="text"
-      placeholder="Search user..."
-      class="bg-gray-50 rounded-md h-9 w-full px-2 text-primary"
-    />
-    <span
-      class="material-icons text-primary cursor-pointer hover:brightness-150"
-      >clear</span
+    <div
+      class="cursor-pointer flex items-center bg-gray-50 rounded-md h-9 w-full px-2 text-primary"
+      (click)="searchUser()"
     >
+      <span class="text-gray-300">Search user...</span>
+    </div>
   </div>
-  <div>
+  <div *ngIf="chatService.activeChats$ | async; else noActiveChats">
     <div
       *ngFor="let chat of chatService.activeChats$ | async"
       class="hover:bg-gray-200 cursor-pointer"
@@ -22,7 +19,7 @@
           <div class="w-14 relative after:block after:pt-[100%]">
             <img
               class="h-full rounded-full w-full object-cover absolute"
-              [src]="chat.photo"
+              [src]="chat.participantPhoto"
               alt=""
             />
           </div>
@@ -32,7 +29,7 @@
         >
           <div class="flex flex-col">
             <p class="text-lg text-primary font-semibold">
-              {{ chat.userName }}
+              {{ chat.participant }}
             </p>
             <p class="text-sm text-gray-600">{{ chat.lastMessage }}</p>
           </div>
@@ -40,18 +37,16 @@
             <p
               class="text-xs contrast-75"
               [ngClass]="
-                chat.hasUnreadMessage === true
-                  ? 'text-secondary'
-                  : 'text-gray-600'
+                chat.hasUnreadMessage !== 0 ? 'text-secondary' : 'text-gray-600'
               "
             >
-              {{ chat.lastMessageTime.getHours() }}:{{
-                chat.lastMessageTime.getMinutes()
-              }}
+              <!--{{ chat.lastMessageSent.getHours() }}:{{
+                chat.lastMessageSent.getMinutes()
+              }}-->
             </p>
 
             <span
-              [hidden]="!chat.hasUnreadMessage"
+              [hidden]="chat.hasUnreadMessage !== 0"
               class="material-icons text-secondary"
             >
               fiber_manual_record
@@ -61,4 +56,15 @@
       </div>
     </div>
   </div>
+  <ng-template #noActiveChats>
+    <div
+      class="px-5 py-10 flex flex-col text-center items-center justify-center gap-2 text-primary"
+    >
+      <span class="flex items-center gap-2 text-lg font-semibold">
+        <span class="material-icons">sentiment_dissatisfied</span>
+        No active chats.
+      </span>
+      <span> You can search for someone to talk to, though... </span>
+    </div>
+  </ng-template>
 </div>

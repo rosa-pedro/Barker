@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -11,8 +11,6 @@ export class InputComponent implements OnInit {
   @Input() inputFC: FormControl = new FormControl();
   @Input() errorMessages: string[] = [];
   @Input() type = 'text';
-
-  @Output() input = new EventEmitter();
 
   constructor() {}
 

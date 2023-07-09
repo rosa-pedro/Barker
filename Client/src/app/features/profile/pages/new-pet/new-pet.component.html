@@ -1,23 +1,14 @@
 <form [formGroup]="form" class="flex flex-col w-full items-center gap-2 py-5">
-  <div *ngIf="hasPhoto()">
-    {{ imageURL }}
-    <div class="w-full relative after:block after:pt-[100%]">
-      <img
-        class="h-full w-full object-cover absolute"
-        [src]="imageURL"
-        alt=""
-      />
-    </div>
-  </div>
-
   <div
-    *ngIf="!hasPhoto()"
     class="text-primary flex flex-col items-center gap-2 w-full py-10 border-2 border-dashed border-gray-200"
   >
     <span class="material-icons text-6xl text-gray-300">image</span>
     <div class="flex flex-row">
-      <label for="file-upload" class="text-secondary font-semibold">
-        Upload photo&nbsp;
+      <label
+        for="file-upload"
+        class="cursor-pointer text-secondary font-semibold"
+      >
+        Upload photo
         <input
           accept="image/*"
           id="file-upload"
@@ -29,6 +20,7 @@
       </label>
     </div>
     <p class="text-sm">JPG only</p>
+    <div *ngIf="hasPhoto()">Selected: {{ imageURL }}</div>
   </div>
   <div class="grid grid-cols-2 items-center gap-2">
     <div class="flex flex-row justify-end">

@@ -1,9 +1,9 @@
 export interface ChatMember {
   id: number;
-  userName: string;
-  photo: string;
+  participant: string;
+  participantPhoto: string;
   isOnline: boolean;
   lastMessage: string;
-  lastMessageTime: Date;
-  hasUnreadMessage: boolean;
+  lastMessageSent: Date;
+  hasUnreadMessage: number;
 }
