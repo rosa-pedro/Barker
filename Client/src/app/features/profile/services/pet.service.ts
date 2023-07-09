@@ -32,7 +32,6 @@ export class PetService {
     return this.http.get<Pet>(this.baseUrl + 'pets/' + id).pipe(
       map((pet: Pet) => {
         if (pet) {
-          console.log(pet);
           this.petSource.next(pet);
         }
       })

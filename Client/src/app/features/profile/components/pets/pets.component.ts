@@ -29,7 +29,6 @@ export class PetsComponent implements OnInit {
     this.router.navigate(['edit-pet', { pet: petId }], {
       relativeTo: this.route,
     });
-    console.log(this.route.snapshot.params);
   }
 
   deletePet(newPetModal: TemplateRef<any>, petId: number, petName: string) {

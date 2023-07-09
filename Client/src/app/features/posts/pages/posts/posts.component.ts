@@ -28,7 +28,6 @@ export class PostsComponent implements OnInit {
       this.loadMore();
     }
     this.shouldScroll = pageScrollY > 500;
-    console.log(this.shouldScroll);
   }
 
   ngOnInit(): void {

@@ -57,7 +57,6 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   changeGender($event: string) {
-    console.log(this.form.get('gender'));
     this.form.patchValue({ gender: $event });
   }
 

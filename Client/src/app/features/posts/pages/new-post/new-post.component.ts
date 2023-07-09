@@ -31,7 +31,6 @@ export class NewPostComponent {
       if (photoFormControl !== null) {
         photoFormControl.setValue(event.target.files[0]);
         this.imageURL = this.newPostForm.value.photo.name;
-        console.log(this.newPostForm.value.photo);
       }
     }
   }

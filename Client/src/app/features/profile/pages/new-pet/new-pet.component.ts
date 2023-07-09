@@ -31,7 +31,6 @@ export class NewPetComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     if (!this.isEdit) {
-      console.log(this.isEdit);
       this.form = this.fb.group({
         name: ['', [Validators.required]],
         photo: [null],
@@ -44,14 +43,11 @@ export class NewPetComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['pet']);
     if (this.route.snapshot.params['pet']) {
-      console.log('hey');
       this.isEdit = true;
       this.petService.pet$.pipe(takeUntil(this.componentDestroyed$)).subscribe({
         next: (pet) => {
           if (pet) {
-            console.log(pet);
             this.form = this.fb.group({
               name: [pet.name],
               photo: [null],
@@ -96,7 +92,6 @@ export class NewPetComponent implements OnInit {
           this.petService.updatePet(pet).subscribe({
             next: () => {
               if (pet.photo) {
-                console.log(pet.photo);
                 this.setPhoto(pet.id, pet.photo);
               } else {
                 this.router.navigate(
@@ -108,7 +103,6 @@ export class NewPetComponent implements OnInit {
           });
         }
       } else {
-        console.log('wrong');
         this.petService.addPet(pet).subscribe({
           next: (value) => {
             this.setPhoto(value.id, pet.photo);
