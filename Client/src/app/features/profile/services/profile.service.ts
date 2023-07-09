@@ -67,4 +67,24 @@ export class ProfileService {
   clear() {
     this.memberSource.next(null);
   }
+
+  updateProfile(member: Member) {
+    return this.http.put<Member>(this.baseUrl + 'users', member).pipe(
+      map((member: Member) => {
+        if (member) {
+          this.memberSource.next({
+            ...member,
+            lastActive: new Date(member.lastActive),
+          });
+        }
+      })
+    );
+  }
+
+  setPetPhoto(photo: string) {
+    const data: FormData = new FormData();
+    data.append('Photo', photo);
+
+    return this.http.post(this.baseUrl + `users/set-profile-photo`, data);
+  }
 }

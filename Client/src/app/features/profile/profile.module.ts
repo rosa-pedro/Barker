@@ -13,6 +13,7 @@ import { PetsComponent } from './components/pets/pets.component';
 import { PostsTabComponent } from './components/posts-tab/posts-tab.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewPetComponent } from './pages/new-pet/new-pet.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { NewPetComponent } from './pages/new-pet/new-pet.component';
     PetsComponent,
     PostsTabComponent,
     NewPetComponent,
+    EditProfileComponent,
   ],
   imports: [
     CommonModule,

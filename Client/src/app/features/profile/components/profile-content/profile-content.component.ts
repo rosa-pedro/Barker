@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs';
+import { first, Subject, takeUntil } from 'rxjs';
 import { Member } from '../../../../core/models/member/member.model';
 import { PetService } from '../../services/pet.service';
 
@@ -10,8 +10,11 @@ import { PetService } from '../../services/pet.service';
   templateUrl: './profile-content.component.html',
   styleUrls: ['./profile-content.component.scss'],
 })
-export class ProfileContentComponent implements OnInit {
+export class ProfileContentComponent implements OnInit, OnDestroy {
   isAuthenticatedUser = false;
+  member!: Member;
+
+  componentDestroyed$: Subject<boolean> = new Subject();
 
   activeTab = 'about';
   options = [
@@ -27,6 +30,11 @@ export class ProfileContentComponent implements OnInit {
     private router: Router
   ) {}
 
+  ngOnDestroy(): void {
+    this.componentDestroyed$.next(true);
+    this.componentDestroyed$.complete();
+  }
+
   ngOnInit(): void {
     this.route.queryParams.pipe(first()).subscribe((params) => {
       if (params['tab']) {
@@ -36,11 +44,13 @@ export class ProfileContentComponent implements OnInit {
         this.router.navigate([], { queryParams: { tab: 'about' } });
       }
     });
-    this.profileService.member$.subscribe((user) => {
-      if (user) {
-        this.isAuthenticatedUser = this.profileService.isAuthenticatedUser();
-      }
-    });
+    this.profileService.member$
+      .pipe(takeUntil(this.componentDestroyed$))
+      .subscribe((user) => {
+        if (user) {
+          this.isAuthenticatedUser = this.profileService.isAuthenticatedUser();
+        }
+      });
   }
 
   sendMessage() {
@@ -49,16 +59,20 @@ export class ProfileContentComponent implements OnInit {
     });
   }
 
-  editProfile() {}
+  editProfile() {
+    this.router.navigate(['edit-profile'], { relativeTo: this.route });
+  }
 
   selectionChange($event: string) {
     switch ($event) {
       case 'pets':
-        this.profileService.member$.subscribe((member: Member | null) => {
-          if (member) {
-            this.petService.getPets(member.userName).subscribe();
-          }
-        });
+        this.profileService.member$
+          .pipe(takeUntil(this.componentDestroyed$))
+          .subscribe((member: Member | null) => {
+            if (member) {
+              this.petService.getPets(member.userName).subscribe();
+            }
+          });
         break;
       case 'posts':
         this.profileService.getPostsFromUser(
@@ -70,12 +84,4 @@ export class ProfileContentComponent implements OnInit {
   newPet() {
     this.router.navigate(['new-pet'], { relativeTo: this.route });
   }
-
-  /*newPet(newPetModal: TemplateRef<any>) {
-    this.modalService
-      .open(newPetModal, { size: 'lg', title: 'New Pet' })
-      .subscribe((action) => {
-        console.log('modalAction', action);
-      });
-  }*/
 }

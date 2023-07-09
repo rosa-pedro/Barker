@@ -15,7 +15,19 @@
         <div
           class="flex transition-colors font-semibold text-gray-800 py-2 bg-primary_lighter w-full justify-center cursor-pointer hover:bg-primary hover:text-gray-300"
         >
-          Change picture
+          <label for="file-upload" class="cursor-pointer font-semibold">
+            Change picture
+            <input
+              accept=".jpg"
+              id="file-upload"
+              name="file-upload"
+              type="file"
+              class="sr-only w-full"
+              (change)="onPhotoSelect($event)"
+            />
+          </label>
+
+          <!--          Change picture-->
         </div>
       </div>
       <app-profile-statistics></app-profile-statistics>
