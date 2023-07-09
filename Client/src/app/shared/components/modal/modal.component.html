@@ -4,7 +4,7 @@
   }}"
 >
   <div class="flex justify-between mb-10">
-    <span class="text-secondary text-2xl font-bold">
+    <span class="text-secondary text-2xl font-bold capitalize">
       {{ title }}
     </span>
     <span class="cursor-pointer" (click)="close()">✕</span>
@@ -12,9 +12,21 @@
   <div class="mb-10">
     <ng-content></ng-content>
   </div>
-  <!--<div class="modal-footer flex justify-end">
-    <button (click)="submit()">Submit</button>
-  </div>-->
+  <div class="modal-footer flex flex-row justify-end gap-2">
+    <app-button
+      class="w-20"
+      message="Cancel"
+      [outlined]="true"
+      type="info"
+      (click)="close()"
+    ></app-button>
+    <app-button
+      class="w-20"
+      message="Submit"
+      type="success"
+      (click)="submit()"
+    ></app-button>
+  </div>
 </div>
 
 <div

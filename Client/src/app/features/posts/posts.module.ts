@@ -10,6 +10,7 @@ import { TimeagoModule } from 'ngx-timeago';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { CommentsComponent } from './components/comments/comments.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NewPostComponent } from './pages/new-post/new-post.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ActionTabComponent,
     PostCardComponent,
     CommentsComponent,
+    NewPostComponent,
   ],
   imports: [
     PostsRoutingModule,

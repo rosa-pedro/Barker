@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from '../../services/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
@@ -21,10 +20,7 @@ export class CommentsComponent implements OnInit {
   ngOnInit(): void {
     this.commentsService
       .getComments(this.route.snapshot.params['id'])
-      .subscribe((comments: Comment[] | void) => {
-        console.log(comments);
-      });
-    const a = this.newComment.valid;
+      .subscribe(() => {});
   }
 
   sendComment() {

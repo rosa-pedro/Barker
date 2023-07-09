@@ -14,7 +14,5 @@ export class ProfileTabComponent implements OnInit {
   @Input() active = false;
   @Input() option: TabOption = {};
 
-  ngOnInit(): void {
-    console.log(this.option);
-  }
+  ngOnInit(): void {}
 }

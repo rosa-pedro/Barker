@@ -1,6 +1,10 @@
-<div class="flex flex-col my-10 gap-5">
+<div class="static w-full flex flex-col my-10 gap-5">
   <div class="w-full flex flex-row items-center justify-between gap-5">
-    <app-input class="w-1/2" placeholder="Search"></app-input>
+    <app-input
+      [inputFC]="search"
+      class="w-1/2"
+      placeholder="Search"
+    ></app-input>
     <div class="flex flex-row w-1/8 items-center">
       <label class="text-xs">Ranking: &nbsp;</label>
 
@@ -30,5 +34,22 @@
   </div>
   <div *ngIf="!postService.hasNext" class="flex justify-center">
     No more posts...
+  </div>
+  <div
+    class="fixed flex-col inline-flex items-end justify-center gap-5 bottom-10 right-20"
+  >
+    <div
+      class="animate-bounce cursor-pointer flex items-center justify-center h-14 w-14 z-20 rounded-full bg-secondary"
+      (click)="scrollToTop()"
+      *ngIf="shouldScroll"
+    >
+      <span class="material-icons text-4xl text-gray-50">arrow_upward</span>
+    </div>
+    <div
+      class="cursor-pointer flex items-center justify-center h-14 w-14 z-20 rounded-full bg-secondary text-gray-50 font-semiboldbold text-xl hover:w-32 hover:after:content-['New']"
+      (click)="newPost()"
+    >
+      <span class="material-icons text-4xl">add</span>
+    </div>
   </div>
 </div>

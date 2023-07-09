@@ -12,6 +12,10 @@ export class PetService {
 
   private petsSource = new BehaviorSubject<Pet[] | null>(null);
   pets$ = this.petsSource.asObservable();
+
+  private petSource = new BehaviorSubject<Pet | null>(null);
+  pet$ = this.petSource.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getPets(owner: string) {
@@ -19,6 +23,17 @@ export class PetService {
       map((pets: Pet[]) => {
         if (pets && pets.length > 0) {
           this.petsSource.next(pets);
+        }
+      })
+    );
+  }
+
+  getPet(id: number) {
+    return this.http.get<Pet>(this.baseUrl + 'pets/' + id).pipe(
+      map((pet: Pet) => {
+        if (pet) {
+          console.log(pet);
+          this.petSource.next(pet);
         }
       })
     );
@@ -36,5 +51,13 @@ export class PetService {
       this.baseUrl + `pets/${petId}/set-profile-photo`,
       data
     );
+  }
+
+  deletePet(petId: number) {
+    return this.http.delete<Pet>(this.baseUrl + 'pets/' + petId);
+  }
+
+  updatePet(pet: Pet) {
+    return this.http.put(this.baseUrl + `pets/${pet.id}`, pet);
   }
 }

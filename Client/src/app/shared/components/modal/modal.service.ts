@@ -8,7 +8,6 @@ import {
 import { Subject } from 'rxjs';
 import { ModalComponent } from './modal.component';
 import { DOCUMENT } from '@angular/common';
-import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +16,6 @@ export class ModalService {
   private modalNotifier?: Subject<any>;
   constructor(
     private resolver: ComponentFactoryResolver,
-    // private ref: ViewContainerRef,
     private injector: Injector,
     @Inject(DOCUMENT) private document: Document
   ) {}
@@ -46,13 +44,8 @@ export class ModalService {
     this.modalNotifier?.complete();
   }
 
-  submitModal(data?: FormGroup) {
-    this.modalNotifier?.next(data);
+  submitModal() {
+    this.modalNotifier?.next('confirm');
     this.closeModal();
-  }
-
-  submit(data: FormGroup) {
-    this.modalNotifier?.next(data);
-    this.submitModal(data);
   }
 }

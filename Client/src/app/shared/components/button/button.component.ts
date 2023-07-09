@@ -11,7 +11,7 @@ export class ButtonComponent {
   @Input() size: string = '';
   @Input() disabled: boolean = false;
   @Input() outlined: boolean = false;
-  @Input() icon: string = '';
+  @Input() icon: string | null = null;
 
   colors = {
     error: {

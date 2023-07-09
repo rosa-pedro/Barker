@@ -14,12 +14,26 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.getProfile();
+  }
+
+  ngOnDestroy(): void {
+    this.profileService.clear();
+  }
+  getProfile() {
     this.profileService
       .getMember(this.route.snapshot.params['username'])
       .subscribe(() => {});
   }
 
-  ngOnDestroy(): void {
-    this.profileService.clear();
+  onPhotoSelect(event: any) {
+    if (event.target.files.length > 0) {
+      this.profileService.setPetPhoto(event.target.files[0]).subscribe({
+        next: () => {
+          this.getProfile();
+        },
+        error: (error) => console.log(error),
+      });
+    }
   }
 }
