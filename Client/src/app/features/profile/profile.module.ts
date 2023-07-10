@@ -11,6 +11,9 @@ import { ProfileStatisticsComponent } from './components/profile-statistics/prof
 import { TimeagoModule } from 'ngx-timeago';
 import { PetsComponent } from './components/pets/pets.component';
 import { PostsTabComponent } from './components/posts-tab/posts-tab.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NewPetComponent } from './pages/new-pet/new-pet.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -22,12 +25,15 @@ import { PostsTabComponent } from './components/posts-tab/posts-tab.component';
     ProfileStatisticsComponent,
     PetsComponent,
     PostsTabComponent,
+    NewPetComponent,
+    EditProfileComponent,
   ],
   imports: [
     CommonModule,
     ProfileRoutingModule,
     ComponentsModule,
     TimeagoModule.forChild(),
+    ReactiveFormsModule,
   ],
 })
 export class ProfileModule {}

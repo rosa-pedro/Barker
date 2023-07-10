@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { NewPetComponent } from './pages/new-pet/new-pet.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 
 const routes: Routes = [
   {
@@ -11,6 +13,18 @@ const routes: Routes = [
   {
     path: 'profile/:username',
     component: ProfileComponent,
+  },
+  {
+    path: 'profile/:username/new-pet',
+    component: NewPetComponent,
+  },
+  {
+    path: 'profile/:username/edit-pet',
+    component: NewPetComponent,
+  },
+  {
+    path: 'profile/:username/edit-profile',
+    component: EditProfileComponent,
   },
 ];
 

@@ -41,13 +41,12 @@ public class GroupsController : ApiController
             if (user == null)
                 return NotFound();
 
-            var unreadMessages =
-                await _unitOfWork.MessageRepository.GetNumberOfUnreadMessagesFromUser(
-                    currentUserName,
-                    participant
-                );
+            var unreadMessages = await _unitOfWork.MessageRepository.GetNumberOfUnreadMessages(
+                currentUserName,
+                participant
+            );
 
-            var lastMessage = await _unitOfWork.MessageRepository.GetLastMessageFromUser(
+            var lastMessage = await _unitOfWork.MessageRepository.GetLastMessage(
                 currentUserName,
                 participant
             );

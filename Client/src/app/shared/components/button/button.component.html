@@ -1,15 +1,18 @@
 <button
   [disabled]="disabled"
-  class="flex flex-row items-center justify-center w-full hover:opacity-75 transition-opacity ease-out {{
-    disabled ? 'brightness-75' : ''
-  }} {{ size === 'lg' ? ' h-14 rounded-lg' : 'h-10 rounded-full' }} {{
-    outlined ? borderColor : color
-  }} {{ outlined ? textColor : 'text-white' }} font-medium"
+  class="flex flex-row items-center justify-center w-full {{
+    disabled ? '' : 'hover:brightness-105'
+  }} transition-opacity ease-out {{ disabled ? 'brightness-75' : '' }} {{
+    size === 'lg' ? ' h-14 rounded-lg' : 'h-10 rounded-full'
+  }} {{ outlined ? borderColor : color }} {{
+    outlined ? textColor : 'text-white'
+  }} font-medium"
 >
   <span
+    *ngIf="icon"
     class="material-icons {{
       outlined ? 'text-primary' : 'text-white'
-    }} mr-2 text-base"
+    }} mr-2 text-base {{ textColor }}"
   >
     {{ icon }}
   </span>

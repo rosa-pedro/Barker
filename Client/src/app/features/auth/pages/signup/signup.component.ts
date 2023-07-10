@@ -1,15 +1,7 @@
-import { Component, Directive, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  NG_VALIDATORS,
-  Validator,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { SignupForm } from '../../models/forms.model';
-import { first, firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -40,7 +32,6 @@ export class SignupComponent implements OnInit {
             } else {
               this.errorMessages = [];
             }
-            console.log(isAvailable);
           },
         });
       }

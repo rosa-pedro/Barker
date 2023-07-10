@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, take } from 'rxjs';
-import { Post } from '../../../core/models/post/post.model';
 import { ChatMember } from '../../../core/models/member/chat-member';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -78,191 +77,14 @@ export class ChatService {
 
   constructor(private http: HttpClient) {}
 
-  getMessages(username: string) {
-    const messages: Message[] = [
-      {
-        id: 1,
-        senderId: 2,
-        senderUserName: 'sarah',
-        recipientId: 1,
-        content: 'Hello, im sarah! Can you talk?',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'Im queen! Nice to meet you!',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'Yes I can talk',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 2,
-        senderUserName: 'sarah',
-        recipientId: 1,
-        content: 'How is your dog?',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'hes great',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 2,
-        senderUserName: 'sarah',
-        recipientId: 1,
-        content: 'Wonderful',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 2,
-        senderUserName: 'sarah',
-        recipientId: 1,
-        content: 'Id like to meet him sometime',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'Sure, why not',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 2,
-        senderUserName: 'sarah',
-        recipientId: 1,
-        content: 'Tomorrow at the park?',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'Deal',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'Deal',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'what time',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'afternoon is better',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 2,
-        senderUserName: 'sarah',
-        recipientId: 1,
-        content: '3pm for me is perfect',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: '3pm it is then',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 1,
-        senderUserName: 'queen',
-        recipientId: 2,
-        content: 'See you there',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-      {
-        id: 1,
-        senderId: 2,
-        senderUserName: 'sarah',
-        recipientId: 1,
-        content: 'See ya',
-        dateRead: new Date(),
-        messageSent: new Date(),
-      },
-    ];
-
-    this.messageThreadSource.next(messages);
-  }
-
   getActiveChats() {
-    let activeChats: ChatMember[] = [
-      {
-        id: 3,
-        userName: 'sarah',
-        photo:
-          'https://images.unsplash.com/photo-1521252659862-eec69941b071?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=625&q=80',
-        isOnline: true,
-        lastMessage: 'Good, wby???',
-        lastMessageTime: new Date(),
-        hasUnreadMessage: true,
-      },
-      {
-        id: 6,
-        userName: 'frazier',
-        photo:
-          'https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-        isOnline: false,
-        lastMessage: 'Im also good',
-        lastMessageTime: new Date(),
-        hasUnreadMessage: false,
-      },
-    ];
-
-    this.activeChatsSource.next(activeChats);
+    return this.http.get<ChatMember[]>(this.baseUrl + 'groups/').pipe(
+      map((activeChats: ChatMember[]) => {
+        if (activeChats && activeChats.length > 0) {
+          this.activeChatsSource.next(activeChats);
+        }
+      })
+    );
   }
 
   createHubConnection(user: User, otherUsername: string) {
@@ -273,9 +95,16 @@ export class ChatService {
       .withAutomaticReconnect()
       .build();
 
-    this.hubConnection.start().catch((error) => console.log(error));
+    this.hubConnection.start().catch((error) => {
+      console.log(error);
+    });
 
     this.hubConnection.on('ReceiveMessageThread', (messages) => {
+      if (messages) {
+        messages.map((message: Message) => {
+          message.messageSent = new Date(message.messageSent);
+        });
+      }
       this.messageThreadSource.next(messages);
     });
 
@@ -292,6 +121,7 @@ export class ChatService {
                 if (!message.dateRead) {
                   message.dateRead = new Date(Date.now());
                 }
+                message.messageSent = new Date(message.messageSent);
               });
               this.messageThreadSource.next([...messages]);
             }
@@ -305,6 +135,16 @@ export class ChatService {
         next: (messages: Message[] | null) => {
           if (messages) {
             this.messageThreadSource.next([...messages, message]);
+            if (this.activeChatsSource.value) {
+              let actChats: ChatMember[] = [...this.activeChatsSource.value];
+              actChats.map((chat) => {
+                if (chat.participant === otherUsername) {
+                  chat.lastMessage = message.content;
+                  chat.lastMessageSent = new Date(Date.now());
+                }
+              });
+              this.activeChatsSource.next([...actChats]);
+            }
           }
         },
       });
@@ -316,12 +156,6 @@ export class ChatService {
       this.messageThreadSource.next([]);
       this.hubConnection.stop();
     }
-  }
-
-  getMessageThread(username: string) {
-    return this.http.get<Message[]>(
-      this.baseUrl + 'messages/thread/' + username
-    );
   }
 
   async sendMessage(username: string, content: string) {

@@ -22,7 +22,6 @@ export class CommentsService {
       .pipe(
         map((comments: Comment[]) => {
           if (comments) {
-            console.log(comments);
             this.currentCommentsSource.next(comments);
           }
         })

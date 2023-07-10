@@ -1,23 +1,27 @@
 import {
   AfterViewChecked,
   Component,
-  ElementRef,
+  HostListener,
+  OnChanges,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
-import { first } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/services/auth.service';
 import { FormControl, Validators } from '@angular/forms';
+import { User } from '../../../../core/models/user/user.model';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss'],
 })
-export class MessagesComponent implements OnInit, AfterViewChecked {
+export class MessagesComponent implements OnInit, AfterViewChecked, OnChanges {
   message: FormControl = new FormControl<string>('', [Validators.required]);
+
+  username = '';
+  authUser: User | undefined;
+  isActive = false;
 
   constructor(
     readonly chatService: ChatService,
@@ -25,13 +29,40 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     private route: ActivatedRoute
   ) {}
 
+  @HostListener('document:keydown.enter', ['$event']) onKeydownHandler() {
+    if (this.message.value !== '') {
+      this.sendMessage();
+    }
+  }
+
   ngOnInit(): void {
     this.route.queryParams.pipe().subscribe((params) => {
-      if (params['username']) {
-        const username = params['username'];
-        // this.chatService.getMessages(username);
+      if (params['with']) {
+        this.username = params['with'];
+        this.authService.currentUser$.pipe().subscribe({
+          next: (user) => {
+            if (user) {
+              this.isActive = true;
+              this.authUser = user;
+              this.chatService.createHubConnection(user, this.username);
+            }
+          },
+        });
+      } else {
+        this.chatService.stopHubConnection();
+        this.isActive = false;
       }
     });
+    this.chatService.messageThread$.subscribe(() => {});
+  }
+
+  ngOnChanges(): void {
+    /*if (this.activeChat) {
+      this.chatService.createHubConnection(
+        this.user!,
+        this.activeChat.userName
+      );
+    }*/
   }
 
   ngAfterViewChecked() {
@@ -41,5 +72,10 @@ export class MessagesComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  sendMessage() {}
+  sendMessage() {
+    this.chatService.sendMessage(this.username, this.message.value).then(() => {
+      this.chatService.getActiveChats().subscribe();
+    });
+    this.message.setValue('');
+  }
 }

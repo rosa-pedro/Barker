@@ -3,6 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnInit,
   Output,
 } from '@angular/core';
 
@@ -19,12 +20,13 @@ export interface DropdownOption {
     '(document:click)': 'onClick($event)',
   },
 })
-export class DropdownComponent {
+export class DropdownComponent implements OnInit {
   @Input() options: DropdownOption[] = [];
   @Input() filterName: string = 'Filter by';
   @Input() hasAll: boolean = true;
 
   @Input() label: string = '';
+  @Input() preSelect: string | null = '';
 
   @Output('selectionChange') selectionChange = new EventEmitter<string>();
 
@@ -33,6 +35,15 @@ export class DropdownComponent {
   active = false;
 
   constructor(private _eref: ElementRef) {}
+
+  ngOnInit(): void {
+    if (this.preSelect) {
+      // @ts-ignore
+      this.selectedOption = this.options.find(
+        (o) => o.code === this.preSelect!.toLowerCase()
+      );
+    }
+  }
 
   private onClick(event: any) {
     if (!this._eref.nativeElement.contains(event.target)) {

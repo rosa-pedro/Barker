@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
-import { User } from '../../../../core/models/user/user.model';
 import { Router } from '@angular/router';
+import { ChatMember } from '../../../../core/models/member/chat-member';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,18 +9,29 @@ import { Router } from '@angular/router';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  @Input() user: User | undefined;
+  @Output('activeChat') activeChat = new EventEmitter<ChatMember | null>();
+  activeChatUser = '';
+  activeChats: ChatMember[] = [];
 
   constructor(readonly chatService: ChatService, private router: Router) {}
 
   ngOnInit(): void {
-    this.chatService.getActiveChats(); //.subscribe()
+    this.chatService.getActiveChats().subscribe({
+      next: () => {},
+    });
   }
 
-  openChat(username: string) {
-    console.log(this.user);
-    this.router.navigate([], { queryParams: { username: username } });
-    // this.chatService.getMessages(username);
-    this.chatService.createHubConnection(this.user!, username);
+  openChat(activeChat: ChatMember) {
+    const chat = this.activeChats.find(
+      (c) => c.participant === this.activeChatUser
+    );
+    this.activeChat.emit(chat);
+    this.router.navigate([], {
+      queryParams: { with: activeChat.participant },
+    });
+  }
+
+  searchUser() {
+    this.router.navigate([]);
   }
 }

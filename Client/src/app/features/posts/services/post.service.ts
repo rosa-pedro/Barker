@@ -13,6 +13,7 @@ export interface RequestSpec {
   username?: string;
   orderBy?: string;
   from?: string;
+  search?: string;
 }
 
 @Injectable({
@@ -41,6 +42,8 @@ export class PostService {
   ) {}
 
   getPosts() {
+    this.pageNumber = 1;
+
     return this.getPostsFinalize('posts');
   }
 
@@ -50,13 +53,14 @@ export class PostService {
   ): Observable<Post[]> {
     return this.http.get<Post[]>(this.baseUrl + requestEnd).pipe(
       map((response: Post[]) => {
-        console.log(response);
         const posts = response;
         if (posts && posts.length > 0) {
           const curPosts = this.postsSource.value;
           if (curPosts && isNext) {
             this.postsSource.next([...curPosts, ...posts]);
           } else {
+            this.hasNext = true;
+            this.pageNumber = 1;
             this.postsSource.next(posts);
           }
         } else {
@@ -91,11 +95,14 @@ export class PostService {
     if (spec.username) {
       requestEnd = requestEnd + 'username=' + spec.username + '&';
     }
-    console.log(requestEnd);
+    if (spec.search) {
+      requestEnd = requestEnd + 'Search=' + spec.search + '&';
+    }
     return this.getPostsFinalize(requestEnd, isNext);
   }
 
   getPost(postId: number) {
+    this.pageNumber = 0;
     return this.http.get<Post>(this.baseUrl + 'posts/' + postId).pipe(
       map((post: Post) => {
         if (post) {
@@ -117,7 +124,6 @@ export class PostService {
               userVote: voteResponse.vote,
             };
             this.currentPostSource.next(curPost);
-            console.log(curPost);
           }
         })
       );
@@ -139,6 +145,25 @@ export class PostService {
         })
       );
   }
+
+  addPost(post: NewPost) {
+    return this.http.post<Post>(this.baseUrl + 'posts', post);
+  }
+
+  setPetPhoto(postId: number, photo: File) {
+    const data: FormData = new FormData();
+    data.append('Photo', photo);
+
+    return this.http.post(
+      this.baseUrl + `posts/${postId}/set-featured-photo`,
+      data
+    );
+  }
+}
+
+export interface NewPost {
+  title: string;
+  content: string;
 }
 
 interface Vote {
