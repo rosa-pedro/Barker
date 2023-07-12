@@ -30,7 +30,7 @@
     class="flex flex-row space-x-10"
   >
     <app-button
-      class="hidden xl:flex w-40"
+      class="hidden md:flex w-40"
       [outlined]="true"
       routerLink="login"
       message="Login"
@@ -49,9 +49,6 @@
   <app-user-tab
     [userName]="(authService.currentUser$ | async)?.userName"
   ></app-user-tab>
-  <!--<div class="text-white">
-    {{ (authService.currentUser$ | async)?.userName }}
-  </div>-->
 </ng-template>
 
 <div *ngIf="menu_active" class="xl:hidden">

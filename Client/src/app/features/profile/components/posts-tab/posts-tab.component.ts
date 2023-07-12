@@ -16,4 +16,8 @@ export class PostsTabComponent {
   goToPost(id: number) {
     this.router.navigate(['posts', id]);
   }
+
+  newPost() {
+    this.router.navigate(['./new-post']);
+  }
 }

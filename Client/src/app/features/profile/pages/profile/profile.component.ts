@@ -21,9 +21,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.profileService.clear();
   }
   getProfile() {
-    this.profileService
-      .getMember(this.route.snapshot.params['username'])
-      .subscribe(() => {});
+    this.route.queryParams.pipe().subscribe(() => {
+      const username = this.route.snapshot.params['username'];
+      if (username) {
+        this.profileService.getMember(username).subscribe(() => {});
+      }
+    });
   }
 
   onPhotoSelect(event: any) {

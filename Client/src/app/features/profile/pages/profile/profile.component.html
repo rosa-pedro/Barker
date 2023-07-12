@@ -14,6 +14,7 @@
         </div>
         <div
           class="flex transition-colors font-semibold text-gray-800 py-2 bg-primary_lighter w-full justify-center cursor-pointer hover:bg-primary hover:text-gray-300"
+          *ngIf="profileService.isAuthenticatedUser()"
         >
           <label for="file-upload" class="cursor-pointer font-semibold">
             Change picture
@@ -26,8 +27,6 @@
               (change)="onPhotoSelect($event)"
             />
           </label>
-
-          <!--          Change picture-->
         </div>
       </div>
       <app-profile-statistics></app-profile-statistics>

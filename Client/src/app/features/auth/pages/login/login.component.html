@@ -21,12 +21,18 @@
       type="password"
     ></app-input>
 
+    <div *ngIf="errors.length > 0" class="flex flex-col">
+      <div *ngFor="let error of errors">
+        <p class="text-sm text-red-500">{{ error }}</p>
+      </div>
+    </div>
+
     <app-button
       (click)="login()"
       size="lg"
       message="Login"
       type="success"
-      [disabled]="false"
+      [disabled]="!loginForm.valid"
     >
     </app-button>
   </form>

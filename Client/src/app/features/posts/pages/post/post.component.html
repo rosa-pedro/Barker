@@ -1,14 +1,7 @@
-<!--container-->
 <div
   *ngIf="postService.currentPost$ | async"
   class="flex-grow my-10 border border-gray-200 rounded-md"
 >
-  <!--  header-->
-  <!--<app-action-tab
-    [title]="(postService.currentPost$ | async)!.title"
-    [votes]="(postService.currentPost$ | async)!.votes"
-    [voted]="(postService.currentPost$ | async)!.userVote"
-  ></app-action-tab>-->
   <div class="p-5 bg-gray-200">
     <p class="text-primary font-semibold text-2xl">
       {{ (postService.currentPost$ | async)?.title }}
@@ -61,7 +54,7 @@
           <div class="flex flex-row items-center gap-0.5">
             <div class="flex flex-row text-secondary text-sm items-center">
               Posted by&nbsp;
-              <p class="hover:underline cursor-pointer">
+              <p class="hover:underline cursor-pointer" (click)="goToProfile()">
                 {{ (postService.currentPost$ | async)?.author }}
               </p>
               &nbsp;

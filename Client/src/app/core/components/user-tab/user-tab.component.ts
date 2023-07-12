@@ -45,7 +45,7 @@ export class UserTabComponent {
         this.authService.logout();
         break;
       case 'Profile':
-        this.router.navigate(['profile', this.userName]);
+        this.router.navigate(['./profile', this.userName]);
         break;
       default:
         break;
