@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for barker on 2023-07-12T21:33:39+01:00
+# fly.toml app configuration file generated for barker on 2023-07-12T23:25:21+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -10,7 +10,7 @@ primary_region = "mad"
   image = "roserok/barker:latest"
 
 [env]
-  ASPNETCORE_URLS="http://+:8080"
+  ASPNETCORE_URLS = "http://+:8080"
 
 [http_service]
   internal_port = 8080
