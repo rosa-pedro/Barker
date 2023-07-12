@@ -103,17 +103,6 @@ The only prerequisite needed to run the app is to have [docker](https://www.dock
 
 Barker has quite a few features that are listed below, where you can click them for more info, in case you are unsure how to navigate the application.
 
-The application when started for the first time several data, like users, posts, pets, etc..., are seeded so Barker can feel more alive from the beginning.
-
-In case you dont want to sign up, you can use one of the dummy accounts instead.
-
-````json
-{
-   "UserName": "william",
-   "Password": "Pa$$w0rd"
-}
-````
-
 * [Login](Documentation/Usage/login.md)
 * [Signup](Documentation/Usage/signup.md)
 * [Filter Posts](Documentation/Usage/filter-posts.md)
@@ -126,6 +115,18 @@ In case you dont want to sign up, you can use one of the dummy accounts instead.
 * [Edit Profile](Documentation/Usage/edit-profile.md)
 * [Add Pet](Documentation/Usage/add-pet.md)
 * [Chat](Documentation/Usage/chat.md)
+
+
+The application when started for the first time several data, like users, posts, pets, etc..., are seeded so Barker can feel more alive from the beginning.
+
+In case you dont want to sign up, you can use one of the dummy accounts instead.
+
+````json
+{
+   "UserName": "william",
+   "Password": "Pa$$w0rd"
+}
+````
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
