@@ -15,14 +15,28 @@
     ></app-input>
     <app-input
       [inputFC]="signupForm.controls.username"
-      [errorMessages]="errorMessages"
       placeholder="Username"
     ></app-input>
+    <p
+      *ngIf="usernameAvailability"
+      class="text-sm"
+      [ngClass]="
+        usernameAvailability.canUse ? 'text-green-500' : 'text-red-500'
+      "
+    >
+      {{ usernameAvailability.message }}
+    </p>
     <app-input
       [inputFC]="signupForm.controls.password"
       placeholder="Password"
       type="password"
     ></app-input>
+
+    <div *ngIf="passwordErrors.length > 0" class="flex flex-col">
+      <div *ngFor="let error of passwordErrors">
+        <p class="text-sm text-red-500">{{ error }}</p>
+      </div>
+    </div>
 
     <app-button
       (click)="signup()"

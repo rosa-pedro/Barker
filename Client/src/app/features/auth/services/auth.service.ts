@@ -64,7 +64,7 @@ export class AuthService {
 
   isUserNameAvailable(userName: string) {
     return this.http.get<boolean>(
-      this.baseUrl + 'account/is-username-available/' + userName
+      this.baseUrl + 'account/is-available/' + userName
     );
   }
 }

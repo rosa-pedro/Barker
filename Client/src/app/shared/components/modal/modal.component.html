@@ -12,7 +12,7 @@
   <div class="mb-10">
     <ng-content></ng-content>
   </div>
-  <div class="modal-footer flex flex-row justify-end gap-2">
+  <div class="modal-footer flex flex-row justify-end gap-2" *ngIf="hasSubmit">
     <app-button
       class="w-20"
       message="Cancel"
@@ -25,6 +25,15 @@
       message="Submit"
       type="success"
       (click)="submit()"
+    ></app-button>
+  </div>
+  <div *ngIf="!hasSubmit">
+    <app-button
+      class="w-20"
+      message="OK"
+      type="success"
+      [outlined]="true"
+      (click)="close()"
     ></app-button>
   </div>
 </div>

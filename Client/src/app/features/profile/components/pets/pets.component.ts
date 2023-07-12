@@ -46,4 +46,8 @@ export class PetsComponent implements OnInit {
         }
       });
   }
+
+  newPet() {
+    this.router.navigate(['new-pet'], { relativeTo: this.route });
+  }
 }
