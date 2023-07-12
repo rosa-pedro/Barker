@@ -12,9 +12,5 @@ export class NavbarComponent {
 
   constructor(public authService: AuthService) {}
 
-  hideMenu() {
-    this.menu_active = false;
-  }
-
   signup() {}
 }

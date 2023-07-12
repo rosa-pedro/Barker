@@ -15,6 +15,7 @@ export class PostsComponent implements OnInit {
   search: FormControl = new FormControl('');
   shouldScroll = false;
   buttonAdd = 'New post';
+  private loading = false;
 
   constructor(public postService: PostService, private router: Router) {}
 
@@ -24,8 +25,12 @@ export class PostsComponent implements OnInit {
     const pageHeight = window.document.body.scrollHeight;
     const pageScrollY = window.scrollY;
     const pixelsToReachBottom = pageHeight - (pageScrollY + viewportHeight);
-    if (this.postService.hasNext && pixelsToReachBottom <= 0) {
-      this.loadMore();
+    if (this.postService.hasNext && pixelsToReachBottom <= 20) {
+      if (!this.loading) {
+        this.loading = true;
+
+        this.loadMore();
+      }
     }
     this.shouldScroll = pageScrollY > 500;
   }
@@ -45,7 +50,11 @@ export class PostsComponent implements OnInit {
   }
 
   private loadMore() {
-    this.postService.getNextPosts().subscribe();
+    this.postService.getNextPosts().subscribe({
+      next: () => {
+        this.loading = false;
+      },
+    });
   }
 
   filters = {
