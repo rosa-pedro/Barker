@@ -1,15 +1,16 @@
 ﻿FROM node:18.16-alpine3.17 as dist
 WORKDIR /app
 RUN npm install -g @angular/cli@15.2.0
-COPY ../Client/package.json ../Client/package-lock.json ./
+COPY ./Client/package.json ./Client/package-lock.json ./
 RUN npm install
-COPY ../Client/. ./
+COPY ./Client/. ./
 RUN ng build
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
