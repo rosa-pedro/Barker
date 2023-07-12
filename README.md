@@ -10,7 +10,7 @@
   <p align="center">
     A social network app for you and your pets
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>View Demo</strong></a>
+    <a href="https://barker.fly.dev/"><strong>View Demo</strong></a>
 </p>
 </div>
 
@@ -46,7 +46,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://barker.fly.dev/)
 
 Barker is a social network made for you and your pets, where you can post everything pet-related, from your adventures with them to finding someone to walk or take care of them while you take some me-time.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -161,8 +161,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[IPS-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[IPS-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: Documentation/images/homepage.png
 [.NET]: https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white
 [.NET-url]: https://dotnet.microsoft.com/en-us/
