@@ -62,6 +62,10 @@ export class AuthService {
     }
   }
 
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('user');
+  }
+
   isUserNameAvailable(userName: string) {
     return this.http.get<boolean>(
       this.baseUrl + 'account/is-available/' + userName
