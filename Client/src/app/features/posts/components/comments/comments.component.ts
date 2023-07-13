@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { CommentsService } from '../../services/comments.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-comments',
@@ -14,13 +15,16 @@ export class CommentsComponent implements OnInit {
   constructor(
     readonly commentsService: CommentsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.commentsService
-      .getComments(this.route.snapshot.params['id'])
-      .subscribe(() => {});
+    if (this.authService.isLoggedIn()) {
+      this.commentsService
+        .getComments(this.route.snapshot.params['id'])
+        .subscribe(() => {});
+    }
   }
 
   sendComment() {
