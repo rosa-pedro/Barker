@@ -11,6 +11,8 @@
     A social network app for you and your pets
     <br />
     <a href="https://barker.fly.dev/"><strong>View Demo</strong></a>
+    ·
+    <a href="https://github.com/rosa-pedro/Barker"><strong>View Repository</strong></a>
 </p>
 </div>
 
