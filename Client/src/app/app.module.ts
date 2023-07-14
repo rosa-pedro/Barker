@@ -13,6 +13,7 @@ import { UserTabComponent } from './core/components/user-tab/user-tab.component'
 import { AuthorizationInterceptor } from './core/interceptors/authorization.interceptor';
 import { TimeagoModule } from 'ngx-timeago';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { PeopleComponent } from './features/profile/pages/people/people.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
     NavbarComponent,
     GlobalLayoutComponent,
     UserTabComponent,
+    PeopleComponent,
   ],
   imports: [
     BrowserModule,

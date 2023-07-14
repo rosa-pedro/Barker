@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../auth/services/auth.service';
 import { Member } from '../../../core/models/member/member.model';
@@ -16,8 +16,13 @@ export class ProfileService {
   private memberSource = new BehaviorSubject<Member | null>(null);
   member$ = this.memberSource.asObservable();
 
+  private membersSource = new BehaviorSubject<Member[] | null>(null);
+  members$ = this.membersSource.asObservable();
+
   private userPostsSource = new BehaviorSubject<Post[] | null>(null);
   userPosts$ = this.userPostsSource.asObservable();
+  hasNext = true;
+  private pageNumber = 1;
 
   constructor(
     private http: HttpClient,
@@ -25,6 +30,57 @@ export class ProfileService {
     private postService: PostService
   ) {}
 
+  getUsers() {
+    return this.http.get<Member[]>(this.baseUrl + 'users/').pipe(
+      map((members: Member[]) => {
+        if (members) {
+          this.membersSource.next(members);
+        }
+      })
+    );
+  }
+
+  getNextMembers() {
+    this.pageNumber += 1;
+    return this.getMembersFiltered(
+      {
+        pageNumber: this.pageNumber,
+      } as RequestSpec,
+      true
+    );
+  }
+
+  private getMembersFiltered(spec: RequestSpec, isNext: boolean) {
+    let requestEnd = 'users?';
+    if (spec.pageNumber) {
+      requestEnd = requestEnd + 'pageNumber=' + spec.pageNumber + '&';
+    }
+    return this.getMembersFinalize(requestEnd, isNext);
+  }
+
+  private getMembersFinalize(
+    requestEnd: string,
+    isNext: boolean
+  ): Observable<Member[]> {
+    return this.http.get<Member[]>(this.baseUrl + requestEnd).pipe(
+      map((response: Member[]) => {
+        const posts = response;
+        if (posts && posts.length > 0) {
+          const curPosts = this.membersSource.value;
+          if (curPosts && isNext) {
+            this.membersSource.next([...curPosts, ...posts]);
+          } else {
+            this.hasNext = true;
+            this.pageNumber = 1;
+            this.membersSource.next(posts);
+          }
+        } else {
+          this.hasNext = false;
+        }
+        return response;
+      })
+    );
+  }
   getMember(userName: string) {
     return this.http.get<Member>(this.baseUrl + 'users/' + userName).pipe(
       map((member: Member) => {
